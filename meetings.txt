@@ -1,0 +1,68 @@
+exit
+------------ April
+M  1 Cesar
+T  2 Huan
+W  3 Jeff
+R  4 Lev/Nan
+F  5 MZ
+------------
+M  8 Meng 
+T  9 HC
+W 10 Dan
+R 11 Riza
+F 12 Ronald
+------------
+M 15 Cesar
+T 16 Huan
+W 17 Jeff
+R 18 Lev/Nan
+F 19 MZ
+------------
+M 22 Meng 
+T 23 HC
+W 24 Dan
+R 25 Riza
+F 26 Ronald
+------------
+M 29 Cesar
+T 30 Huan
+------------ May
+W  1 Jeff
+R  2 Lev/Nan
+F  3 MZ
+------------
+M  6 Meng 
+T  7 HC
+W  8 Dan
+R  9 Riza
+F 10 Ronald
+------------
+M 13 Cesar
+T 14 Huan
+W 15 Jeff
+R 16 Lev/Nan
+F 17 MZ
+------------
+M 20 Meng 
+T 21 HC
+W 22 Dan
+R 23 Riza
+F 24 Ronald
+------------
+M 27 Cesar
+T 28 Huan
+W 29 Jeff
+R 30 Lev/Nan
+F 31 MZ
+------------ June
+M 3 Meng 
+T 4 HC
+W 5 Dan
+R 6 Riza
+F 7 Ronald
+------------
+M 10 Cesar
+T 11 Huan
+W 12 Jeff
+R 13 Lev/Nan
+F 14 MZ

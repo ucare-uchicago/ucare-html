@@ -1,0 +1,129 @@
+
+
+<html>
+<head>
+<title>UCARE Open Projects for BS/MS Program</title>
+<LINK href="ads.css" rel=stylesheet>
+</head>
+</head>
+
+<!-- body -->
+<body topmargin=20 marginwidth=20>
+
+
+
+<!-- ==================================== -->
+<h1 class=box>UCARE Open Projects for BS/MS Program</h1>
+
+
+<p>Faculty contact: <a href="https://people.cs.uchicago.edu/~haryadi/">Haryadi Gunawi</a> (email: haryadi @ cs domain)
+
+<p>About: <a href="http://ucare.cs.uchicago.edu">UCARE homepage</a>
+
+<P>Please feel free to contact me or any  
+<a href="http://ucare.cs.uchicago.edu/people.html">PhD/MS/BS students in UCARE Lab</a>.
+
+
+
+<h2 class=redbox>Building Dependable Cloud Computing (Multiple Sub-Projects) </h2>
+
+<p>The last decade has seen a rise of open-source distributed systems such
+as Hadoop, HDFS, HBase, Cassandra, and ZooKeeper, that are based on new
+technologies behind Internet-scale companies, technologies such as Google
+MapReduce, Google File System, Google Big Table, Google Chubby, Amazon
+Dynamo Key-Value Store, and Facebook Haystack Photo Store.
+
+
+<P>
+These cloud-scale distributed systems have become an increasingly
+important software backbone for many cloud services today.  
+They are used by many other large companies such as 
+Microsoft, Netflix, Twitter, and many others.
+Their dependability in terms of performance, scalability, 
+availability, and
+reliability is very crucial.  Nevertheless, distributed systems are
+complex and hard to get right.  These systems face all sorts of issues
+[See Cloud Bug Study (CBS) and Cloud Outage Study (COS) papers below].
+
+<P>
+We have the following sub-projects.  Each student will be given a
+sub-project.
+<P>
+1. Combating <b>distributed concurrency bugs</b>: You will intregate model checking tools
+to datacenter distributed systems and invent new policies to speed up the process.
+<P>
+2. Combating <b>scalability bugs</b>: You will analyze new unique bugs
+specific to scalability, e.g., complex bugs that create problems when
+systems are deployed at scale.
+<P>
+3. Combating <b>outage bugs</b>: You will analyze bugs that can shut down
+an entire cluster (e.g. Affect all the machines in the cluster). These
+bugs typically cause major outages.
+<P>
+4. Combating <b>cross-system bugs</b>: Today many cloud systems depend
+on each other (e.g. HBase depends on ZooKeeper and HDFS). 
+You will analyze bugs that can cause downtime. 
+<P>
+5. Combating <b>performance bugs</b>: You will analyze the interaction of
+cloud systems with the Operating System layer (file systems in
+particular) and analyze tail latencies in cloud systems.
+<P>
+
+<H3>
+Other notes:</h3>
+<P>
+- We recruit multiple students for this project
+<P>
+- Students who deliver an excellent progress will be co-authors of our
+publications (as some previous students have successfully done in the
+past).
+<P>
+- Students will be paired with PhD students who are currently
+working on the sub-projects above.  
+<P>
+- More info about our group can be found here:
+http://ucare.cs.uchicago.edu
+
+
+<P>
+<H3>Deliverables</h3>
+<P>
+- There are three steps in this research: analyze, build, and evaluate
+<P>
+- Analyze: Each student will work on a cloud system (Hadoop, HDFS,
+HBase, or Cassandra).  The student will download, install, and run the
+given system on distributed machines.  The student will study the
+source code and perform some benchmarking.
+<P>
+- Build: The student will modify the given cloud system.  (Usually we
+expect a minimum of 2000 LOC changes, but usually it's more).  The
+modification depends on your result from the "Analyze" phase.  
+<P>
+- Evaluate: You will extend the existing testing suites and show that
+you have improved the scalability/performance/reliability/availability
+of your given system.
+
+<P>
+<H3>Prerequisites </h3>
+<P>
+- Must be expert in Java (our target systems are all in Java)
+<P>
+- C/C++ might help
+<p>
+- Good with scripting languages (bash, csh, etc.)
+
+<P>
+<H3>Publications</h3>
+<P>
+Readings (click for pdf)
+
+<p> 1.
+<a href="http://ucare.cs.uchicago.edu/pdf/socc16-cos.pdf">
+Why Does the Cloud Stop Computing? Lessons from Hundreds of Service Outages</a>
+<P> 2.
+<a href="http://ucare.cs.uchicago.edu/pdf/socc14-cbs.pdf">
+What Bugs Live in the Cloud? A Study of 3000+ Issues in Cloud Systems</a>
+
+<p> Please browse more papers from UCARE
+<a href="http://ucare.cs.uchicago.edu/pubs.html">
+publication page</a>

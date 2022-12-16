@@ -1,0 +1,425 @@
+
+
+<!--
+
+    pg: tag
+-->
+
+<head>
+<title>p-tail</title>
+<style type="text/css">
+<!--
+  BODY   {font-size: 90%; font-family: arial; background:black; color:white}
+    h2   {color:#8FBC8F;}
+    h3   {color:#D98719}
+    h3   {color:#00cccc}
+    h6   {color:#444444; text-decoration:underline; font-weight:bold}
+
+    pc   {color:#CC0000;}
+
+
+
+    pf   {font-size:80%}
+    pa   {color:#AAAAAA; font-style:italic; font-size:90%}
+    pg   {color:orange; font-style:italic; font-size:90%}
+    ps   {color:#666666; font-size:75%; margin-left:40pt; font-style:italic;}
+
+    tr.a {background-color:#e9e9e9}
+
+
+    a {text-decoration:underline}
+
+    pt   {color:#EEBB55; }
+    a:link { color:#EEBB55; }
+    a:visited { color:#CC6699; }
+    a:hover { !important; color=#00cc00; background:#333333; }
+    a:active { color:#eebb55;}
+
+-->
+</style>
+</head>
+
+<body>
+<nobr>
+
+<ol>
+<h1>p-tail</h1>
+
+
+
+
+
+<br><br><h2> Tail Tolerant Systems 101 </h2>
+
+<li><pc>[OSDI '04]</pc> <a href="sum/osdi/04-mapreduce.txt"> MapReduce: Simplified Data Processing on Large Clusters.</a> <pa>Jeffrey Dean, Sanjay Ghemawat</pa> <pg></pg> 
+
+<li><pc>[Book '12]</pc> <a href="sum/book/12-hadoopTheDefinitiveGuide.txt"> Hadoop: The Definitive Guide, 3rd Edition.</a> <pa>Tom White</pa> <pg>(http://it-ebooks.info/book/635)</pg> 
+
+<li><pc>[CACM '13]</pc> <a href="sum/cacm/13-tailAtScale.txt"> The tail at scale.</a> <pa>Jeffrey Dean, Luiz André Barroso</pa> <pg></pg> 
+
+<li><pc>[OSDI '08]</pc> <a href="sum/osdi/08-late.txt"> Improving MapReduce Performance in Heterogeneous Environments.</a> <pa>Matei Zaharia, Andy Konwinski, Anthony D. Joseph, Randy Katz, Ion Stoica</pa> <pg>(LATE)</pg> 
+
+<li><pc>[EuroSys '10]</pc> <a href="sum/eurosys/10-delaySched.txt"> Delay scheduling: a simple technique for achieving locality and fairness in cluster scheduling.</a> <pa>Matei Zaharia, Dhruba Borthakur, Joydeep Sen Sarma, Khaled Elmeleegy, Scott Shenker, Ion Stoica</pa> <pg></pg> 
+
+<li><pc>[OSDI '10]</pc> <a href="sum/osdi/10-mantri.txt"> Reining in the Outliers in Map-Reduce Clusters using Mantri.</a> <pa>Ganesh Ananthanarayanan, Srikanth Kandula, Albert Greenberg, Ion Stoica, Yi Lu, Bikas Saha, Edward Harris</pa> <pg></pg> 
+
+<li><pc>[NSDI '12]</pc> <a href="sum/nsdi/12-pacman.txt"> PACMan: Coordinated Memory Caching for Parallel Jobs.</a> <pa>Ganesh Ananthanarayanan, Ali Ghodsi, Andrew Wang, Dhruba Borthakur, Srikanth Kandula, Scott Shenker, Ion Stoica</pa> <pg></pg> 
+
+<li><pc>[NSDI '13]</pc> <a href="sum/nsdi/13-dolly.txt"> Effective Straggler Mitigation: Attack of the Clones.</a> <pa>Ganesh Ananthanarayanan, Ali Ghodsi, Scott Shenker, Ion Stoica</pa> <pg>(Dolly)</pg> 
+
+<li><pc>[SOCC '13]</pc> <a href="sum/socc/13-limplock.txt"> Limplock: understanding the impact of limpware on scale-out cloud systems.</a> <pa>Thanh Do, Mingzhe Hao, Tanakorn Leesatapornwongsa, Tiratat Patana-anake, Haryadi S. Gunawi</pa> <pg></pg> 
+
+
+
+<br><br><h2> Tail-Tolerant Systems (Advanced) </h2>
+
+
+<li><pc>[NSDI '15]</pc> <a href="sum/nsdi/15-CosTLO.txt"> CosTLO: Cost-Effective Redundancy for Lower Latency Variance on Cloud Storage Services.</a> <pa>Zhe Wu, Curtis Yu, Harsha V. Madhyastha</pa> <pg></pg> 
+
+<li><pc>[NSDI '15]</pc> <a href="sum/nsdi/15-C3.txt"> C3: Cutting Tail Latency in Cloud Data Stores via Adaptive Replica Selection.</a> <pa>Lalith Suresh, Marco Canini, Stefan Schmid and Anja Feldmann</pa> <pg></pg> 
+
+<li><pc>[FAST '15]</pc> <a href="sum/fast/15-chopper.txt"> Reducing File System Tail Latencies with Chopper.</a> <pa>Jun He, Duy Nguyeny, Andrea C. Arpaci-Dusseau, Remzi H. Arpaci-Dusseau</pa> <pg></pg> 
+
+
+<li><pc>[SOCC '14]</pc> <a href="sum/socc/14-wrangler.txt"> Wrangler: Predictable and Faster Jobs using Fewer Resources.</a> <pa>Neeraja J. Yadwadkar, Ganesh Ananthanarayanan, Randy Katz</pa> <pg></pg> 
+
+<li><pc>[FAST '09]</pc> <a href="sum/fast/09-nfs.txt"> CA-NFS: A Congestion-Aware Network File System.</a> <pa>Alexandros Batsakis, Randal Burns, Arkady Kanevsky, James Lentini, Thomas Talpey</pa> <pg></pg> 
+
+<li><pc>[SoCC '14]</pc> <a href="sum/socc/14-priorityMeister.txt"> PriorityMeister: Tail Latency QoS for Shared Networked Storage.</a> <pa>Timothy Zhu, Alexey Tumanov, Michael A. Kozuch, Mor Harchol-Balter, Gregory R. Ganger</pa> <pg></pg> 
+
+<li><pc>[SoCC '14]</pc> <a href="sum/socc/14-talesTail.txt"> Tales of the Tail: Hardware, OS, and Application-level Sources of Tail Latency.</a> <pa>Jialin Li, Naveen Kr. Sharma, Dan R. K. Ports, Steven D. Gribble</pa> <pg></pg> 
+
+<li><pc>[NSDI '14]</pc> <a href="sum/nsdi/14-grass.txt"> GRASS: Trimming Stragglers in Approximation Analytics.</a> <pa>Ganesh Ananthanarayanan, Michael Chien-Chun Hung, Xiaoqi Ren, Ion Stoica, Adam Wierman, Minlan Yu</pa> <pg></pg> 
+
+
+<li><pc>[SIGMOD '12]</pc> <a href="sum/sigmod/12-skewTune.txt"> SkewTune: Mitigating Skew in MapReduce Applications.</a> <pa>YongChul Kwon, Magdalena Balazinska, Bill Howe, Jerome Rolia</pa> <pg></pg> 
+
+
+<li><pc>[SOSP '09]</pc> <a href="sum/sosp/09-quincy.txt"> Quincy: Fair Scheduling for Distributed Computing Clusters.</a> <pa>Michael Isard, Vijayan Prabhakaran, Jon Currey, Udi Wieder, Kunal Talwar, Andrew Goldberg</pa> <pg></pg> 
+
+<li><pc>[ASPLOS '12]</pc> <a href="sum/asplos/12-tarazu.txt"> Tarazu: Optimizing MapReduce On Heterogeneous Clusters.</a> <pa>Faraz Ahmad, Srimat Chakradhar, Anand Raghunathan, T.N. Vijaykumar</pa> <pg></pg> 
+
+<li><pc>[FAST '14]</pc> <a href="sum/fast/14-baa.txt"> Balancing Fairness and Efficiency in Tiered Storage Systems with Bottleneck-Aware Allocation.</a> <pa>Hui Wang, Peter Varman</pa> <pg></pg> 
+
+
+
+<br><br><h2> Erasure Coding Distributed Storage </h2>
+
+<li><pc>[Article '14]</pc> <a href="sum/article/14-hdfsRaid.txt"> Saving capacity with HDFS RAID.</a> <pa>Weiyan Wang, Hairong Kuang</pa> <pg>(https://code.facebook.com/posts/536638663113101/saving-capacity-with-hdfs-raid/)</pg> 
+
+<li><pc>[OSDI '14]</pc> <a href="sum/osdi/14-f4.txt"> f4: Facebook's Warm BLOB Storage System.</a> <pa>Muralidhar Subramanian, Wyatt Lloyd, Sabyasachi Roy, Cory Hill, Ernest Lin, Weiwen Liu, Satadru Pan, Shiva Shankar, Sivakumar Viswanathan, Linpeng Tang, Sanjeev Kumar</pa> <pg></pg> 
+
+<li><pc>[VLDB '13]</pc> <a href="sum/vldb/13-quantcastFS.txt"> The Quantcast File System.</a> <pa>Michael Ovsiannikov, Silvius Rus, Damian Reeves, Paul Sutter, Sriram Rao, Jim Kelly</pa> <pg></pg> 
+
+
+<li><pc>[VLDB '13]</pc> <pt>XORing Elephants: Novel Erasure Codes for Big Data.</pt> <pa>Maheswaran Sathiamoorthy, Megasthenis Asteris, Dimitris Papailiopoulos, Alexandros G. Dimakis, Ramkumar Vadali, Scott Chen, Dhruba Borthakur</pa> <pg></pg>
+
+<li><pc>[ATC '12]</pc> <a href="sum/atc/12-erasureCodeAzure.txt"> Erasure Coding in Windows Azure Storage.</a> <pa>Cheng Huang, Huseyin Simitci, Yikang Xu, Aaron Ogus, Brad Calder, Parikshit Gopalan, Jin Li, Sergey Yekhanin</pa> <pg></pg> 
+
+<li><pc>[PDSW '09]</pc> <a href="sum/pdsw/09-diskReduce.txt"> DiskReduce: RAID for Data-Intensive Computing.</a> <pa>Bin Fan, Wittawat Tantisiriroj, Lin Xiao, Garth Gibson</pa> <pg></pg> 
+
+
+
+<br><br><h2> Tail-Tolerant HDFS-RAID </h2>
+
+<li><pc>[DSN '14]</pc> <a href="sum/dsn/14-degradedFirst.txt"> Degraded-First Scheduling for MapReduce in Erasure-Coded Storage Clusters.</a> <pa>Runhui Li, Patrick P. C. Lee, Yuchong Hu</pa> <pg></pg> 
+
+
+
+
+<br><br><h2> Misc Optimization </h2>
+
+<li><pc>[ASPLOS '12]</pc> <a href="sum/asplos/12-dejavu.txt"> DejaVu: Accelerating Resource Allocation in Virtualized Environments.</a> <pa>Nedeljko Vasic, Dejan Novakovic, Svetozar Miucin, Dejan Kostic and Ricardo Bianchini</pa> <pg></pg> 
+
+
+<li><pc>[NSDI '12]</pc> <a href="sum/nsdi/12-ropeReoptimize.txt"> Re-optimizing Data Shuffling in Data-Parallel Computation by Understanding User-Defined Functions.</a> <pa>Jiaxing Zhang, Hucheng Zhou, Rishan Chen, Xuepeng Fan, Zhenyu Guo, Haoxiang Lin, Jack Y. Li, Wei Lin, Jingren Zhou, Lidong Zhou</pa> <pg></pg> 
+
+
+<li><pc>[SoCC '12]</pc> <a href="sum/socc/12-themis.txt"> Themis: An I/O Efficient MapReduce.</a> <pa>Alexander Rasmussen, Michael Conley, Rishi Kapoor, Vinh The Lam, George Porter, Amin Vahdat</pa> <pg></pg> 
+
+
+<li><pc>[SoCC '12]</pc> <a href="sum/socc/12-trueElasticity.txt"> True Elasticity in Multi-Tenant Clusters through Amoeba.</a> <pa>Ganesh Anantharanayanan, Christopher Douglas, Raghu Ramakrishnan, Sriram Rao, Ion Stoica </pa> <pg></pg> 
+
+
+<li><pc>[FAST '13]</pc> <a href="sum/fast/13-mixApart.txt"> MixApart: Decoupled Analytics for Shared Storage Systems.</a> <pa>Madalin Mihailescu, NetApp, Gokul Soundararajan, NetApp, Cristiana Amza</pa> <pg></pg> 
+
+
+<li><pc>[NSDI '12]</pc> <a href="sum/nsdi/12-conductor.txt"> Orchestrating the Deployment of Computations in the Cloud with Conductor.</a> <pa>Alexander Wieder, Pramod Bhatotia, Ansley Post, Rodrigo Rodrigues </pa> <pg></pg> 
+
+
+
+
+
+<br><br><h2> Unclassified </h2>
+<li><pc>[FAST '14]</pc> <a href="sum/fast/14-fbHdfsHbase.txt"> Analysis of HDFS Under HBase: A Facebook Messages Case Study.</a> <pa>Tyler Harter, Dhruba Borthakur, Siying Dong, Amitanand Aiyer, Liyin Tang, Andrea C. Arpaci-Dusseau, Remzi H. Arpaci-Dusseau</pa> <pg></pg> 
+
+<li><pc>[SOSP '11]</pc> <a href="sum/sosp/11-diffStorage.txt"> Differentiated Storage Services.</a> <pa>Michael Mesnier, Jason B. Akers, Feng Chen, Tian Luo</pa> <pg></pg> 
+
+<li><pc>[CACM '12]</pc> <a href="sum/cacm/12-benchmarkShape.txt"> Technical Perspective: For Better or Worse, Benchmarks Shape a Field.</a> <pa>David Patterson</pa> <pg></pg> 
+
+
+<br><br><h2> Data Trend </h2>
+
+<li><pc>[Article '12]</pc> <a href="sum/article/12-digitalUniverse.txt"> The digital universe in 2020.</a> <pa>John Gantz, David Reinsel</pa> <pg>(http://www.emc.com/collateral/analyst-reports/idc-the-digital-universe-in-2020.pdf)</pg> 
+
+
+<li><pc>[Article '12]</pc> <a href="sum/article/12-905BillionS3.txt"> Amazon S3 - 905 Billion Objects and 650,000 Requests/Second.</a> <pa>Jeff Barr</pa> <pg>(https://aws.amazon.com/cn/blogs/aws/amazon-s3-905-billion-objects-and-650000-requestssecond/)</pg> 
+
+
+<li><pc>[Article '13]</pc> <a href="sum/article/13-ssdMarket.txt"> SSD Market On Track For More Than Double Growth This Year.</a> <pa>Jennifer Johnson</pa> <pg>(http://hothardware.com/news/SSD-Market-On-Track-For-More-Than-Double-Growth-This-Year)</pg> 
+
+
+<li><pc>[Article '15]</pc> <a href="sum/article/15-seagateQ2.txt"> Seagate Q2 solid, 61.3 exabytes shipped.</a> <pa>Natalie Gagliordi</pa> <pg>(http://www.zdnet.com/article/seagate-q2-solid-61-3-exabytes-shipped/)</pg> 
+
+
+<br><br><h2> Log analysis </h2>
+
+<li><pc>[FAST '09]</pc> <a href="sum/fast/09-understandLogs.txt"> Understanding Customer Problem Troubleshooting from Storage System Logs.</a> <pa>Weihang Jiang, Chongfeng Hu, Shankar Pasupathy, Arkady Kanevsky, Zhenmin Li, Yuanyuan Zhou</pa> <pg></pg> 
+
+
+
+<br><br><h2> Performance related </h2>
+
+<li><pc>[MSST '14]</pc> <a href="sum/msst/14-anode.txt"> Anode: Empirical Detection of Performance Problems in Storage Systems using Time-Series Analysis of Periodic Measurements.</a> <pa>Vipul Mathur, Cijo George, Jayanta Basak</pa> <pg></pg> 
+
+<li><pc>[PLDI '12]</pc> <a href="sum/pldi/12-performanceBugs.txt"> Understanding and Detecting Real-World Performance Bugs.</a> <pa>Guoliang Jin, Linhai Song, Xiaoming Shi, Joel Scherpelz, Shan Lu</pa> <pg></pg> 
+
+<li><pc>[FAST '13]</pc> <a href="sum/fast/13-gecko.txt"> Gecko: Contention-Oblivious Disk Arrays for Cloud Storage.</a> <pa>Ji Yong Shin, Mahesh Balakrishnan, Tudor Marian, Hakim Weatherspoon</pa> <pg></pg> 
+
+<li><pc>[PDSW '08]</pc> <a href="sum/pdsw/08-perfSsdDisk.txt"> Comparing Performance of Solid State Devices and Mechanical Disks.</a> <pa>Milo Polte, Jiri Simsa, Garth Gibson</pa> <pg></pg> 
+
+
+
+
+
+<br><br><h2> Approximate Query Processing </h2>
+
+<li><pc>[EuroSys '13]</pc> <a href="sum/eurosys/13-blinkDB.txt"> BlinkDB: Queries with Bounded Errors and Bounded Response Times on Very Large Data.</a> <pa>Sameer Agarwal, Barzan Mozafari, Aurojit Panda, Henry Milner, Samuel Madden, Ion Stoica</pa> <pg></pg> 
+
+<li><pc>[VLDB '99]</pc> <a href="sum/vldb/99-aquaQuery.txt"> Aqua: A Fast Decision Support Systems Using Approximate Query Answers.</a> <pa>Swarup Acharya, Phillip B. Gibbons, Viswanath Poosala</pa> <pg></pg> 
+
+<li><pc>[Article '13]</pc> <a href="sum/article/13-prestoFacebook.txt"> Facebook unveils Presto engine for querying 250 PB data warehouse.</a> <pa>Jordan Novet</pa> <pg>(https://gigaom.com/2013/06/06/facebook-unveils-presto-engine-for-querying-250-pb-data-warehouse/)</pg> 
+
+
+
+<br><br><h2> Latency-related scheduling </h2>
+
+<li><pc>[OSDI '14]</pc> <a href="sum/osdi/14-powerOfChoice.txt"> The Power of Choice in Data-Aware Cluster Scheduling.</a> <pa>Shivaram Venkataraman, Aurojit Panda, Ganesh Ananthanarayanan, Michael J. Franklin, Ion Stoica</pa> <pg>(KMN)</pg> 
+
+<li><pc>[SOSP '13]</pc> <a href="sum/sosp/13-sparrow.txt"> Sparrow: Distributed, Low Latency Scheduling.</a> <pa>Kay Ousterhout, Patrick Wendell, Matei Zaharia, Ion Stoica</pa> <pg></pg> 
+
+
+
+<br><br><h2> NetApp Papers </h2>
+
+
+<li><pc>[SOSP '11]</pc> <a href="sum/sosp/11-multiDimTrace.txt"> Design Implications for Enterprise Storage Systems via Multi-Dimensional Trace Analysis.</a> <pa>Yanpei Chen, Kiran Srinivasan, Garth Goodson, Randy Katz</pa> <pg></pg> 
+
+
+
+<br><br><h2> RAID / Erasure Coding </h2>
+
+<li><pc>[PDSW '09]</pc> <a href="sum/pdsw/09-diskReduce.txt"> DiskReduce: RAID for Data-Intensive Scalable Computing.</a> <pa>Bin Fan, Wittawat Tantisiriroj, Lin Xiao, Garth Gibson</pa> <pg></pg> 
+
+<li><pc>[FAST '08]</pc> <a href="sum/fast/08-raid6Liberation.txt"> The RAID-6 Liberation Codes.</a> <pa>James S. Plank</pa> <pg></pg> 
+
+<li><pc>[FAST '09]</pc> <a href="sum/fast/09-workout.txt"> WorkOut: I/O Workload Outsourcing for Boosting RAID Reconstruction Performance.</a> <pa>Suzhen Wu, Hong Jiang, Dan Feng, Lei Tian, Bo Mao</pa> <pg></pg> 
+
+<li><pc>[FAST '12]</pc> <a href="sum/fast/12-idedup.txt"> iDedup: Latency-aware, Inline Data Deduplication for Primary Storage.</a> <pa>Kiran Srinivasan, Tim Bisson, Garth Goodson, Kaladhar Voruganti</pa> <pg></pg> 
+
+<li><pc>[FAST '04]</pc> <a href="sum/fast/04-rdp.txt"> Row-Diagonal Parity for Double Disk Failure Correction.</a> <pa>Peter Corbett, Bob English, Atul Goel, Tomislav Grcanac, Steven Kleiman, James Leong, Sunitha Sankar</pa> <pg></pg> 
+
+<li><pc>[FAST '14]</pc> <a href="sum/fast/14-craid.txt"> CRAID: Online RAID Upgrades Using Dynamic Hot Data Reorganization.</a> <pa>Alberto Miranda, Toni Cortes</pa> <pg></pg> 
+
+<li><pc>[SIGMOD '88]</pc> <a href="sum/sigmod/88-raid.txt"> A case for redundant arrays of inexpensive disks (RAID).</a> <pa>Davtd A. Patterson, Garth Gibson, Randy H. Katz </pa> <pg></pg> 
+
+<li><pc>[EuroSys '10]</pc> <a href="sum/eurosys/10-diffRAID.txt"> Differential RAID: Rethinking RAID for SSD Reliability.</a> <pa>Mahesh Balakrishnan, Asim Kadav, Vijayan Prabhakaran, Dahlia Malkhi</pa> <pg></pg> 
+
+<li><pc>[Web '14]</pc> <a href="sum/web/14-hdfsEC.txt"> HDFS-7285: Erasure Coding Support inside HDFS.</a> <pa>https://issues.apache.org/jira/browse/HDFS-7285</pa> <pg></pg> 
+
+
+<li><pc>[SOSP '11]</pc> <a href="sum/sosp/11-azure.txt"> Windows Azure Storage: A Highly Available Cloud Storage Service with Strong Consistency.</a> <pa>Brad Calder, Ju Wang, Aaron Ogus, Niranjan Nilakantan, Arild Skjolsvold, Sam McKelvie, Yikang Xu, Shashwat Srivastav, Jiesheng Wu, Huseyin Simitci, Jaidev Haridas, Chakravarthy Uddaraju, Hemal Khatri, Andrew Edwards, Vaman Bedekar, Shane Mainali, Rafay Abbasi, Arpit Agarwal, Mian Fahim ul Haq, Muhammad Ikram ul Haq, Deepali Bhardwaj, Sowmya Dayanand, Anitha Adusumilli, Marvin McNett, Sriram Sankaran, Kavitha Manivannan, Leonidas Rigas</pa> <pg></pg> 
+
+<li><pc>[ATC '12]</pc> <a href="sum/atc/12-erasureCodeAzure.txt"> Erasure Coding in Windows Azure Storage.</a> <pa>Cheng Huang, Huseyin Simitci, Yikang Xu, Aaron Ogus, Brad Calder, Parikshit Gopalan, Jin Li, Sergey Yekhanin</pa> <pg></pg> 
+
+
+<li><pc>[HotOS '11]</pc> <a href="sum/hotos/11-diskSnowflakes.txt"> Disks Are Like Snowflakes: No Two Are Alike.</a> <pa>Elie Krevat, Joseph Tucek, Gregory R. Ganger</pa> <pg></pg> 
+
+<li><pc>[Article '13]</pc> <a href="sum/article/13-hgstEnhanceIO.txt"> EnhanceIO.</a> <pa>HGST</pa> <pg>(http://www.hgst.com/tech/techlib.nsf/techdocs/FB60C3E4F7AC791088257C4100086589/%24file/HGST_EIO-CSW_ds.pdf)</pg> 
+
+<li><pc>[Article '14]</pc> <a href="sum/article/14-hgstSrvCache.txt"> HGST ServerCache.</a> <pa>HGST</pa> <pg>(http://www.hgst.com/tech/techlib.nsf/techdocs/1C7067E158D45AC988257D27008373B1/%24file/HGSTServerCache_DS.pdf)</pg> 
+
+<li><pc>[Article '14]</pc> <a href="sum/article/14-elasticache.txt"> Amazon ElastiCache.</a> <pa>Amazon</pa> <pg>(http://aws.amazon.com/elasticache/)</pg> 
+
+<li><pc>[Article '13]</pc> <a href="sum/article/13-hpSmartCache.txt"> HP SmartCache Technology.</a> <pa>HP</pa> <pg>(http://h20566.www2.hp.com/hpsc/doc/public/display?docId=emr_na-c03641668)</pg> 
+
+
+<li><pc>[FAST '15]</pc> <a href="sum/fast/15-nativeEC.txt"> Building Native Erasure Coding Support in HDFS (WIP).</a> <pa>Zhe Zhang, Kai Zheng, Bo Li, Andrew Wang, Vinayakumar B, Uma Gangumalla, Todd Lipcon, Yi Liu, Weihua Jiang, Aaron Myers, Silvius Rus</pa> <pg></pg> 
+
+
+
+<br><br><h2> Tail-Tolerant Storage </h2>
+
+<li><pc>[NSDI '14]</pc> <a href="sum/nsdi/14-blizzard.txt"> Blizzard: Fast, Cloud-scale Block Storage for Cloud-oblivious Applications.</a> <pa>James W. Mickens, Edmund B. Nightingale, Jeremy Elson, Darren Gehring, Bin Fan, Asim Kadav, Vijay Chidambaram, Osama Khan, Krishna Nareddy</pa> <pg></pg> 
+
+
+
+<br><br><h2> Storage Variability </h2>
+
+<li><pc>[HotOS '11]</pc> <a href="sum/hotos/11-diskSnowflakes.txt"> Disks Are Like Snowflakes: No Two Are Alike.</a> <pa>Elie Krevat, Joseph Tucek, Gregory R. Ganger</pa> <pg></pg> 
+
+<li><pc>[Login '13]</pc> <a href="sum/login/13-smrNewMgmt.txt"> Shingled Magnetic Recording Areal Density Increase Requires New Data Management.</a> <pa>Tim Feldman, Garth Gibson</pa> <pg></pg> 
+
+<li><pc>[TR '09]</pc> <a href="sum/tr/09-directionsSMR.txt"> Directions for Shingled-Write and Two Dimensional Magnetic Recording System Architectures: Synergies with Solid-State Disks.</a> <pa>Garth Gibson, Milo Polte</pa> <pg></pg> 
+
+<li><pc>[FAST '15]</pc> <a href="sum/fast/15-skylight.txt"> Skylight - A Window on Shingled Disk Operation.</a> <pa>Abutalib Aghayev, Peter Desnoyers</pa> <pg></pg> 
+
+<li><pc>[HiPC '10]</pc> <a href="sum/hipc/10-aosc.txt"> Avoiding performance fluctuation in cloud storage.</a> <pa>Jianzong Wang, Peter Varman, Changsheng Xie</pa> <pg></pg> 
+
+
+
+<br><br><h2> EBS </h2>
+
+<li><pc>[CLOUD '14]</pc> <a href="sum/cloud/14-compIOAmazon.txt"> A Comparative Study on I/O Performance between Compute and Storage Optimized Instances of Amazon EC2.</a> <pa>A.A. Md Shoeb, R. Hasan, M. Haque, Meng Hu</pa> <pg></pg> 
+
+<li><pc>[Article '2013]</pc> <a href="sum/article/2013-ec2PerfProblem.txt"> The Top 5 AWS EC2 Performance Problems.</a> <pa>Alexis Lê-Quôc, Mike Fiedler, Carlo Cabanilla</pa> <pg>(http://www.datadoghq.com/wp-content/uploads/2013/07/top_5_aws_ec2_performance_problems_ebook.pdf)</pg> 
+
+<li><pc>[CloudCom '10]</pc> <a href="sum/cloudcom/10-amazonHPCAnalysis.txt"> Performance Analysis of High Performance Computing Applications on the Amazon Web Services Cloud.</a> <pa>K.R. Jackson, L. Ramakrishnan, K. Muriki, S. Canon, S. Cholia, J. Shalf, Harvey J. Wasserman, N.J. Wright</pa> <pg></pg> 
+
+
+
+<br><br><h2> NAND Performance Anomalies </h2>
+
+<li><pc>[MICRO '09]</pc> <a href="sum/micro/09-flashAnomalies.txt"> Characterizing Flash Memory: Anomalies, Observations, and Applications.</a> <pa>Laura M. Grupp, Adrian M. Caulfield, Joel Coburn, Steven Swanson, Eitan Yaakobi, Paul H. Siegel, Jack K. Wolf</pa> <pg></pg> 
+
+<li><pc>[FAST '12]</pc> <a href="sum/fast/12-peSuspension.txt"> Reducing SSD Read Latency via NAND Flash Program and Erase Suspension.</a> <pa>Guanying Wu, Xubin He</pa> <pg></pg> 
+
+<li><pc>[FAST '12]</pc> <a href="sum/fast/12-bleakFuture.txt"> The Bleak Future of NAND Flash Memory.</a> <pa>Laura M. Grupp, John D. Davis, Steven Swansona</pa> <pg></pg> 
+
+<li><pc>[HotStorage '13]</pc> <a href="sum/hotstorage/13-nandFlash.txt"> What Systems Researchers Need to Know about NAND Flash.</a> <pa>Peter Desnoyers</pa> <pg></pg> 
+
+<li><pc>[FAST '15]</pc> <a href="sum/fast/15-opsIsolation.txt"> Towards SLO Complying SSDs Through OPS Isolation.</a> <pa>Jaeho Kim, Donghee Lee, Sam H. Noh</pa> <pg></pg> 
+
+<li><pc>[ICS '11]</pc> <a href="sum/ics/11-ssdsim.txt"> Performance Impact and Interplay of SSD Parallelism through Advanced Commands, Allocation Strategy and Data Granularity.</a> <pa>Yang Hu, Hong Jiang, Dan Feng, Lei Tian, Hao Luo, Shuping Zhang</pa> <pg></pg> 
+
+<li><pc>[ATC '08]</pc> <a href="sum/atc/08-designTradeoffsSSD.txt"> Design Tradeoffs for SSD Performance.</a> <pa>Nitin Agrawal, Vijayan Prabhakaran, Ted Wobber, John D. Davis, Mark S. Manasse, Rina Panigrahy</pa> <pg></pg> 
+
+<li><pc>[FAST '08]</pc> <a href="sum/fast/08-bplru.txt"> BPLRU: A Buffer Management Scheme for Improving Random Writes in Flash Storage.</a> <pa>Hyojun Kim, Seongjun Ahn</pa> <pg></pg> 
+
+<li><pc>[ASPLOS '09]</pc> <a href="sum/asplos/09-dftl.txt"> DFTL: A Flash Translation Layer Employing Demand-based Selective Caching of Page-Level Address Mappings.</a> <pa>Aayush Gupta, Youngjae Kim, Bhuvan Urgaonkarxs</pa> <pg></pg> 
+
+
+
+<br><br><h2> Latency Sensitive </h2>
+
+<li><pc>[TR '09]</pc> <a href="sum/tr/09-stanford-ramclouds.txt"> The Case for RAMCloud: Scalable High-Performance Storage Entirely in DRAM.</a> <pa>John Ousterhout</pa> <pg></pg> 
+
+<li><pc>[EuroSys '13]</pc> <a href="sum/eurosys/13-blinkDB.txt"> BlinkDB: Queries with Bounded Errors and Bounded Response Times on Very Large Data.</a> <pa>Sameer Agarwal, Barzan Mozafari, Aurojit Panda, Henry Milner, Samuel Madden, Ion Stoica</pa> <pg></pg> 
+
+
+
+<br><br><h2> Data Intensive </h2>
+
+<li><pc>[NSDI '11]</pc> <a href="sum/nsdi/11-tritonSort.txt"> TritonSort: A Balanced Large-Scale Sorting System.</a> <pa>Alexander Rasmussen, George Porter, Michael Conley, Harsha V. Madhyastha, Radhika Niranjan Mysore, Alexander Pucher, Amin Vahdat</pa> <pg></pg> 
+
+
+
+<br><br><h2> Misc </h2>
+
+<li><pc>[SOSP '13]</pc> <a href="sum/sosp/13-optfs.txt"> Optimistic Crash Consistency.</a> <pa>Vijay Chidambaram, Thanumalayan Sankaranarayana Pillai, Andrea C. Arpaci-Dusseau, Remzi H. Arpaci-Dusseau</pa> <pg></pg> 
+
+
+
+<br><br><h2> New Edition </h2>
+
+
+<li><pc>[FlashMemorySummit '12]</pc> <a href="sum/flashmemorysummit/12-integrity20nmSSD.txt"> Data Integrity on 20nm SSDs.</a> <pa>Robert Frickey</pa> <pg></pg> 
+
+
+
+<li><pc>[Article '14]</pc> <a href="sum/article/14-samsungPerfBug.txt"> Samsung Acknowledges the SSD 840 EVO Read Performance Bug - Fix Is on the Way.</a> <pa>Kristian Vatto</pa> <pg>(http://www.anandtech.com/show/8550/samsung-acknowledges-the-ssd-840-evo-read-performance-bug-fix-is-on-the-way)</pg> 
+
+
+<li><pc>[Article '13]</pc> <a href="sum/article/13-seagate13q4.txt"> Seagate Technology PLC Fiscal Fourth Quarter and Year End 2013 Financial Results Suplemental Comentary.</a> <pa>http://www.seagate.com/www-content/about/investors/en-us/docs/q4fy13-cfo-commentary.pdf</pa> <pg></pg> 
+
+<li><pc>[Article '13]</pc> <a href="sum/article/13-samsumgFlexing.txt"> Samsung's SSD Global Summit: Samsung: Flexing Its Dominance In The NAND Market.</a> <pa>http://www.tomshardware.com/reviews/samsung-global-ssd-summit-2013,3570.html</pa> <pg></pg> 
+
+<li><pc>[Web '14]</pc> <a href="sum/web/14-nandSpotPrice.txt"> DRAMeXchange. NAND Flash Spot Price.</a> <pa>http://dramexchange.com</pa> <pg></pg> 
+
+<li><pc>[Article '07]</pc> <a href="sum/article/07-perpendicular.txt"> Perpendicular recording media for hard disk drives.</a> <pa>S. N. Primanayagam</pa> <pg></pg> 
+
+<li><pc>[Web '13]</pc> <a href="sum/web/13-terascaleHDD.txt"> Terascale HDD. Data sheet DS1793.1-1306US, Seagate Technology PLC.</a> <pa>http://www.seagate.com/www-content/product-content/constellation-fam/constellation-cs/en-us/docs/terascale-hdd-data-sheet-ds1793-1-1306us.pdf</pa> <pg></pg> 
+
+<li><pc>[IBMJRD '00]</pc> <a href="sum/ibmjrd/00-futureMagnetic.txt"> The future of magnetic data storage techology.</a> <pa>D.A. Thompson, J.S. Best</pa> <pg></pg> 
+
+<li><pc>[IEEETM '09]</pc> <a href="sum/ieeetm/09-tenTBperSquare.txt"> The Feasibility of Magnetic Recording at 10 Terabits Per Square Inch on Conventional Media.</a> <pa>R. Wood, Mason Williams, A. Kavcic, Jim Miles</pa> <pg></pg> 
+
+<li><pc>[Web '13]</pc> <a href="sum/web/13-st5000.txt"> Seagate Desktop HDD: ST5000DM000, ST4000DM001. Product Manual 100743772, Seagate Technology LLC.</a> <pa>http://www.seagate.com/www-content/product-content/desktop-hdd-fam/en-us/docs/100743772a.pdf</pa> <pg></pg> 
+
+<li><pc>[Article '14]</pc> <a href="sum/article/14-seagateFirst8TB.txt"> Seagate Ships World's First 8TB Hard Drives.</a> <pa>http://www.seagate.com/about-seagate/news/Seagate-ships-worlds-first-8TB-hard-drives-pr-master/?paramChannelName=newsroom</pa> <pg></pg> 
+
+<li><pc>[Article '14]</pc> <a href="sum/article/14-hgstIntelDynStore.txt"> HGST Unveils Intelligent, Dynamic Storage Solutions To Transform The Data Center.</a> <pa>http://www.hgst.com/press-room/press-releases/HGST-unveils-intelligent-dynamic-storage-solutions-to-transform-the-data-center</pa> <pg></pg> 
+
+<li><pc>[PIEEE '08]</pc> <a href="sum/pieee/08-heatAssisted.txt"> Heat Assisted Magnetic Recording.</a> <pa>Mark H. Kryder, Edward C. Gage, Terry W. McDaniel, William A. Challener, Robert E. Rottmayer, Ganping Ju, Yiao-Tee Hsia, M. Fatih Erden</pa> <pg></pg> 
+
+<li><pc>[PIEEE '08]</pc> <a href="sum/pieee/08-patternedMedia.txt"> Patterned Media: Nanofabrication Challenges of Future Disk Drives.</a> <pa>Elizabeth A. Dobisz, Z.Z. Bandic, Tsai-Wei Wu, T. Albrecht</pa> <pg></pg> 
+
+<li><pc>[IEEETM '13]</pc> <a href="sum/ieeetm/13-smr10TBin.txt"> Shingled Magnetic Recording on Bit Patterned Media at 10 ${=rm Tb/=in}^{2}$.</a> <pa>Sumei Wang, Yao Wang, R.H. Victora</pa> <pg></pg> 
+
+<li><pc>[MSST '10]</pc> <a href="sum/msst/10-issuesSmr.txt"> Design Issues for a Shingled Write Disk System.</a> <pa>Ahmed Amer, Darrell D. E. Long, Ethan L. Miller, Jehan-françois Pâris, Thomas Schwarz S. J.</pa> <pg></pg> 
+
+<li><pc>[TR '11]</pc> <a href="sum/tr/11-principlesSmr.txt"> Principles of Operation for Shingled Disk Devices.</a> <pa>Garth Gibson, Greg Gange</pa> <pg></pg> 
+
+<li><pc>[ICCE '12]</pc> <a href="sum/icce/12-smrHostMgmt.txt"> Shingled file system host-side management of Shingled Magnetic Recording disks.</a> <pa>Damien Le Moal, Zvonimir Bandic, Cyril Guyot</pa> <pg></pg> 
+
+<li><pc>[Web '14]</pc> <a href="sum/web/14-zonedBlockCmd.txt"> Information technology - Zoned Block Commands (ZBC). Draft Standard T10/BSR INCITS 536, American National Standards Institute, Inc.</a> <pa>http://www.t10.org/drafts.htm#ZBC_Family</pa> <pg></pg> 
+
+<li><pc>[MSST '10]</pc> <a href="sum/msst/10-indirectionSmr.txt"> Indirection Systems for Shingled-recording Disk Drives.</a> <pa>Yuval Cassuto, Marco A. A. Sanvido, Cyril Guyot, David R. Hall, Zvonimir Z. Bandic</pa> <pg></pg> 
+
+<li><pc>[IEEETM '12]</pc> <a href="sum/ieeetm/12-algoSmr.txt"> Data Handling Algorithms For Autonomous Shingled Magnetic Recording HDDs.</a> <pa>David Hall, John H. Marcos, Jonathan D. Coker</pa> <pg></pg> 
+
+
+
+
+<li><pc>[Article '00]</pc> <a href="sum/article/00-milliMatter.txt"> Milliseconds matter: An introduction to microstrategies and to their use in describing and predicting interactive behavior.</a> <pa>Wayne D. Gray , Deborah A. Boehm-davis</pa> <pg></pg> 
+
+<li><pc>[Article '09]</pc> <a href="sum/article/09-velocity.txt"> Velocity and the Bottom Line.</a> <pa>Steve Souders</pa> <pg>(http://radar.oreilly.com/2009/07/velocity-making-your-site-fast.html)</pg> 
+
+<li><pc>[SIGCOMM '13]</pc> <a href="sum/sigcomm/13-speedReqResp.txt"> Speeding up Distributed Request-Response Workflows.</a> <pa>Virajith Jalaparti, Peter Bodik, Srikanth Kandula, Ishai Menache, Mikhail Rybalkin, Chenyu Yan</pa> <pg></pg> 
+
+<li><pc>[CoNEXT '13]</pc> <a href="sum/conext/13-lowLatency.txt"> Low Latency via Redundancy.</a> <pa>Ashish Vulimiri, Philip Brighten Godfrey, Radhika Mittal, Justine Sherry, Sylvia Ratnasamy, Scott Shenker</pa> <pg></pg> 
+
+<li><pc>[SOSP '07]</pc> <a href="sum/sosp/07-dynamo.txt"> Dynamo: Amazon's Highly Available Key-Value Store.</a> <pa>Guiseppe DeCandia, Deniz Hastorun, Madan Jampani, Gunavardhan Kakulapati, Avinash Lakshman, Alex Pilchin, Swami Sivasubramanian, Peter Vosshall, Werner Vogels</pa> <pg></pg> 
+
+<li><pc>[SIGCOMM '10]</pc> <a href="sum/sigcomm/10-dctcp.txt"> Data center TCP.</a> <pa>Mohammad Alizadeh, Albert G. Greenberg, David A. Maltz, Jitendra Padhye, Parveen Patel, Balaji Prabhakar, Sudipta Sengupta, Murari Sridharan</pa> <pg></pg> 
+
+<li><pc>[SC '12]</pc> <a href="sum/sc/12-interferenceDatacenter.txt"> Measuring interference between live datacenter applications.</a> <pa>Melanie Kambadur, Tipp Moseley, Rick Hank, Martha A. Kim</pa> <pg></pg> 
+
+<li><pc>[NSDI '13]</pc> <a href="sum/nsdi/13-bobtail.txt"> Bobtail: Avoiding Long Tails in the Cloud.</a> <pa>Yunjing Xu, Zachary Musgrave, Brian Noble, Michael Bailey</pa> <pg></pg> 
+
+<li><pc>[EuroSys '13]</pc> <a href="sum/eurosys/13-cpi2.txt"> CPI$^2$: CPU performance isolation for shared compute clusters.</a> <pa>Xiao Zhang, Eric Tune, Robert Hagmann, Rohit Jnagal, vrigo Gokhale, John Wilkes</pa> <pg></pg> 
+
+<li><pc>[EuroSys '12]</pc> <a href="sum/eurosys/12-jockey.txt"> Jockey: guaranteed job latency in data parallel clusters.</a> <pa>Andrew D. Ferguson, Peter Bodik, Srikanth Kandula, Eric Boutin, Rodrigo Fonseca</pa> <pg></pg> 
+
+<li><pc>[ICAC '13]</pc> <a href="sum/icac/13-zoolander.txt"> Zoolander: Efficiently Meeting Very Strict, Low-Latency SLOs.</a> <pa>Christopher Stewart, Aniket Chakrabarti, Rean Grifﬁth</pa> <pg></pg> 
+
+
+
+
+<li><pc>[Article '09]</pc> <a href="sum/article/09-speedMatter.txt"> Speed Matters for Google Web Search.</a> <pa>Jake Brutlag</pa> <pg>(http://services.google.com/fh/files/blogs/google_delayexp.pdf)</pg> 
+
+<li><pc>[Article '08]</pc> <a href="sum/article/08-100msSales.txt"> Amazon found every 100ms of latency cost them 1=% in sales.</a> <pa>Jim Liddle</pa> <pg>(http://blog.gigaspaces.com/amazon-found-every-100ms-of-latency-cost-them-1-in-sales/)</pg> 
+
+
+
+<li><pc>[FAST '15]</pc> <a href="sum/fast/15-raidShield.txt"> RAIDShield: Characterizing, Monitoring, and Proactively Protecting Against Disk Failures.</a> <pa>Ao Ma, Fred Douglis, Guanlin Lu, Darren Sawyer, Surendar Chandra, Windsor Hsu</pa> <pg></pg> 
+
+
+<li><pc>[ISCA '13]</pc> <a href="sum/isca/13-quickSAN.txt"> QuickSAN: a storage area network for fast, distributed, solid state disks.</a> <pa>Adrian M. Caulfield, Steven Swanson</pa> <pg></pg> 
+
+
+<li><pc>[ASPLOS '14]</pc> <a href="sum/asplos/14-sdf.txt"> SDF: Software-Defined Flash for Web-Scale Internet Storage System.</a> <pa>Jian Ouyang, Shiding Lin, Song Jiang, Zhenyu Hou, Yong Wang, Yuanzheng Wang</pa> <pg></pg> 
+
+
+<li><pc>[SOSP '13]</pc> <a href="sum/sosp/13-tango.txt"> Tango: Distributed Data Structures over a Shared Log.</a> <pa>Mahesh Balakrishnan, Dahlia Malkhi, Ted Wobber, Ming Wu, Vijayan Prabhakaran, Michael Wei, John D. Davis, Sriram Rao, Tao Zou, Aviad Zuck</pa> <pg></pg> 
+

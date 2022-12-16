@@ -1,0 +1,710 @@
+
+
+<!--
+
+    pg: tag
+-->
+
+<head>
+<title>p-limp</title>
+<style type="text/css">
+<!--
+  BODY   {font-size: 90%; font-family: arial; background:black; color:white}
+    h2   {color:#8FBC8F;}
+    h3   {color:#D98719}
+    h3   {color:#00cccc}
+    h6   {color:#444444; text-decoration:underline; font-weight:bold}
+
+    pc   {color:#CC0000;}
+
+
+
+    pf   {font-size:80%}
+    pa   {color:#AAAAAA; font-style:italic; font-size:90%}
+    pg   {color:orange; font-style:italic; font-size:90%}
+    ps   {color:#666666; font-size:75%; margin-left:40pt; font-style:italic;}
+
+    tr.a {background-color:#e9e9e9}
+
+
+    a {text-decoration:underline}
+
+    pt   {color:#EEBB55; }
+    a:link { color:#EEBB55; }
+    a:visited { color:#CC6699; }
+    a:hover { !important; color=#00cc00; background:#333333; }
+    a:active { color:#eebb55;}
+
+-->
+</style>
+</head>
+
+<body>
+<nobr>
+
+<ol>
+<h1>p-limp</h1>
+
+
+
+
+<br><br><h2> Straggler/Tail-Tolerant Systems </h2>
+
+
+<li><pc>[SOSP '13]</pc> <a href="sum/sosp/13-pileus.txt"> Consistency-Based Service Level Agreements for Cloud Storage.</a> <pa>Douglas B. Terry, Vijayan Prabhakaran, Ramakrishna Kotla, Mahesh Balakrishnan, Marcos K. Aguilera, Hussam Abu-Libdeh</pa> <pg>(Pileus)</pg> 
+
+
+<li><pc>[SOSP '13]</pc> <a href="sum/sosp/13-sparrow.txt"> Sparrow: Distributed, Low Latency Scheduling.</a> <pa>Kay Ousterhout, Patrick Wendell, Matei Zaharia, Ion Stoica</pa> <pg></pg> 
+
+
+
+<li><pc>[SOSP '13]</pc> <a href="sum/sosp/13-discretizedStreams.txt"> Discretized Streams: Fault-Tolerant Streaming Computation at Scale.</a> <pa>Matei Zaharia, Tathagata Das, Haoyuan Li, Timothy Hunter, Scott Shenker, Ion Stoica</pa> <pg></pg> 
+
+
+<li><pc>[EuroSys '13]</pc> <a href="sum/eurosys/13-cpi2.txt"> CPI2: CPU performance isolation for shared compute clusters.</a> <pa>Xiao Zhang, Eric Tune, Robert Hagmann, Rohit Jnagal, vrigo Gokhale, John Wilkes</pa> <pg></pg> 
+
+
+
+<br><br><h2> Job/Task Performance Optimization </h2>
+
+<li><pc>[EuroSys '13]</pc> <a href="sum/eurosys/13-optimusEPG.txt"> Optimus: A Dynamic Rewriting Framework for Execution Plans of Data-Parallel Computation.</a> <pa>Qifa Ke, Michael Isard, Yuan Yu</pa> <pg></pg> 
+
+
+
+<br><br><h2> Tail-Tolerant Storage </h2>
+
+<li><pc>[OSDI '04]</pc> <a href="sum/osdi/04-mapreduce.txt"> MapReduce: Simplified Data Processing on Large Clusters.</a> <pa>Jeffrey Dean, Sanjay Ghemawat</pa> <pg></pg> 
+
+<li><pc>[Book '12]</pc> <a href="sum/book/12-hadoopTheDefinitiveGuide.txt"> Hadoop: The Definitive Guide, 3rd Edition.</a> <pa>Tom White</pa> <pg>(http://it-ebooks.info/book/635)</pg> 
+
+<li><pc>[CACM '13]</pc> <a href="sum/cacm/13-tailAtScale.txt"> Tail at Scale.</a> <pa>Jeffrey Dean, Luiz Andre Barroso</pa> <pg></pg> 
+
+
+
+
+<li><pc>[Book '13]</pc> <pt>Operating Systems: Three Easy Pieces.</pt> <pa>Remzi H. Arpaci-Dusseau, Andrea C. Arpaci-Dusseau</pa> <pg>(http://pages.cs.wisc.edu/~remzi/OSTEP)</pg>
+
+
+<li><pc>[Book '55]</pc> <pt>Managing RAID on Linux.</pt> <pa>Derek Vadala</pa> <pg>(http://it-ebooks.info/book/221)</pg>
+
+
+<li><pc>[Web '55]</pc> <pt>The Software-RAID HOWTO.</pt> <pa>Jakob Østergaard and Emilio Bueso</pa> <pg>(http://www.tldp.org/HOWTO/Software-RAID-HOWTO.html)</pg>
+
+
+<li><pc>[SOSP '95]</pc> <pt>The HP AutoRAID Hierarchical Storage System.</pt> <pa>John Wilkes, Richard A. Golding, Carl Staelin, Tim Sullivan</pa> <pg></pg>
+
+
+
+
+
+
+
+<br><br><h2> LitOS: Limpware Tolerant OS </h2>
+
+
+<li><pc>[HotOS '11]</pc> <pt>Finding Concurrency Errors in Sequential Code—OS-level, In-vivo Model Checking of Process Races.</pt> <pa>Oren Laadan, Chia-Che Tsai, Nicolas Viennot, Chris Blinn, Peter Senyao Du, Junfeng Yang, Jason Nieh</pa> <pg></pg>
+
+<li><pc>[PLDI '12]</pc> <a href="sum/pldi/12-performanceBugs.txt"> Understanding and Detecting Real-World Performance Bugs.</a> <pa>Guoliang Jin, Linhai Song, Xiaoming Shi, Joel Scherpelz, Shan Lu</pa> <pg></pg> 
+
+<li><pc>[OOPSLA '11]</pc> <pt>Catch Me If You Can: Performance Bug Detection in the Wild.</pt> <pa>Milan Jovic, Andrea Adamoli, Matthias Hauswirth</pa> <pg></pg>
+
+<li><pc>[FSE '10]</pc> <pt>Finding latent performance bugs in systems implementations.</pt> <pa>Charles Killian, Karthik Nagaraj, Salman Pervez, Ryan Braud, James W. Anderson, Ranjit Jhala</pa> <pg></pg>
+
+
+<br><br><h2> LDA: Limpware Data Analysis </h2>
+
+<li><pc>[SIGCOMM '10]</pc> <a href="sum/sigcomm/10-lines.txt"> California fault lines: understanding the causes and impact of network failures.</a> <pa>Daniel Turner, Kirill Levchenko, Alex C. Snoeren, Stefan Savage</pa> <pg></pg> 
+
+
+<li><pc>[SIGMETRICS '07]</pc> <a href="sum/sigmetrics/07-latent.txt"> An Analysis of Latent Sector Errors in Disk Drives.</a> <pa>Lakshmi N. Bairavasundaram, Garth R. Goodson, Shankar Pasupathy, Jiri Schindler</pa> <pg></pg> 
+
+
+<li><pc>[FAST '08]</pc> <a href="sum/fast/08-corruption.txt"> An Analysis of Data Corruption in the Storage Stack.</a> <pa>Lakshmi N. Bairavasundaram, Garth Goodson, Network Appliance, Inc., Bianca Schroeder, Andrea C. Arpaci-Dusseau, Remzi H. Arpaci-Dusseau </pa> <pg></pg> 
+
+
+<li><pc>[FAST '07]</pc> <a href="sum/fast/07-mttf.txt"> Disk Failures in the Real World: What Does an MTTF of 1,000,000 Hours Mean to You?.</a> <pa>Bianca Schroeder and Garth A. Gibson</pa> <pg></pg> 
+
+
+<li><pc>[FAST '10]</pc> <a href="sum/fast/10-understandErrors.txt"> Understanding Latent Sector Errors and How to Protect Against Them.</a> <pa>Bianca Schroeder, Sotirios Damouras, Phillipa Gill</pa> <pg></pg> 
+
+
+<li><pc>[SIGMETRICS '09]</pc> <a href="sum/sigmetrics/09-dramErrors.txt"> DRAM Errors in the Wild: A Large-Scale Field Study.</a> <pa>Bianca Schroeder, Eduardo Pinheiro, Wolf-Dietrich Weber</pa> <pg></pg> 
+
+
+<li><pc>[SIGMETRICS '12]</pc> <a href="sum/sigmetrics/12-temperatureManagement.txt"> Temperature management in data centers: why some like it hot.</a> <pa>Nosayba El-Sayed, Ioan A. Stefanovici, George Amvrosiadis, Andy A. Hwang, Bianca Schroeder</pa> <pg></pg> 
+
+
+
+
+
+<br><br><h2> latency analysis </h2>
+
+<li><pc>[FAST '10]</pc> <a href="sum/fast/10-blackBoxPFS.txt"> Black-Box Problem Diagnosis in Parallel File Systems.</a> <pa>Michael P. Kasick, Jiaqi Tan, Rajeev Gandhi, Priya Narasimhan</pa> <pg></pg> 
+
+
+
+<li><pc>[SIGMETRICS '06]</pc> <a href="sum/sigmetrics/06-stardust.txt"> Stardust: tracking activity in a distributed storage system.</a> <pa>Eno Thereska, Brandon Salmon, John D. Strunk, Matthew Wachs, Michael Abd-El-Malek, Julio Lopez, Gregory R. Ganger</pa> <pg></pg> 
+
+
+
+<li><pc>[SIGMETRICS '08]</pc> <a href="sum/sigmetrics/08-darcLatencyAnalysis.txt"> DARC: dynamic analysis of root causes of latency distributions.</a> <pa>Avishay Traeger, Ivan Deras, Erez Zadok</pa> <pg></pg> 
+
+
+<li><pc>[NSDI '11]</pc> <a href="sum/nsdi/11-spectroScope.txt"> Diagnosing Performance Changes by Comparing Request Flows.</a> <pa>Raja R. Sambasivan, Alice X. Zheng, Michael De Rosa, Elie Krevat, Spencer Whitman, Michael Stroucken, William Wang, Lianghong Xu, Gregory R. Ganger</pa> <pg></pg> 
+
+
+<li><pc>[HotDep '10]</pc> <a href="sum/hotdep/10-problemLocalization.txt"> Behavior-based problem localization for parallel file systems.</a> <pa>Michael P. Kasick , Rajeev G , Priya Narasimhan </pa> <pg></pg> 
+
+
+<li><pc>[HotCloud '12]</pc> <a href="sum/hotcloud/12-predictabilityRecipe.txt"> Automated Diagnosis Without Predictability Is a Recipe for Failure.</a> <pa>Raja R. Sambasivan, Gregory R. Ganger</pa> <pg></pg> 
+
+
+<li><pc>[HotDep '10]</pc> <a href="sum/hotdep/10-avatar.txt"> AVATARs for Pennies: Cheap N-version Programming for Replication.</a> <pa>Atul Singh, Nishant Sinha, Nitin Agrawal</pa> <pg></pg> 
+
+
+<li><pc>[OSDI '04]</pc> <a href="sum/osdi/04-misconfigPeerPressure.txt"> Automatic Misconfiguration Troubleshooting with PeerPressure.</a> <pa>Helen J. Wang, John C. Platt, Yu Chen, Ruyun Zhang, Yi-min Wang</pa> <pg></pg> 
+
+
+<li><pc>[SC '07]</pc> <a href="sum/sc/07-ghostInMachine.txt"> The ghost in the machine: observing the effects of kernel operation on parallel application performance.</a> <pa>Aroon Nataraj, Alan Morris, Allen D. Malony, Matthew Sottile, Pete Beckman</pa> <pg></pg> 
+
+
+
+
+
+<br><br><h2> Latency solutions </h2>
+
+<li><pc>[SoCC '13]</pc> <a href="sum/socc/13-jVerbsRDMA.txt"> jVerbs: Ultra-Low Latency for Data Center Applications.</a> <pa>Patrick Stuedi, Bernard Metzler, Animesh Trivedi</pa> <pg></pg> 
+
+
+
+<li><pc>[SoCC '13]</pc> <a href="sum/socc/13-smallIsBetterLatencyTraps.txt"> Small is Better: Avoiding Latency Traps in Virtualized Data Centers.</a> <pa>Yunjing Xu, Michael Bailey, Brian Noble, Farnam Jahanian</pa> <pg></pg> 
+
+
+<br><br><h2> latency, SLA, solutions </h2>
+
+
+
+<li><pc>[FAST '09]</pc> <a href="sum/fast/09-parda.txt"> PARDA: Proportional Allocation of Resources for Distributed Storage Access.</a> <pa>Ajay Gulati, Irfan Ahmad, Carl A. Waldspurger, VMware Inc.</pa> <pg></pg> 
+
+
+<li><pc>[EuroSys '12]</pc> <a href="sum/eurosys/12-jockey.txt"> Jockey: guaranteed job latency in data parallel clusters.</a> <pa>Andrew D. Ferguson, Peter Bodik, Srikanth Kandula, Eric Boutin, Rodrigo Fonseca</pa> <pg></pg> 
+
+
+<li><pc>[SoCC '12]</pc> <a href="sum/socc/12-cake.txt"> Cake: Enabling High-level SLOs on Shared Storage Systems.</a> <pa>Andrew Wang, Shivaram Venkataraman, Sara Alspaugh, Randy Katz, Ion Stoica</pa> <pg></pg> 
+
+
+<li><pc>[SoCC '11]</pc> <a href="sum/socc/11-timeStepTick.txt"> Making Time-stepped Applications Tick in the Cloud.</a> <pa>Tao Zou, Guozhang Wang, Marcos Vaz Salles, David Bindel, Alan Demers, Johannes Gehrke, Walker White</pa> <pg></pg> 
+
+
+<li><pc>[SoCC '12]</pc> <a href="sum/socc/12-themis.txt"> Themis: An I/O Efficient MapReduce.</a> <pa>Alexander Rasmussen, Michael Conley, Rishi Kapoor, Vinh The Lam, George Porter, Amin Vahdat</pa> <pg></pg> 
+
+
+<li><pc>[SoCC '12]</pc> <a href="sum/socc/12-trueElasticity.txt"> True Elasticity in Multi-Tenant Clusters through Amoeba.</a> <pa>Ganesh Anantharanayanan, Christopher Douglas, Raghu Ramakrishnan, Sriram Rao, Ion Stoica </pa> <pg></pg> 
+
+
+<li><pc>[ASPLOS '12]</pc> <a href="sum/asplos/12-dejavu.txt"> DejaVu: Accelerating Resource Allocation in Virtualized Environments.</a> <pa>Nedeljko Vasic, Dejan Novakovic, Svetozar Miucin, Dejan Kostic and Ricardo Bianchini</pa> <pg></pg> 
+
+
+<li><pc>[FAST '12]</pc> <a href="sum/fast/12-voldemort.txt"> Serving Large-scale Batch Computed Data with Project Voldemort.</a> <pa>Roshan Sumbaly, Jay Kreps, Lei Gao, Alex Feinberg, Chinmay Soman, Sam Shah</pa> <pg></pg> 
+
+
+<li><pc>[FAST '12]</pc> <a href="sum/fast/12-bluesky.txt"> BlueSky: A Cloud-Backed File System for the Enterprise.</a> <pa>Michael Vrable, Stefan Savage, Geoffrey M. Voelker</pa> <pg></pg> 
+
+
+<li><pc>[FAST '12]</pc> <a href="sum/fast/12-scc.txt"> scc: Cluster Storage Provisioning Informed by Application Characteristics and SLAs.</a> <pa>Harsha V. Madhyastha, John C. McCullough, George Porter, Rishi Kapoor, Stefan Savage, Alex C. Snoeren, Amin Vahdat</pa> <pg></pg> 
+
+<li><pc>[FAST '12]</pc> <a href="sum/fast/12-fios.txt"> FIOS: A Fair, Efficient Flash I/O Scheduler.</a> <pa>Stan Park, Kai Shen</pa> <pg></pg> 
+
+
+
+<li><pc>[NSDI '12]</pc> <a href="sum/nsdi/12-hull.txt"> Less Is More: Trading a Little Bandwidth for Ultra-Low Latency in the Data Center.</a> <pa>Mohammad Alizadeh, Abdul Kabbani, Google, Tom Edsall, Cisco Systems, Balaji Prabhakar, Amin Vahdat, Google, U.C. San Diego, Masato Yasuda Corporation, Japan</pa> <pg></pg> 
+
+<li> fast 02, freeblock scheduling outside of disk firmware
+<li> fast 02, configuring and scheduling an eager-writing disk array for a transcation processing
+
+<li> fast 09, parda
+<li> tos 2005, triage
+<li> sigmetrics 97, cello
+<li> fast 07, argon 
+<li> icac 11, maestro
+<li> fast 03, facade
+<li> osdi 10, mclock
+<li> icmcs 99, disk scheduling 
+<li> sigmetrics 04, interposed proportional sharing
+<li> sosp 01, anticipatory scheduling
+
+
+<br><br><h2> in-memory performance </h2>
+
+<li><pc>[NSDI '12]</pc> <a href="sum/nsdi/12-sparkRdd.txt"> Resilient Distributed Datasets: A Fault-Tolerant Abstraction for In-Memory Cluster Computing.</a> <pa>Matei Zaharia, Mosharaf Chowdhury, Tathagata Das, Ankur Dave, Justin Ma, Murphy McCauley, Michael J. Franklin, Scott Shenker, Ion Stoica</pa> <pg>(Spark)</pg> 
+
+<li><pc>[NSDI '12]</pc> <a href="sum/nsdi/12-pacman.txt"> PACMan: Coordinated Memory Caching for Parallel Jobs.</a> <pa>Ganesh Ananthanarayanan, Ali Ghodsi, Andrew Wang, Dhruba Borthakur, Facebook, Srikanth Kandula, Scott Shenker, Ion Stoica</pa> <pg></pg> 
+
+<li><pc>[SOSP '11]</pc> <a href="sum/sosp/11-ramCloud.txt"> Fast Crash Recovery in RAMCloud.</a> <pa>Diego Ongaro, Stephen M. Rumble, Ryan Stutsman, John Ousterhout, Mendel Rosenblum</pa> <pg></pg> 
+
+
+
+<br><br><h2> faster i/o performance, i/o optimization </h2>
+
+<li><pc>[FAST '11]</pc> <a href="sum/fast/11-capo.txt"> Capo: Recapitulating Storage for Virtual Desktops.</a> <pa>Mohammad Shamma, Dutch T. Meyer, Jake Wires, Maria Ivanova, Norman C. Hutchinson, Andrew Warfield, University of British Columbia</pa> <pg></pg> 
+
+
+<li><pc>[FAST '11]</pc> <a href="sum/fast/11-proximalio.txt"> Improving Throughput for Small Disk Requests with Proximal I/O.</a> <pa>Jiri Schindler, Sandip Shete, Keith A. Smith.</pa> <pg></pg> 
+
+
+<li><pc>[FAST '09]</pc> <a href="sum/fast/09-borg.txt"> BORG: Block-reORGanization for Self-optimizing Storage Systems.</a> <pa>Medha Bhadkamkar, Jorge Guerra, Luis Useche, Sam Burnett, Jason Liptak, Syracuse University, Raju Rangaswami, Vagelis Hristidis</pa> <pg></pg> 
+
+
+<li><pc>[NSDI '12]</pc> <a href="sum/nsdi/12-corfu.txt"> CORFU: A Shared Log Design for Flash Clusters.</a> <pa>Mahesh Balakrishnan, Dahlia Malkhi, Vijayan Prabhakaran, Ted Wobber, Michael Wei, John D. Davis</pa> <pg></pg> 
+
+<li><pc>[FAST '12]</pc> <a href="sum/fast/12-smartphone.txt"> Revisiting Storage for Smartphones.</a> <pa>Hyojun Kim, Nitin Agrawal, Cristian Ungureanu</pa> <pg></pg> 
+
+
+<li><pc>[SoCC '12]</pc> <a href="sum/socc/12-sailfish.txt"> Sailfish: A Framework For Large Scale Data Processing.</a> <pa>Sriram Rao, Raghu Ramakrishnan, Adam Silberstein, Mike Ovsiannikov, Damian Reeves</pa> <pg></pg> 
+
+
+<li><pc>[ASPLOS '12]</pc> <a href="sum/asplos/12-eli.txt"> ELI: Bare-metal Performance for I/O Virtualization.</a> <pa>Abel Gordon, Nadav Amit, Nadav Har'El, Muli Ben-Yehuda, Alex Landau, Assaf Schuster and Dan Tsafrir</pa> <pg></pg> 
+
+
+<li><pc>[ASPLOS '12]</pc> <a href="sum/asplos/12-boscUpdateAware.txt"> An Update-aware Storage System for Low-locality Update-intensive Workloads .</a> <pa>Maohua Lu, Dilip Simha and Tzi-cker Chiueh</pa> <pg></pg> 
+
+
+<li><pc>[FAST '12]</pc> <a href="sum/fast/12-nestedFileSystem.txt"> Understanding Performance Implications of Nested File Systems in a Virtualized Environment.</a> <pa>Duy Le, Hai Huang, Haining Wang</pa> <pg></pg> 
+
+
+<li><pc>[FAST '12]</pc> <a href="sum/fast/12-sfs.txt"> SFS: Random Write Considered Harmful in Solid State Drives.</a> <pa>Changwoo Min, Kangnyeon Kim, Hyunjin Cho, Sang-Won Lee, Young Ik Eom</pa> <pg></pg> 
+
+<li><pc>[FAST '12]</pc> <a href="sum/fast/12-nameless.txt"> De-indirection for Flash-based SSDs with Nameless Writes.</a> <pa>Yiying Zhang, Leo Prasath Arulraj, Andrea C. Arpaci-Dusseau, Remzi H. Arpaci-Dusseau</pa> <pg></pg> 
+
+<li><pc>[FAST '12]</pc> <a href="sum/fast/12-cachingLess.txt"> Caching Less for Better Performance: Balancing Cache Size and Update Cost of Flash Memory Cache in Hybrid Storage Systems.</a> <pa>Yongseok Oh, Jongmoo Choi, Donghee Lee, Sam H. Noh</pa> <pg></pg> 
+
+
+
+<li> fast 08, borg block reorganization
+<li> hotos 09, does virtualization make disk scheduling passe
+<li> sosp 99, borrowed-virtual-time bvt scheduling
+<li> sosp 05, fs2
+<li> wiov 10, disk i/o scheduling in virtual machines
+<li> vee 08, scheduling i/o in virtual machine monitors
+<li> ieee cc, storage management in virtualized cloud environment
+<li> atc 11, fvd, high performance virtual machine image format
+
+
+
+
+<br><br><h2> storage qos, fairness </h2>
+
+
+
+<li><pc>[OSDI '12]</pc> <a href="sum/osdi/12-pisces.txt"> Performance Isolation and Fairness for Multi-Tenant Cloud Storage.</a> <pa>David Shue, Michael J. Freedman,, Anees Shaikh</pa> <pg></pg> 
+
+
+
+
+
+
+<br><br><h2> admission control </h2>
+
+<li><pc>[ATC '10]</pc> <a href="sum/atc/10-stout.txt"> Stout: An Adaptive Interface to Scalable Cloud Storage.</a> <pa>John C. McCullough, John Dunagan, Alec Wolman, Alex C. Snoeren</pa> <pg></pg> 
+
+<li><pc>[SIGMETRICS '09]</pc> <a href="sum/sigmetrics/09-admission.txt"> Self-adaptive admission control policies for resource-sharing systems.</a> <pa>Varun Gupta, Mor Harchol-Balter</pa> <pg></pg> 
+
+
+<li><pc>[SIGMETRICS '07]</pc> <a href="sum/sigmetrics/07-relativeFitness.txt"> Modeling the relative fitness of storage.</a> <pa>Michael P. Mesnier, Matthew Wachs, Raja R. Sambasivan, Alice X. Zheng, Gregory R. Ganger</pa> <pg></pg> 
+
+
+<br><br><h2> heterogeneous </h2>
+
+<li> Tarazu: Optimizing MapReduce On Heterogeneous Clusters. Faraz Ahmad, Srimat Chakradhar, Anand Raghunathan and T.N. Vijaykumar
+
+
+<br><br><h2> Dealing with consolidation, virtualization, multitenant, SLA, bottleneck </h2>
+
+<li><pc>[FAST '11]</pc> <a href="sum/fast/11-capo.txt"> Capo: Recapitulating Storage for Virtual Desktops.</a> <pa>Mohammad Shamma, Dutch T. Meyer, Jake Wires, Maria Ivanova, Norman C. Hutchinson, Andrew Warfield, University of British Columbia</pa> <pg></pg> 
+
+
+<li><pc>[SoCC '12]</pc> <a href="sum/socc/12-romano.txt"> Romano: Autonomous Storage Management using Performance Prediction in Multi-Tenant Datacenters.</a> <pa>Nohhyun Park, Irfan Ahmad, David J. Lilja </pa> <pg></pg> 
+
+
+<li><pc>[SoCC '11]</pc> <a href="sum/socc/11-cuanta.txt"> Cuanta: Quantifying Effects of Shared On-chip Resource Interference for Consolidated Virtual Machines.</a> <pa>Sriram Govindan, Jie Liu and Aman Kansal, Anand Sivasubramaniam</pa> <pg></pg> 
+
+<li><pc>[OSDI '12]</pc> <a href="sum/osdi/12-pisces.txt"> Performance Isolation and Fairness for Multi-Tenant Cloud Storage.</a> <pa>David Shue, Michael J. Freedman,, Anees Shaikh</pa> <pg></pg> 
+
+<li><pc>[SoCC '12]</pc> <a href="sum/socc/12-googleTrace.txt"> Heterogeneity and Dynamicity of Clouds at Scale: Google Trace Analysis.</a> <pa>Charles Reiss, Alexey Tumanov, Gregory R. Ganger, Randy H. Katz, Michael A. Kozuch</pa> <pg></pg> 
+
+
+<li><pc>[EuroSys '12]</pc> <a href="sum/eurosys/12-frugal.txt"> Frugal storage for cloud file systems.</a> <pa>Krishna P. N. Puttaswamy, Thyaga Nandagopal, Murali S. Kodialam</pa> <pg></pg> 
+
+<li><pc>[EuroSys '12]</pc> <a href="sum/eurosys/12-lazybase.txt"> LazyBase: trading freshness for performance in a scalable database.</a> <pa>James Cipar, Gregory R. Ganger, Kimberly Keeton, Charles B. Morrey III, Craig A. N. Soules, Alistair C. Veitch</pa> <pg></pg> 
+
+
+
+<li><pc>[ASPLOS '12]</pc> <a href="sum/asplos/12-bottleneck.txt"> Bottleneck Identification and Scheduling in Multithreaded Applications.</a> <pa>Jose A. Joao, M. Aater Suleman, Onur Mutlu and Yale N. Patt</pa> <pg></pg> 
+
+
+<li><pc>[SIGMETRICS '12]</pc> <a href="sum/sigmetrics/12-dfactor.txt"> D-factor: a quantitative model of application slow-down in multi-resource shared systems.</a> <pa>Seung-Hwan Lim, Jae-Seok Huh, Youngjae Kim, Galen M. Shipman, Chita R. Das</pa> <pg></pg> 
+
+
+<li><pc>[SoCC '11]</pc> <a href="sum/socc/11-pesto.txt"> Pesto: Online Storage Performance Management in Virtualized Datacenters.</a> <pa>Ajay Gulati, Ganesha Shanmuganathan, Irfan Ahmad, Carl A. Waldspurger, Mustafa Uysal </pa> <pg></pg> 
+
+
+
+<br><br><h2> study </h2>
+
+<li><pc>[MASCOTS '11]</pc> <a href="sum/mascots/11-swimMapReduceWorkload.txt"> The Case for Evaluating MapReduce Performance Using Workload Suites.</a> <pa>Yanpei Chen, Archana Ganapathi, Rean Griffith and Randy H. Katz</pa> <pg></pg> 
+
+
+<li><pc>[SIGMETRICS '12]</pc> <a href="sum/sigmetrics/12-memcacheFacebook.txt"> Workload analysis of a large-scale key-value store.</a> <pa>Berk Atikoglu, Yuehai Xu, Eitan Frachtenberg, Song Jiang, Mike Paleczny</pa> <pg></pg> 
+
+<li><pc>[VLDB '10]</pc> <a href="sum/vldb/10-measureCloud.txt"> Runtime Measurements in the Cloud: Observing, Analyzing, Reducing Variance.</a> <pa>Jorg Schad, Jens Dittrich, Jorge-Arnulfo Quiane-Ruiz</pa> <pg></pg> 
+
+<li><pc>[SoCC '12]</pc> <a href="sum/socc/12-chronos.txt"> Chronos: Predictable Low Latency for Data Center Applications.</a> <pa>Rishi Kapoor, George Porter, Malveeka Tewari, Geoffrey M. Voelker, Amin Vahdat </pa> <pg></pg> 
+
+<li><pc>[SoCC '11]</pc> <a href="sum/socc/11-cuanta.txt"> Cuanta: Quantifying Effects of Shared On-chip Resource Interference for Consolidated Virtual Machines.</a> <pa>Sriram Govindan, Jie Liu and Aman Kansal, Anand Sivasubramaniam</pa> <pg></pg> 
+
+
+<li><pc>[FAST '12]</pc> <a href="sum/fast/12-bleakFuture.txt"> The Bleak Future of NAND Flash Memory.</a> <pa>Laura M. Grupp, John D. Davis, Steven Swanson</pa> <pg></pg> 
+
+<li><pc>[VLDB '12]</pc> <a href="sum/vldb/12-studyMapReduceWorkloads.txt"> Interactive Analytical Processing in Big Data Systems: A Cross-Industry Study of MapReduce Workloads.</a> <pa>Yanpei Chen, Sara Alspaugh, Randy H. Katz</pa> <pg></pg> 
+
+
+<li><pc>[SIGMOD '11]</pc> <a href="sum/sigmod/11-hadoopFacebook.txt"> Apache hadoop goes realtime at Facebook.</a> <pa>Dhruba Borthakur, Jonathan Gray, Joydeep Sen Sarma, Kannan Muthukkaruppan, Nicolas Spiegelberg, Hairong Kuang, Karthik Ranganathan, Dmytro Molkov, Aravind Menon, Samuel Rash, Rodrigo Schmidt, Amitanand S. Aiyer</pa> <pg></pg> 
+
+
+<li> [9] P. Gill, N. Jain, N. Nagappan. Understanding network fail- ures in data centers: Measurement, analysis, implications. In SIGCOMM, 2011.
+
+<li> cloudcmp: imc 10, comparing public cloud providers
+<li> vldb 10, runtime measurements in the cloud
+
+
+<br><br><h2> data stats study </h2>
+
+<li> machines
+
+<li><pc>[SC '07]</pc> <a href="sum/sc/07-ghostInMachine.txt"> The ghost in the machine: observing the effects of kernel operation on parallel application performance.</a> <pa>Aroon Nataraj, Alan Morris, Allen D. Malony, Matthew Sottile, Pete Beckman</pa> <pg></pg> 
+
+
+<li><pc>[SoCC '10]</pc> <a href="sum/socc/10-hardware.txt"> Characterizing Cloud Computing Hardware Reliability.</a> <pa>Kashi Vishwanath, Nachi Nagappan</pa> <pg></pg> 
+
+
+<li><pc>[FAST '08]</pc> <a href="sum/fast/08-dominant.txt"> Are Disks the Dominant Contributor for Storage Failures? A Comprehensive Study of Storage Subsystem Failure Characteristics.</a> <pa>Weihang Jiang, Chongfeng Hu, Yuanyuan Zhou, Arkady Kanevsky</pa> <pg></pg> 
+
+
+<li> disk failures:
+
+<li><pc>[DSN '06]</pc> <a href="sum/dsn/06-failuresHPC.txt"> A large-scale study of failures in high-performance computing systems.</a> <pa>Bianca Schroeder, Garth A. Gibson</pa> <pg></pg> 
+
+
+<li><pc>[FAST '07]</pc> <a href="sum/fast/07-mttf.txt"> Disk Failures in the Real World: What Does an MTTF of 1,000,000 Hours Mean to You?.</a> <pa>Bianca Schroeder and Garth A. Gibson</pa> <pg></pg> 
+
+
+<li><pc>[FAST '07]</pc> <a href="sum/fast/07-trends.txt"> Failure Trends in a Large Disk Drive Population.</a> <pa>Eduardo Pinheiro, Wolf-Dietrich Weber, Luiz Andre Barroso</pa> <pg></pg> 
+
+
+<li> latent
+
+<li><pc>[SIGMETRICS '07]</pc> <a href="sum/sigmetrics/07-latent.txt"> An Analysis of Latent Sector Errors in Disk Drives.</a> <pa>Lakshmi N. Bairavasundaram, Garth R. Goodson, Shankar Pasupathy, Jiri Schindler</pa> <pg></pg> 
+
+
+<li><pc>[FAST '10]</pc> <a href="sum/fast/10-understandErrors.txt"> Understanding Latent Sector Errors and How to Protect Against Them.</a> <pa>Bianca Schroeder, Sotirios Damouras, Phillipa Gill</pa> <pg></pg> 
+
+
+<li> corrupt
+
+<li><pc>[FAST '08]</pc> <a href="sum/fast/08-corruption.txt"> An Analysis of Data Corruption in the Storage Stack.</a> <pa>Lakshmi N. Bairavasundaram, Garth Goodson, Network Appliance, Inc., Bianca Schroeder, Andrea C. Arpaci-Dusseau, Remzi H. Arpaci-Dusseau </pa> <pg></pg> 
+
+
+
+<li> memory
+
+<li><pc>[ASPLOS '12]</pc> <a href="sum/asplos/12-cosmicRays.txt"> Cosmic Rays Don't Strike Twice: Understanding the Nature of DRAM Errors and the Implications for System Design.</a> <pa>Andy Hwang, Ioan Stefanovici and Bianca Schroeder</pa> <pg></pg> 
+
+
+<li><pc>[SIGMETRICS '12]</pc> <a href="sum/sigmetrics/12-temperatureManagement.txt"> Temperature management in data centers: why some like it hot.</a> <pa>Nosayba El-Sayed, Ioan A. Stefanovici, George Amvrosiadis, Andy A. Hwang, Bianca Schroeder</pa> <pg></pg> 
+
+
+<li><pc>[SIGMETRICS '09]</pc> <a href="sum/sigmetrics/09-dramErrors.txt"> DRAM Errors in the Wild: A Large-Scale Field Study.</a> <pa>Bianca Schroeder, Eduardo Pinheiro, Wolf-Dietrich Weber</pa> <pg></pg> 
+
+
+
+<li> network
+
+<li> [9] P. Gill, N. Jain, N. Nagappan. Understanding network failures
+<li> in data centers: Measurement, analysis, implications. In
+<li> SIGCOMM, 2011.
+
+
+
+
+
+
+
+<br><br><h2> load </h2>
+
+<li><pc>[SoCC '11]</pc> <a href="sum/socc/11-flooding.txt"> Opportunistic Flooding to Improve TCP Transmit Performance in Virtualized Clouds.</a> <pa>Sahan Gamage, Ardalan Kangarlou, Ramana Rao Kompella, Dongyan Xu</pa> <pg></pg> 
+
+
+<li><pc>[SoCC '11]</pc> <a href="sum/socc/11-cuanta.txt"> Cuanta: Quantifying Effects of Shared On-chip Resource Interference for Consolidated Virtual Machines.</a> <pa>Sriram Govindan, Jie Liu and Aman Kansal, Anand Sivasubramaniam</pa> <pg></pg> 
+
+
+<li><pc>[SoCC '11]</pc> <a href="sum/socc/11-multiTier.txt"> An Efficient Multi-Tier Tablet Server Storage Architecture.</a> <pa>Richard P. Spillane, Pradeep J. Shetty, Erez Zadok, Sagar Dixit, Shrikar Archak</pa> <pg></pg> 
+
+
+<li><pc>[OSDI '12]</pc> <a href="sum/osdi/12-megapipe.txt"> MegaPipe: A New Programming Interface for Scalable Network I/O.</a> <pa>Sangjin Han and Scott Marshall, Byung-Gon Chun, Sylvia Ratnasamy</pa> <pg></pg> 
+
+
+<li><pc>[SoCC '12]</pc> <a href="sum/socc/12-themis.txt"> Themis: An I/O Efficient MapReduce.</a> <pa>Alexander Rasmussen, Michael Conley, Rishi Kapoor, Vinh The Lam, George Porter, Amin Vahdat</pa> <pg></pg> 
+
+
+<li><pc>[FAST '09]</pc> <a href="sum/fast/09-parda.txt"> PARDA: Proportional Allocation of Resources for Distributed Storage Access.</a> <pa>Ajay Gulati, Irfan Ahmad, Carl A. Waldspurger, VMware Inc.</pa> <pg></pg> 
+
+
+<br><br><h2> queue </h2>
+<li> Everest, osdi
+
+<li><pc>[Article '12]</pc> <a href="sum/article/12-DzoneBackPressure.txt"> Applying Back Pressure When Overloaded.</a> <pa>Martin Thompson, http://java.dzone.com/articles/applying-back-pressure-when</pa> <pg></pg> 
+
+
+
+
+<li><pc>[ATC '10]</pc> <a href="sum/atc/10-stout.txt"> Stout: An Adaptive Interface to Scalable Cloud Storage.</a> <pa>John C. McCullough, John Dunagan, Alec Wolman, Alex C. Snoeren</pa> <pg></pg> 
+
+<li><pc>[FAST '09]</pc> <a href="sum/fast/09-parda.txt"> PARDA: Proportional Allocation of Resources for Distributed Storage Access.</a> <pa>Ajay Gulati, Irfan Ahmad, Carl A. Waldspurger, VMware Inc.</pa> <pg></pg> 
+
+<li><pc>[SoCC '12]</pc> <a href="sum/socc/12-chronos.txt"> Chronos: Predictable Low Latency for Data Center Applications.</a> <pa>Rishi Kapoor, George Porter, Malveeka Tewari, Geoffrey M. Voelker, Amin Vahdat </pa> <pg></pg> 
+
+
+<li><pc>[SoCC '11]</pc> <a href="sum/socc/11-pesto.txt"> Pesto: Online Storage Performance Management in Virtualized Datacenters.</a> <pa>Ajay Gulati, Ganesha Shanmuganathan, Irfan Ahmad, Carl A. Waldspurger, Mustafa Uysal </pa> <pg></pg> 
+
+
+<li><pc>[SOSP '11]</pc> <a href="sum/sosp/11-thialfi.txt"> Thialfi: A Client Notification Service for Internet-Scale Applications.</a> <pa>Atul Adya, Gregory Cooper, Daniel Myers, Michael Piatek</pa> <pg></pg> 
+
+
+<li><pc>[SOSP '11]</pc> <a href="sum/sosp/11-azure.txt"> Windows Azure Storage: A Highly Available Cloud Storage Service with Strong Consistency.</a> <pa>Brad Calder, Ju Wang, Aaron Ogus, Niranjan Nilakantan, Arild Skjolsvold, Sam McKelvie, Yikang Xu, Shashwat Srivastav, Jiesheng Wu, Huseyin Simitci, Jaidev Haridas, Chakravarthy Uddaraju, Hemal Khatri, Andrew Edwards, Vaman Bedekar, Shane Mainali, Rafay Abbasi, Arpit Agarwal, Mian Fahim ul Haq, Muhammad Ikram ul Haq, Deepali Bhardwaj, Sowmya Dayanand, Anitha Adusumilli, Marvin McNett, Sriram Sankaran, Kavitha Manivannan, Leonidas Rigas</pa> <pg></pg> 
+
+
+<li><pc>[SoCC '11]</pc> <a href="sum/socc/11-activesla.txt"> ActiveSLA: A Profit-Oriented Admission Control Framework for Database-as-a-Service Providers.</a> <pa>Pengcheng Xiong, Yun Chi, Shenghuo Zhu, Junichi Tatemura, Calton Pu, Hakan Hacigumus</pa> <pg></pg> 
+
+<li><pc>[OSDI '12]</pc> <a href="sum/osdi/12-megapipe.txt"> MegaPipe: A New Programming Interface for Scalable Network I/O.</a> <pa>Sangjin Han and Scott Marshall, Byung-Gon Chun, Sylvia Ratnasamy</pa> <pg></pg> 
+
+<li><pc>[SIGMOD '11]</pc> <a href="sum/sigmod/11-hadoopFacebook.txt"> Apache hadoop goes realtime at Facebook.</a> <pa>Dhruba Borthakur, Jonathan Gray, Joydeep Sen Sarma, Kannan Muthukkaruppan, Nicolas Spiegelberg, Hairong Kuang, Karthik Ranganathan, Dmytro Molkov, Aravind Menon, Samuel Rash, Rodrigo Schmidt, Amitanand S. Aiyer</pa> <pg></pg> 
+
+
+<li><pc>[Article '12]</pc> <a href="sum/article/12-DzoneBackPressure.txt"> Applying Back Pressure When Overloaded.</a> <pa>Martin Thompson, http://java.dzone.com/articles/applying-back-pressure-when</pa> <pg></pg> 
+
+
+
+
+<br><br><h2> MapReduce Theory / Algorithms </h2>
+
+
+<li><pc>[CoRR '12]</pc> <pt>Vision Paper: Towards an Understanding of the Limits of Map-Reduce Computation.</pt> <pa>Foto N. Afrati, Anish Das Sarma, Semih Salihoglu, Jeffrey D. Ullman</pa> <pg></pg>
+
+
+<li><pc>[VLDB '13]</pc> <pt>Upper and Lower Bounds on the Cost of a Map-Reduce Computation.</pt> <pa>Foto N. Afrati, Anish Das Sarma, Semih Salihoglu, Jeffrey D. Ullman</pa> <pg></pg>
+
+
+<li><pc>[Crossroads '12]</pc> <pt>Designing good MapReduce algorithms.</pt> <pa>Jeffrey D. Ullman</pa> <pg></pg>
+
+
+
+
+
+<br><br><h2> about cloud storage architecture, info only </h2>
+
+<li><pc>[SoCC '11]</pc> <a href="sum/socc/11-multiTier.txt"> An Efficient Multi-Tier Tablet Server Storage Architecture.</a> <pa>Richard P. Spillane, Pradeep J. Shetty, Erez Zadok, Sagar Dixit, Shrikar Archak</pa> <pg></pg> 
+
+<li><pc>[SoCC '11]</pc> <a href="sum/socc/11-ycsbpp.txt"> YCSB++: Benchmarking and Performance Debugging Advanced Features in Scalable Table Stores.</a> <pa>Swapnil Patil, Milo Polte, Kai Ren, Wittawat Tantisiriroj, Lin Xiao, Julio Lopez, Garth Gibson, Adam Fuchs and Billie Rinaldi</pa> <pg></pg> 
+
+
+
+<br><br><h2> OS solutions </h2>
+
+<li><pc>[SoCC '12]</pc> <a href="sum/socc/12-vector.txt"> Using Vector Interfaces to Deliver Millions of IOPS from a Networked Key-value Storage Server.</a> <pa>Vijay Vasudevan, Michael Kaminsky, David G. Andersen</pa> <pg></pg> 
+
+
+
+<br><br><h2> buffer cache management </h2>
+
+<li><pc>[FAST '05]</pc> <a href="sum/fast/05-dulo.txt"> DULO: An Effective Buffer Cache Management Scheme to Exploit Both Temporal and Spatial Localities.</a> <pa>Song Jiang, Xiaoning Ding, Feng Chen, Enhua Tan, Xiaodong Zhang</pa> <pg></pg> 
+
+
+<li><pc>[MASCOTS '11]</pc> <a href="sum/mascots/11-swimMapReduceWorkload.txt"> The Case for Evaluating MapReduce Performance Using Workload Suites.</a> <pa>Yanpei Chen, Archana Ganapathi, Rean Griffith and Randy H. Katz</pa> <pg></pg> 
+
+
+<li><pc>[VLDB '12]</pc> <a href="sum/vldb/12-predictiveBuffer.txt"> From Cooperative Scans to Predictive Buffer Management.</a> <pa>Michal Switakowski, Peter A. Boncz, Marcin Zukowski</pa> <pg></pg> 
+
+<li><pc>[VLDB '12]</pc> <a href="sum/vldb/12-studyMapReduceWorkloads.txt"> Interactive Analytical Processing in Big Data Systems: A Cross-Industry Study of MapReduce Workloads.</a> <pa>Yanpei Chen, Sara Alspaugh, Randy H. Katz</pa> <pg></pg> 
+
+<li><pc>[SIGMETRICS '12]</pc> <a href="sum/sigmetrics/12-bufferCacheMobile.txt"> What is a good buffer cache replacement scheme for mobile flash storage?.</a> <pa>Hyojun Kim, Moonkyung Ryu, Umakishore Ramachandran</pa> <pg></pg> 
+
+
+
+<li><pc>[SIGMETRICS '01]</pc> <a href="sum/sigmetrics/01-memoryMultimedia.txt"> A study of memory system performance of multimedia applications.</a> <pa>Sohum Sohoni, Rui Min, Zhiyong Xu, Yiming Hu</pa> <pg></pg> 
+
+
+<li><pc>[SIGMETRICS '02]</pc> <a href="sum/sigmetrics/02-lirs.txt"> LIRS: an efficient low inter-reference recency set replacement policy to improve buffer cache performance.</a> <pa>Song Jiang, Xiaodong Zhang</pa> <pg></pg> 
+
+
+<li><pc>[SIGMETRICS '05]</pc> <a href="sum/sigmetrics/05-kernelPrefetching.txt"> The performance impact of kernel prefetching on buffer cache replacement algorithms.</a> <pa>Ali Raza Butt, Chris Gniady, Y. Charlie Hu</pa> <pg></pg> 
+
+
+<li><pc>[SIGMETRICS '05]</pc> <a href="sum/sigmetrics/05-cacheCollaboration.txt"> Empirical evaluation of multi-level buffer cache collaboration for storage systems.</a> <pa>Zhifeng Chen, Yan Zhang, Yuanyuan Zhou, Heidi Scott, Berni Schiefer</pa> <pg></pg> 
+
+
+
+<br><br><h2> Error logging </h2>
+
+<li><pc>[OSDI '12]</pc> <a href="sum/osdi/12-errlog.txt"> Be Conservative: Enhancing Failure Diagnosis with Proactive Logging.</a> <pa>Ding Yuan, Soyeon Park, Peng Huang, Yang Liu, Michael M. Lee, Xiaoming Tang, Yuanyuan Zhou, Stefan Savage</pa> <pg></pg> 
+
+
+
+<br><br><h2> garbage collector </h2>
+
+<li><pc>[SoCC '11]</pc> <a href="sum/socc/11-mobilemillenium.txt"> Scaling the Mobile Millennium System in the Cloud.</a> <pa>Timothy Hunter, Teodor Moldovan, Matei Zaharia, Justin Ma, Samy Merzgui, Justin Ma, Michael Franklin, Pieter Abbeel, Alexandre Bayen</pa> <pg></pg> 
+
+
+
+<br><br><h2> bugs </h2>
+
+<li><pc>[SOSP '11]</pc> <a href="sum/sosp/11-scatter.txt"> Scalable Consistency in Scatter.</a> <pa>Lisa Glendenning, Ivan Beschastnikh, Arvind Krishnamurthy, Thomas Anderson</pa> <pg></pg> 
+
+
+<li><pc>[FAST '05]</pc> <a href="sum/fast/05-ioModelDrivenAnomaly.txt"> I/O System Performance Debugging Using Model-driven Anomaly Characterization.</a> <pa>Kai Shen, Ming Zhong, Chuanpeng Li</pa> <pg></pg> 
+
+
+<li><pc>[SOSP '05]</pc> <a href="sum/sosp/05-systemHistory.txt"> Capturing, indexing, clustering, retrieving system history.</a> <pa>Ira Cohen, Steve Zhang, Moises Goldszmidt, Julie Symons, Terence Kelly, Armando Fox</pa> <pg></pg> 
+
+
+
+<br><br><h2> Other related work </h2>
+
+<li><pc>[ASPLOS '12]</pc> <a href="sum/asplos/12-clearingCloud.txt"> Clearing the Clouds: A Study of Emerging Workloads on Modern Hardware.</a> <pa>Michael Ferdman, Almutaz Adileh, Onur Kocberber, Stavros Volos, Mohammad Alisafaee, Djordje Jevdjic, Cansu Kaynak, Adrian Popescu, Anastasia Ailamaki and Babak Falsafi</pa> <pg></pg> 
+
+
+<li><pc>[OSDI '12]</pc> <a href="sum/osdi/12-xray.txt"> X-ray: Automating Root-Cause Diagnosis of Performance Anomalies in Production Software.</a> <pa>Mona Attariyan, Michael Chow, Jason Flinn</pa> <pg></pg> 
+
+
+
+
+<br><br><h2> more motivation </h2>
+
+<li><pc>[HotOS '11]</pc> <a href="sum/hotos/11-diskSnowflakes.txt"> Disks Are Like Snowflakes: No Two Are Alike.</a> <pa>Elie Krevat, Joseph Tucek, Gregory R. Ganger</pa> <pg></pg> 
+
+
+
+<li><pc>[TR '12]</pc> <a href="sum/tr/12-stonybrook-amazonEc2Performance.txt"> Cloud Performance Benchmark Series.</a> <pa>Shripad J Nadgowda, Radu Sion</pa> <pg></pg> 
+
+
+<li><pc>[SIGMETRICS '12]</pc> <a href="sum/sigmetrics/12-memcacheFacebook.txt"> Workload analysis of a large-scale key-value store.</a> <pa>Berk Atikoglu, Yuehai Xu, Eitan Frachtenberg, Song Jiang, Mike Paleczny</pa> <pg></pg> 
+
+
+<li><pc>[SIGMOD '11]</pc> <a href="sum/sigmod/11-frequentConsistent.txt"> Fast checkpoint recovery algorithms for frequently consistent applications.</a> <pa>Tuan Cao, Marcos Antonio Vaz Salles, Benjamin Sowell, Yao Yue, Alan J. Demers, Johannes Gehrke, Walker M. White</pa> <pg></pg> 
+
+
+<li><pc>[SIGMOD '11]</pc> <a href="sum/sigmod/11-hadoopFacebook.txt"> Apache hadoop goes realtime at Facebook.</a> <pa>Dhruba Borthakur, Jonathan Gray, Joydeep Sen Sarma, Kannan Muthukkaruppan, Nicolas Spiegelberg, Hairong Kuang, Karthik Ranganathan, Dmytro Molkov, Aravind Menon, Samuel Rash, Rodrigo Schmidt, Amitanand S. Aiyer</pa> <pg></pg> 
+
+
+<li><pc>[SIGMOD '11]</pc> <a href="sum/sigmod/11-oracleDBFS.txt"> Oracle database filesystem.</a> <pa>Krishna Kunchithapadam, Wei Zhang, Amit Ganesh, Niloy Mukherjee</pa> <pg></pg> 
+
+<li><pc>[SIGMOD '09]</pc> <a href="sum/sigmod/09-flashLogging.txt"> FlashLogging: Exploiting Flash Devices for Synchronous Logging Performance.</a> <pa>Shimin Chen</pa> <pg></pg> 
+
+<li><pc>[VLDB '12]</pc> <a href="sum/vldb/12-logbase.txt"> LogBase: A Scalable Log-structured Database System in the Cloud.</a> <pa>Hoang Tam Vo, Sheng Wang, Divyakant Agrawal, Gang Chen, Beng Chin Ooi</pa> <pg></pg> 
+
+
+<li><pc>[ACMQueue '12]</pc> <a href="sum/acmqueue/12-diskLie.txt"> Disks lie. And the controllers that run them are partners in crime.</a> <pa>Marshall Kirk McKusick</pa> <pg></pg> 
+
+
+
+<li><pc>[Article '12]</pc> <a href="sum/article/12-antirezRedisPersistence.txt"> Redis persistence demystified.</a> <pa>http://oldblog.antirez.com/post/redis-persistence-demystified.html</pa> <pg></pg> 
+
+
+<li><pc>[Article '06]</pc> <a href="sum/article/06-amazonBandwidthNumber.txt"> Bandwidth Numbers.</a> <pa>https://forums.aws.amazon.com/thread.jspa?threadID=12750&start=15&tstart=0</pa> <pg></pg> 
+
+
+
+
+<li><pc>[Article '10]</pc> <a href="sum/article/10-NetworkWorldJitterCloud.txt"> Jitter and the Cloud, Latency variability is a significant issue.</a> <pa>Ted Ritter, http://www.networkworld.com/community/node/56034</pa> <pg></pg> 
+
+
+<li><pc>[Web '12]</pc> <a href="sum/web/12-CornellJitterTolerantCloud.txt"> Jitter-Tolerant Time-stepped Applications in the Cloud.</a> <pa>http://www.cs.cornell.edu/bigreddata/games/jitter.php</pa> <pg></pg> 
+
+
+<li><pc>[TR '10]</pc> <a href="sum/tr/10-hadoopJitter.txt"> HadoopJitter: The Ghost in the Cloud and How to Tame It.</a> <pa>Vivek Kale, Jayanta Mukherjee, Indranil Gupta, William Gropp</pa> <pg></pg> 
+
+
+
+<li><pc>[Article '12]</pc> <a href="sum/article/12-foursquareStabilityChaos.txt"> Stability in the midst of chaos.</a> <pa>Jon Hoffman, http://engineering.foursquare.com/2012/06/20/stability-in-the-midst-of-chaos</pa> <pg></pg> 
+
+
+<li><pc>[Article '13]</pc> <a href="sum/article/13-cnnFacebookKillInternet.txt"> How Facebook killed the Internet.</a> <pa>Christina Warren, http://www.cnn.com/2013/02/08/tech/social-media/facebook-killed-internet</pa> <pg></pg> 
+
+
+<li><pc>[Article '12]</pc> <a href="sum/article/12-awsDegradedHwStuck.txt"> EC2 instance on degraded hardware stuck in ``stopping'' state.</a> <pa>https://forums.aws.amazon.com/thread.jspa?messageID=410432</pa> <pg></pg> 
+
+
+<li><pc>[Article '11]</pc> <a href="sum/article/11-dzoneDegradedInstance.txt"> Degraded Amazon EC2 Instance.</a> <pa>Craig Dickson, http://cloud.dzone.com/news/degraded-amazon-ec2-instance</pa> <pg></pg> 
+
+
+<li><pc>[Article '11]</pc> <a href="sum/article/11-alesticReplaceInstanceHw.txt"> A Simpler Way To Replace Instance Hardware on EC2 .</a> <pa>Eric Hammond, http://alestic.com/2011/02/ec2-move-hardware</pa> <pg></pg> 
+
+
+
+<br><br><h2> Limpcore / Thermal Management </h2>
+
+<li><pc>[ISPLED '07]</pc> <pt>Thermal-aware Task Scheduling at the System Software Level.</pt> <pa>...</pa> <pg></pg>
+
+
+<li> also see Margaret Martonosi and David Brooks
+
+
+
+<li> See /2/2011a-BUGS-LOGS-STUDY/docs/09-19-limping-hardware
+
+<br><br><h2> tools </h2>
+
+<li> http://wala.sourceforge.net/wiki/index.php/Main_Page
+<li> http://vmkit.llvm.org/
+
+<br><br><h2> misc </h2>
+
+<li> ..
+
+<li><pc>[OOPSLA '11]</pc> <pt>Catch Me If You Can: Performance Bug Detection in the Wild.</pt> <pa>Milan Jovic, Andrea Adamoli, Matthias Hauswirth</pa> <pg></pg>
+
+
+
+<br><br><h2> Reading List/Todo </h2>
+
+<li> read/watch: linux file system in the cloud
+
+<li> remzi: now-sort, performance assertion checking, river tocs
+
+
+<li> The Tail at Scale
+
+<li> hadoop jitter
+<li> hadoop fast
+<li> fast 2013 papers ...
+<li> interference 
+<li> 
+<li> 
+<li> 
+<li> 
+<li> 
+<li> 
+<li> 
+<li> 
+<li> 
+<li> 
+<li> 
+<li> 
+<li> 
+<li> 
+<li> 
+<li> 
+<li> 
+<li> 
+<li> 
+<li> 
+

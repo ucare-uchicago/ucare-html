@@ -1,0 +1,9 @@
+
+order deny,allow
+deny from all
+allow from .uchicago.edu
+allow from hsd1.il.comcast.net
+
+
+ErrorDocument 403 "ERROR 403: This folder can only be accessed within the campus network (uchicago.edu domain).  If you are outside the campus, please use uchicago Cisco VPN application."
+

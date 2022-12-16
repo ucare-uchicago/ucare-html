@@ -1,0 +1,3065 @@
+<html>
+ <head>
+  <meta>
+  <link rel=StyleSheet href=coffee.css type=text/css>
+ </head>
+ <body>
+ <table>
+<colgroup>
+<col span="1" style="width: 5%;"><col span="1" style="width: 10%;"><col span="1" style="width: 28%;"><col span="1" style="width: 20%;"></colgroup>
+    <thead>
+    <tr>
+     <td>Sort Key</td>
+     <td>Title</td>
+     <td>Desc</td>
+     <td>MoreInfo</td>
+     <td>HG comment</td>
+    </tr>
+    </thead>
+   <tbody>
+    <tr class=noshade>
+     <td><b>01-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="check.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4842"><font size=+1><b>mr-4842</b></font>: Shuffle race can hang reducer (1)</a></td>
+     <td> In an instance the shuffle caused multiple reducers in a job to hang,
+    where the fetchers were all being told to WAIT by the MergeManager but no 
+    merge was taking place. 
+    
+<p><b>Students:</b> <p> Sequence of events:
+    
+<p> Initial workload: Any workload, but the cluster needs to support fast fetching
+    and slow merging. (I think this bug should be hard to reproduce.)
+    
+<p> 1. Fetchers start fetching<br>
+    2. Fetchers fetches enough data in memory and call closeInMemoryFile method when exits.
+    This method will start a merge (if there isn't a merge yet).<br>
+    3. Merge takes place and some memory is freed, thus more fetchers are launched.<br>
+    4. All fetchers are complete while previous merge is still running. No fetcher can be launched
+    because there is too much data in the memory<br>
+    5. Previous merge finishes. Though there is enough data for next merge, no closeInMemoryFile method
+    is called thus there is never a next merge.
+    
+<p> Termination point: Reducer hangs during merge.
+    
+<p> Code: MSR-0C-0R
+    
+<p> Ver: 2.0.3-alpha, 0.23.6 
+    
+<p> (mz) If the reducers hang because MergeManager tells
+    them to wait, then speculative reducers are also 
+    possible to be told to wait, thus forming a limplock.	
+<p> (td) hang, race, not limplock.
+</td>
+     <td><p><b>Types:</b> d, over, ig, sync-sem, algorithm<p><b>Comp:</b>  MSR, Shuffler, Fetcher
+    
+<p><b>Fault:</b>  operation reorder
+    
+<p><b>Spec:</b>  Condition for merge should keep being checked even when there is no fetcher.
+    
+<p><b>Fix:</b>  Patch.
+    
+<p><b>Cat:</b>  08
+    
+</td>
+     <td><p> Someone says "great catch!". Very deep. Poster bug.
+</td>
+    </tr>
+    <tr class=noshade>
+     <td><b>01-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-2646"><font size=+1><b>mr-2646</b></font>: MR-279: AM with same sized maps and reduces hangs in presence of failing maps (2)</a></td>
+     <td> Currently AM can assign a container given by RM 
+    to any map or reduce. However RM allocates for a particular
+    priority. This leads to AM and RM data structures going out of sync.
+    
+<p><b>Students:</b> <p> Ver: 0.23.0
+    
+<p> (mz)I am not clear about this. Thanh, could you take a look?
+<p> (td) not interesting
+<p> (td) qos: seems not related
+</td>
+     <td><p><b>Types:</b> d, sync-dif, cond<p><b>Comp:</b>  AM, RM
+    
+<p><b>Fault:</b>  AM and RM out of sync
+    
+<p><b>Spec:</b>  AM and RM container allocation should be sync
+    
+<p><b>Fix:</b>  Patch
+    
+<p><b>Cat:</b>  03
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>01-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-2953"><font size=+1><b>mr-2953</b></font>: JobClient fails due to a race in RM, removes staged files and in turn crashes MR AM (3)</a></td>
+     <td> The client crashes due to a race in RM. Because the client 
+    fails, it immediately removes the staged files which in turn makes 
+    the MR AM itself to crash due to failed localization on the NM.
+<p><b>Students:</b> <p> Scenario:
+    1. Client request a job to RM.
+    2. RM delegate the job to an AM
+    3. While AM is working on the job, RM somehow removes the staged 
+    files (due to data race) from its list.
+    4. AM try to submit its job to RM, but then fail because the staged
+    files didn't exist anymore.
+    3. Client asks for the result to RM, but it is null, so it 
+    fails too.
+    
+<p> Ver: 0.23.0
+    
+<p> </td>
+     <td><p><b>Types:</b> d, unex-uninit, algorithm<p><b>Comp:</b>  RM, client
+    
+<p><b>Fault:</b>  event reorder
+    
+<p><b>Spec:</b>  synchronize the application status between RMAppManager and 
+    ClientRMService
+    
+<p><b>Fix:</b>  Patch
+    
+<p><b>Cat:</b>  04
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>01-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3006"><font size=+1><b>mr-3006</b></font>: MapReduce AM exits prematurely before completely writing and closing the JobHistory file (4)</a></td>
+     <td> The job is finishing prematurely before the JobHistory is written.
+    The job ran successfully but the history was not available.
+    
+<p><b>Students:</b> <p> Sequence of events:
+    
+<p> Initial workload: Sleep job, 100k tasks on a 350 node cluster.<br>
+    1. JobHistoryEventHandler is draining the events and writing the history<br>
+    2. Before JobHistoryEventHandler exits, AM successfully unregister 
+    from RM
+    
+<p> Termination point: when the job finishes.
+    
+<p> Code: AM-0C-0R
+    
+<p> Ver: 0.23.0
+    
+</td>
+     <td><p><b>Types:</b> d, atom-ww, algorithm<p><b>Fault:</b>  event reorder
+    
+<p><b>Spec:</b>  The order of starting/stopping of RMContainerAllocator and JobHistoryEventHandler should be reverted.
+    
+<p><b>Fix:</b>  Patch
+    
+<p><b>Cat:</b>  01
+    
+</td>
+     <td><p> Looks simple, but corner case.
+    unused conf variable(ContainerLauncherRouter needs to implement
+    stop to stop the actual ContainerLauncher)
+</td>
+    </tr>
+    <tr class=shade>
+     <td><b>01-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3031"><font size=+1><b>mr-3031</b></font>: Job Client goes into infinite loop when we kill AM (5)</a></td>
+     <td> Started a cluster. Submitted a sleep job with around 10000 
+    maps and 1000 reduces. Killed AM with kill -9 by which time 
+    already 7000 thousands maps got completed. On the RM webUI, 
+    Application is stuck in Application.RUNNING state. And JobClient 
+    goes into an infinite loop as RM keeps telling the client that the 
+    application is running.
+    
+<p><b>Students:</b> <p> Scenario:<br>
+    1. RM delegate jobs to AM<br>
+    2. AM distribute the job tasks.<br>
+    3. AM is killed manually<br>
+    4. In RM, AM job/application is still in RUNNING state<br>
+    5. When JobClient asks the RM, whether the job is done or not, RM
+    will infinitely say that the job is still running.
+    
+<p> Code: AM-1C-0R
+    
+<p> Ver: 0.23.0
+    
+<p> (td) eh: unexpected failure, incorrect error code
+    
+</td>
+     <td><p><b>Types:</b> d, fault-crash, sync-dif, algorithm<p><b>Comp:</b>  JobClient, RM, AM
+    
+<p><b>Fault:</b>  event reorder, error handling, invalid data
+    
+<p><b>Spec:</b>  RM should fail the container if an AM is killed manually / 
+    could be contacted anymore.
+    
+<p><b>Fix:</b>  Patch
+    
+<p><b>Cat:</b>  03
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>01-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3228"><font size=+1><b>mr-3228</b></font>: MR AM hangs when one node goes bad (6)</a></td>
+     <td> One of the nodes went real bad, the job had three containers
+    running on the node. Eventually, AM marked the tasks as timeout
+    and initiated cleanup of the failed containers via
+    stopContainer(). The later got stuck at the faulty node, the tasks
+    are stuck in FAIL_CONTAINER_CLEANUP stage and the job lies in
+    there waiting for ever.
+    
+<p><b>Students:</b> <p> Scenario:<br>
+    1. AM distribute the task to many nodes<br>
+    2. 1 node experience a fault (has 3 container for the task)<br>
+    3. AM cancel the task, but the faulty node still keep the 3 containers,
+    so that AM will wait forever to cancel the task.
+    
+<p> Ver: 0.23.0
+    
+<p> (td) yes, this is a case of missing timeout, or a timeout miss
+    match.  There are two level here: 1) is IPC layer, and 2)
+    application layer. The IPC may have its own timeout mechanism (40
+    retry, 15'). But sometime it is just too long. So the application
+    in this case implement its own timeout I guess.
+<p> <bf>Tax:</bf> Absent recovery
+<p> </td>
+     <td><p><b>Types:</b> d, ig, wait-fail, fault-crash, algorithm<p><b>Comp:</b>  AM
+    
+ MRv2
+<p><b>Fault:</b>  event reorder, fault tolerance.
+    
+<p><b>Spec:</b>  AM should timeout the cleanup process.
+    
+<p><b>Fix:</b>  Patch
+    
+ Adding timers for both startContainer() and stopContainer()
+    so that MR AM doesn't get stuck on faulty nodes.
+<p><b>Cat:</b>  06
+</td>
+     <td><p> (hg) Issue is new component has a new failure model.  AM must be
+      tail-tolerance also. (new component). In the previous case, AM
+      is just a job tracker which is a centralized component and
+      expected to be a no-failure case. But AM now can exhibit a failure, and
+      all interactions to the AM must have limp tolerance.
+     
+<p> I boost this to a high priority, because an interesting tool
+      should be: hey look here's a new failure mode in AM, now the
+      tool can parse the code and find all points of interactions with
+      AM that are limp intolerance. Also relate to mr-5124.
+<p> To me this issue is not just a timeout, because why the heck a
+      task can be in stuck mode? that's a violation of tail-tolerant
+      system.  so can we say the specx/recovery doesn't deal with tail
+      during the container_cleanup phase? (i.e. can we conclude there
+      are lots of phases in mapreduce where tail-tolerance should
+      exist? not just in the main compute task, but also in the AM).
+      if so, this is a good bug.
+</td>
+    </tr>
+    <tr class=noshade>
+     <td><b>01-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3274"><font size=+1><b>mr-3274</b></font>: Race condition in MR App Master Preemtion can cause a dead lock (7)</a></td>
+     <td> There appears to be a race condition in the MR App Master 
+    in relation to preempting reducers where reducers' resource is 
+    not released.
+    
+<p><b>Students:</b> <p> Scenario:<br>
+    1. a reducer was selected for preemption, but the reducer has no container yet<br>
+    2. container became available and reducer started running, previous 
+    TA_KILL event appears to have been ignored.
+    
+<p> Sequence of event:
+    
+<p> Initial workload: any workload<br>
+    1. Reduce task doesn't get any container, and will not register with TaskAttemptListener
+    because registration happens only after the container launches.<br>
+    2. AM sends TA_KILL to the reduce task, trying to preempt it for map task.<br>
+    3. Since TaskAttemptListener is not registered, the TA_KILL is ignored.<br>
+    4. Reduce task gets the container and keeps running.
+    
+<p> Termination point: When specified reduce task ignores TA_KILL and starts running.
+<p> Code: AM-0C-0R
+    
+<p> Ver: 0.23.0, 0.24.0 
+    
+</td>
+     <td><p><b>Types:</b> d, ig, order-local, st, algorithm<p><b>Comp:</b>  MSR, AM
+    
+<p><b>Fault:</b>  event reorder
+    
+<p><b>Spec:</b>  TaskAttempt should register with TaskAttemptListener even before the container is launched.
+    
+<p><b>Fix:</b>  Patch
+    
+<p><b>Cat:</b>  02
+</td>
+     <td><p> Looks simple enough.
+</td>
+    </tr>
+    <tr class=noshade>
+     <td><b>01-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3339"><font size=+1><b>mr-3339</b></font>: Job is getting hanged indefinitely,if the child processes are killed on the NM.  KILL_CONTAINER eventtype is continuosly sent to the containers that are not existing (8)</a></td>
+     <td> Have only one NM. Submit a big job and continuosly kill the child 
+    processes on that NM. After some time NM will stop respawning the 
+    child proceeses and the job is also hanged.<br><br>
+    Only one running NM. Submit a big job, and all the child
+    process got killed continously. After some time, NM stop
+    respawning the child processes and the job is also hanged.  The AM
+    keeps getting allocated containers on a single node - since the
+    node has already been blacklisted for previous failures, it
+    releases these containers and just keeps running.
+    The solution is to disable node blacklisting and re-enable it if
+    the AM becomesaware of additional host.
+    
+<p><b>Students:</b> <p> Scenario:<br>
+    1. AM has blacklisted certain nodes.<br>
+    2. RM keep providing container to the blacklisted node.
+    
+<p> Ver: 0.23.1
+<p> Code: NM-1C-1R
+<p> (td) not interesting. 1 Node manager, so if you kill all tasks
+    running on that node, the node is blacklisted.
+</td>
+     <td><p><b>Types:</b> d, sync-dif, fault-reboot, algorithm<p><b>Comp:</b>  mrv2, AM, RM, NM
+    
+<p><b>Fault:</b>  out of sync between RM and AM
+    
+<p><b>Spec:</b>  disable blacklisting if there is only one NM
+    
+<p><b>Fix:</b>  Patch
+    
+<p><b>Cat:</b>  03
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>01-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3596"><font size=+1><b>mr-3596</b></font>: Sort benchmark got hang after completion of 99% map phase (9)</a></td>
+     <td> Ran sort benchmark couple of times and every time the job
+    got hang after completion 99% map phase. There are some map tasks
+    failed. Also it's not scheduled some of the pending maptasks.
+    
+<p><b>Students:</b> <p> 1. AM calls a startContainer <br> 2. NM receives this, starts
+    processing but takes about 1minutes20 seconds to finish processing
+    it. <br> 3. Meanwhile, the AM times out the call after 1 minute -
+    and sends a release container to the RM <br> 4. RM ends up
+    removing references to the container <br> 5. The NM sends a
+    containerStarted event to the RM - which ends up causing the NPE.
+    
+<p> Code: RM-?C-0R
+        
+<p> Ver: 0.23.1 
+<p> if the AM release event had gone out after the NM
+    containerStarted, things would've been handled.
+<p> (td) bad booking, missing checking condition lead to the problem.
+    One interesting thing is to find out why (2) takes 1'20s to finish.
+<p> (td) leaning towards not including, but not really 100% sure.
+<p> (td) deadlock. Not including.
+</td>
+     <td><p><b>Types:</b> d, wait, unex-dang, algorithm<p><b>Comp:</b>  Application Master
+<p><b>Fault:</b>  event reorder
+        
+ slow RPC
+    
+<p><b>Spec:</b>  RM should gracefully handle containerStarted from NM for a release container
+        
+<p><b>Fix:</b>  Patch
+        
+<p><b>Cat:</b>  04
+</td>
+     <td><p> Seems hard. Need to manipulate the 1-minute timeout.
+</td>
+    </tr>
+    <tr class=shade>
+     <td><b>01-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3656"><font size=+1><b>mr-3656</b></font>: Sort job on 350 scale is consistently failing with latest MRV2 code  (10)</a></td>
+     <td> Sort Job on 350 node scale with 16800 maps and 680 reduces
+    consistently failing for around last 6 runs When around 50% of
+    maps are completed, suddenly job jumps to failed state.<br><br>
+    Race - exposed by a slow NM startContainer request.  In this case-
+    the startContainer call from the NM was processed, the container
+    was launched, but startContainer took time to return on the AM.
+    The launched container gets a task - and starts sending status
+    updates - for a task which the AM considers to be not launched.
+    The patch is waiting for the AM CONTAINER_LAUNCHED event to be
+    processed before assigning a task to the JVM
+<p><b>Students:</b> <p> (td) not interesting.
+    
+<p> Ver: 0.23.1
+    
+</td>
+     <td><p><b>Types:</b> d, net, sync-dif, algorithm<p><b>Comp:</b>  AM, NM, RM
+    
+<p><b>Fault:</b>  job is queued too long, transition failure
+    
+<p><b>Spec:</b>  able to cancel long processing event, even before the event
+    has been executed
+    
+<p><b>Cat:</b>  03
+</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>01-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3858"><font size=+1><b>mr-3858</b></font>: Task attempt failure during commit results in task never completing (11)</a></td>
+     <td> On a terasort job a task attempt failed during the commit 
+    phase. Another attempt was rescheduled, but when it tried to commit 
+    it failed. The job hung as new attempts kept getting scheduled only 
+    to fail during commit.
+    
+<p><b>Students:</b> <p> Scenario:<br>
+    1. a node work on a job, report it, but fail to commit to AM<br>
+    2. AM state for the job has changed for the fail to commit job<br>
+    3. when the node retry the job and try to commit again, AM will
+    always ignore it, because of the job state change.
+    
+<p> Ver: 0.23.1
+    
+<p> (jf) similar to mr-4425
+</td>
+     <td><p><b>Types:</b> d, sync-sem, ig, algorithm<p><b>Comp:</b>  AM
+    
+<p><b>Fault:</b>  failure tolerance
+    
+<p><b>Spec:</b>  receive the successfull recommit file
+    
+<p><b>Cat:</b>  03
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>01-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4099"><font size=+1><b>mr-4099</b></font>: ApplicationMaster may fail to remove staging directory (12)</a></td>
+     <td> ApplicationMaster may fail to remove staging directory when trying to
+    shutdown. 
+    
+<p><b>Students:</b> <p> Scenario:<br>
+    1. During shutdown the AM tells the ResourceManager that
+    it has finished before it cleans up the staging directory. <br>
+    2. upon hearing the AM has finished, the RM turns right around and kills the AM container.<br>
+    3. AM is too slow and gets killed before the staging directory is removed.
+    
+<p> Sequence of events:    
+    
+<p> Initial workload: Any workload that requires AM to do cleanup (has a large output etc).
+    
+<p> 1. AM finishes the job <br>
+    2. AM sends UNREGISTER to RM <br>
+    3. AM starts to cleanup <br>
+    4. RM receives the UNREGISTER and sends KILL to AM <br>
+    5. AM receives the KILL before finishing cleanup <br>
+    6. AM kills itself and leaves deprecated data in the disk, leading to filesystem quota issues
+    
+<p> Termination point: When AM gets killed and workload finishes
+    
+<p> Code: AM-0C-0R
+    
+<p> Ver: 0.23.3, 2.0.2-alpha 
+    
+</td>
+     <td><p><b>Types:</b> d, atom-ww, algorithm<p><b>Comp:</b>  AM, RM
+<p><b>Fault:</b>  event reorder
+    
+<p><b>Spec:</b>  AM should finishes cleanup before notifying RM about its finish.
+    
+<p><b>Fix:</b>  Patch
+    
+<p><b>Cat:</b>  01
+</td>
+     <td><p> Mention of "race", which is good. "great catch".
+      Happens a lot of time.
+      Quite simple.
+<p> No crash though.
+</td>
+    </tr>
+    <tr class=noshade>
+     <td><b>01-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4157"><font size=+1><b>mr-4157</b></font>: ResourceManager should not kill apps that are well behaved (13)</a></td>
+     <td> Currently when the ApplicationMaster unregisters with the ResourceManager, 
+    the RM kills (via the NMs) all the active containers for an application. 
+    This introduces a race where the AM may be trying to clean up and may not 
+    finish before it is killed. The RM should give the AM a chance to exit 
+    cleanly on its own rather than always race with a pending kill on shutdown.
+    
+<p><b>Students:</b> <p> Sequence of events:
+    
+<p> Initial workload: any workload <br>
+    1. AM finishes the job and unregisters with the ResourceManager <br>
+    2. AM starts to clean up <br>
+    3. RM thinks AM has finished everything, so RM sends a KILL to AM <br>
+    4. AM receives KILL before finishing cleanup
+    
+<p> Termination point: workload finishes, but deprecated files remain on disk
+    
+<p> Code: AM-0C-0R
+    
+<p> Ver: 3.0.0, 2.0.2-alpha 
+    
+</td>
+     <td><p><b>Types:</b> d, atom-ww, algorithm<p><b>Comp:</b>  AM, RM
+    
+<p><b>Fault:</b>  operation reorder
+    
+<p><b>Spec:</b>  AM has a FINISHING state where RM waits for its cleanup to end
+    
+<p><b>Fix:</b>  Patch
+    
+<p><b>Cat:</b>  01
+</td>
+     <td><p> Quite simple. Fix is simple. Very simple race.
+<p> No crash.
+</td>
+    </tr>
+    <tr class=noshade>
+     <td><b>01-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4252"><font size=+1><b>mr-4252</b></font>: MR2 job never completes with 1 pending task (14)</a></td>
+     <td> A teragen with 1000 map tasks. Many task attempts failed, 
+    but after 999 of the tasks had completed, the job is now sitting
+    forever with 1 task "pending".
+    
+<p><b>Students:</b> <p> Scenario:<br>
+    1. A task attempt is started.<br>
+    2. A speculative task attempt for the same task is started.<br>
+    3. The speculative task attempt completes and causes the task to transition to SUCCEEDED.<br>
+    4. The initial task attempt fails and causes the task to transition to SCHEDULED.
+    
+<p> Sequence of events:
+    
+<p> initial workload: any workload<br>
+    1. For one task, original attempt starts<br>
+    2. speculative attempt starts<br>
+    3. speculative attempt succeeds and the task is SUCCEEDED<br>
+    4. any of following event happens:<br>
+    FailedTransition - when a task attempt fails<br>
+    DeallocateContainerTransition - when a task attempt goes from assigned/unassigned to killed/failed<br>
+    TooManyFetchFailureTransition - when a reducer fails to get the map output<br>
+    5. any of above event happens and task goes to SCHEDULED state
+    
+<p> Termination point: job hangs with one pending task
+    
+<p> Code: SpecX-1C-0R
+    
+<p> Ver: 0.23.3, 2.0.2-alpha 
+    
+</td>
+     <td><p><b>Types:</b> d, order-message, st, cond<p><b>Comp:</b>  SpecX
+    
+<p><b>Fault:</b>  event reorder
+    
+<p><b>Spec:</b>  task attempt failures should not override a previously successful task attempt
+    
+<p><b>Fix:</b>  Patch
+    
+<p><b>Cat:</b>  02
+</td>
+     <td><p> Nice bug. Succeed job become scheduled/failed bug.  
+      Also found when lots of tasks become small. Can be simulated.
+<p> Similar to mr-4748.
+</td>
+    </tr>
+    <tr class=noshade>
+     <td><b>01-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4299"><font size=+1><b>mr-4299</b></font>: Terasort hangs with MR2 FifoScheduler (15)</a></td>
+     <td> FifoScheduler always sets the application headroom to be the 
+    entire set of cluster resources, without taking into account any 
+    containers that have been assigned. In some cases, like the terasort 
+    case mentioned in the JIRA, this leads to the reducer tasks using 
+    all the cluster resources before the map tasks have finished, 
+    resulting in deadlock.
+    
+<p><b>Students:</b> <p> (jf) RM assign resource which is over the node capacity 
+    (miss-calculation), causing the assigned node to hang.
+    
+</td>
+     <td><p><b>Types:</b> d, over, algorithm<p><b>Comp:</b>  RM, NM
+    
+<p><b>Cat:</b>  05
+</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>01-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4425"><font size=+1><b>mr-4425</b></font>: Speculation + Fetch failures can lead to a hung job (16)</a></td>
+     <td> After a task goes to SUCCEEDED, FAILED/KILLED attempts are
+    ignored. 
+    
+<p><b>Students:</b> <p> Scenario:<br>
+    1. attempt1 starts<br>
+    2. speculative attempt starts<br>
+    3. attempt 1 completes - Task moves to SUCCEEDED state<br>
+    4. speculative attempt is KILLED<br>
+    5. T_ATTEMPT_KILLED is ignored.<br>
+    6. attempt 1 fails with TOO_MANY_FETCH_FAILURES. 
+    The job will effectively hang, since a new task attempt isn't
+    started.
+    
+<p> Sequence of events:
+    
+<p> Initial workload: Any workload that triggers speculative excution.
+    
+<p> 1. for any map task, original attempt starts<br>
+    2. original attempt is slow, speculative attempt starts<br>
+    3. original attempt completes and Task's internal State is SUCCEEDED<br>
+    4. task sends KILL to the speculative attempt<br>
+    5. The KILL signal is ignored for some reason (delayed/dropped/etc)<br>
+    6. speculative attempt fails with TOO_MANY_FETCH_FAILURES<br>
+    7. since Task's internal state is SUCCEDDED, a new attempt will not be launched
+    for failed speculative attempt(since no need to do same work twice)<br>
+    8. However, the uncompleted attempt is still 1 - the speculative attempt since failed
+    attempt doesn't decrease the uncompleted attempt counter.
+    
+<p> Termination point: the task hangs and job hangs.
+    
+<p> Code: SpecX-2C-0R
+        
+<p> Ver: 3.0.0, 2.0.3-alpha, 0.23.5 
+    
+<p> (td) Root cause: This is similar to the KILL_WAIT hang reported in
+    MAPREDUCE-4751 because it's caused by <b> incorrect bookkeeping
+    </b> in TaskImpl. Since it ignores attempts completing after the
+    task succeeds, it incorrectly thinks it has uncompleted attempts
+    running after a fetch failure and therefore doesn't launch a new
+    attempt.
+<p> (td) not interesting, this is hard to model anyway.
+</td>
+     <td><p><b>Types:</b> d, ig, sync-sem, cond<p><b>Comp:</b>  SpecX
+<p><b>Fault:</b>  event reorder
+        
+<p><b>Spec:</b>  failed attempt should minus the uncompleted attempt counter by 1 if Task's internal state
+    is already SUCCEEDED
+    
+<p><b>Fix:</b>  Patch
+        
+<p><b>Cat:</b>  03
+</td>
+     <td><p> Simple enough for MC bugs.
+<p> Similar to mr-4748.
+      
+</td>
+    </tr>
+    <tr class=shade>
+     <td><b>01-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4437"><font size=+1><b>mr-4437</b></font>: Race in MR ApplicationMaster can cause reducers to never be scheduled (17)</a></td>
+     <td> If the MR AM is notified of container completion by the RM 
+    before the AM receives notification of the container cleanup from
+    the NM then it can fail to schedule reducers indefinitely.
+    
+<p><b>Students:</b> <p> Sequence of events:
+    
+<p> Initial workload: Job with 20 map tasks<br>
+    1. AM gets 20 containers to run 20 map tasks<br>
+    2. 18 of 20 map tasks are complete, so 18 containers are fully processed by AM<br>
+    3. RM notifies the AM of all 20 containers having completed<br>
+    4. AM recalculate the reducer schedule. Since 2 map tasks are still running
+    (not reaching slow start threshold), AM thinks it should not schedule ant reduce task<br>
+    5. all map tasks are done, and AM is waiting for container complete event from RM to
+    recalculate reducer scheduler.<br>
+    6. No event from RM comes, thus the AM will perpetually mistakenly think it should not schedule any reducers, and the job hangs.
+    
+<p> Termination point: job hangs
+    
+<p> Code: AM-0C-0R
+    
+<p> Ver: 0.23.3, 2.0.2-alpha 
+    
+<p> (td) race condition lead to incorrect bookeeping. Hence reducers
+    never get scheduled. Not sure if we should target this kind of bug
+    or not.
+</td>
+     <td><p><b>Types:</b> d, wait, sys-sem, algorithm<p><b>Comp:</b>  AM, RM
+    
+<p><b>Fault:</b>  event reorder
+    
+<p><b>Spec:</b>  Should recalculate the reduce schedule if the number of completed tasks in the job changes
+    
+<p><b>Fix:</b>  Patch
+    
+<p><b>Cat:</b>  03
+</td>
+     <td><p> Simple enough. No crash.
+</td>
+    </tr>
+    <tr class=shade>
+     <td><b>01-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4457"><font size=+1><b>mr-4457</b></font>: mr job invalid transition TA_TOO_MANY_FETCH_FAILURE at FAILED (18)</a></td>
+     <td> Similar with MAPREDUCE-5409. Before job fails, many fetch failure happens
+    and events are sent, but arrive after the job gets into FAILED state and an invalid 
+    transition happens.
+    When job receives TA_TOO_MANY_FETCH_FAILURE event for the first
+    time, it will mark map task as FAILED, which is a state for map tasks,
+    and if another TA_TOO_MANY_FETCH_FAILURE event comes which the state 
+    is still FAILED(before map task is restarted?), the job will fail.
+    <p> (from dev) The only scenario in which I can see this
+    happening is a derivative of the following. Assume we have a
+    single map task, and 6 reduce tasks. All six reduce tasks try to
+    fetch from the map task at almost exactly the same time. They all
+    fail and report back that they failed. After the first three
+    report back the failure percent of running tasks is now exactly
+    50%, and is 3 or more, so the TA_TOO_MANY_FETCH_FAILURE event is
+    sent and the state is reset. The next three reducer fetch failures
+    are processed and we now have 3 failures which again is exactly
+    50%, and 3 or more total failures resulting in another
+    TA_TOO_MANY_FETCH_FAILURE event being sent.
+    
+<p><b>Students:</b> <p> (td) eh: unexpected failure, msg reorder
+<p> Ths fix in mr-5358??
+<p> Code: JOB-?C-0R
+    
+<p> Ver:  0.23.3, 2.0.2-alpha 
+    
+<p> (mz) This is very likely to happen when limpware happens.
+    
+<p> (td) I think what mz means by "likely to happen when limpware
+    happens" is "too many fetch failures event". Not interesting.
+    
+<p> (jf) First writing changes state. Second writing is assumed as error.
+</td>
+     <td><p><b>Types:</b> d, order-message, st, cond<p><b>Comp:</b>  Job
+    
+<p><b>Fault:</b>  msg reorder
+    
+<p><b>Spec:</b>  N/A
+    
+<p><b>Fix:</b>  patch
+    
+<p><b>Cat:</b>  02
+</td>
+     <td><p> Must emulate fetch failures (bad).
+<p> Similar to mr-4748.
+</td>
+    </tr>
+    <tr class=noshade>
+     <td><b>01-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4637"><font size=+1><b>mr-4637</b></font>: Killing an unassigned task attempt causes the job to fail (19)</a></td>
+     <td> Attempting to kill a task attempt that has been scheduled
+    but is not running causes an invalid state transition and the AM
+    to stop with an error.
+    
+<p><b>Students:</b> <p> (td) eh: unexpected failure (event reorder)
+<p> Sequence of events:
+    
+<p> Initial workload: any workload<br>
+    1. task attempt is scheduled<br>
+    2. when task attempt is still UNASSIGNED, client sends a kill to the attempt using killTaskAttempt() method<br>
+    3. killTaskAttempt() will send TaskAttemptDiagnosticsUpdateEvent to the task attempt<br>
+    4. task attempt can not handle TaskAttemptDiagnosticsUpdateEvent in UNASSIGNED state and fails<br>
+    5. AM stops
+    
+<p> Termination point: AM stops and workload fails
+    
+<p> Code: AM-0C-0R
+    
+<p> Ver: 2.0.3-alpha, 0.23.7 
+    
+</td>
+     <td><p><b>Types:</b> d, order-local, st, cond<p><b>Comp:</b>  AM
+    
+<p><b>Fault:</b>  event reorder
+    
+<p><b>Spec:</b>  Should allow a TaskAttemptDiagnosticsUpdateEvent in the UNASSIGNED state
+    
+<p><b>Fix:</b>  Patch
+    
+<p><b>Cat:</b>  02
+</td>
+     <td><p> Looks simple.
+</td>
+    </tr>
+    <tr class=noshade>
+     <td><b>01-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4751"><font size=+1><b>mr-4751</b></font>: AM stuck in KILL_WAIT for days (20)</a></td>
+     <td> We found some jobs were stuck in KILL_WAIT for days on end. 
+    The RM shows them as RUNNING. When you go to the AM, it shows it in 
+    the KILL_WAIT state, and a few maps running. All these maps were 
+    scheduled on nodes which are now in the RM's Lost nodes list. The 
+    running maps are in the FAIL_CONTAINER_CLEANUP state
+    
+<p><b>Students:</b> <p> Scenario:<br>
+    1. A job is running, and RM send it the KILL signal.<br> 
+    2. The job transitions from RUNNING to KILL_WAIT.
+    The task transitions from RUNNING to KILL_WAIT. <br>
+    3. However, some task attempts may be in COMMIT_PENDING state. 
+    If the TA_DONE event is queued in the event queue before the 
+    TA_KILL event, then the task attempt is transitioned from 
+    COMMIT_PENDING to SUCCESS_CONTAINER_CLEANUP (which we would think 
+    should've transitioned to KILL_CONTAINER_CLEANUP, because hey, we 
+    sent it TA_KILL and it was in COMMIT_PENDING).<br>
+    4. The Task Attempt transitions from SUCCESS_CONTAINER_CLEANUP to 
+    SUCCEEDED. In either of these states TA_KILL is ignored. So the 
+    Task stays in KILL_WAIT and consequently the Job too.
+    
+<p> Ver: 2.0.3-alpha, 0.23.5
+    
+<p> (jf) fault transition, because a node ignore other node's message 
+    cause unfinished job.
+    
+</td>
+     <td><p><b>Types:</b> d, ig, sync-dif, algorithm<p><b>Comp:</b>  RM, AM
+    
+<p><b>Fault:</b>  message reorder
+    
+<p><b>Fix:</b>  Patch
+    
+<p><b>Cat:</b>  03
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>01-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4813"><font size=+1><b>mr-4813</b></font>: AM timing out during job commit (21)</a></td>
+     <td> The AM calls the output committer's commitJob method
+    synchronously during JobImpl state transitions, which means the
+    JobImpl write lock is held the entire time the job is being
+    committed. Holding the write lock prevents the RM allocator thread
+    from heartbeating to the RM. Therefore if committing the job takes
+    too long (e.g.: the job has tons of files to commit and/or the
+    namenode is bogged down) then the AM appears to be unresponsive to
+    the RM and the RM kills the AM attempt.
+<p><b>Students:</b> <p> (td) Commiting the job involves moving temp output files to final
+    locations. This is actually mv/rename operations in HDFS. So if
+    NameNode is slow, then commiting a job would be slow too.
+<p> Version: 3.0.0, 2.0.3-alpha, 0.23.6 
+    
+</td>
+     <td><p><b>Types:</b> d, wait-cg, algorithm<p><b>Comp:</b>  Lock, heartbeat, commit 
+    
+<p><b>Impact:</b>  AM appears, dead get killed.  (td) <i> if AM gets killed
+    it will be recovered, and during same situation may happen again,
+    because new AM has to commit same amount of files?</i>
+<p><b>Test:</b>  TBD
+<p><b>Fault:</b>  High Load or slow IO
+    
+<p><b>Spec:</b>  # DeadNode > 0
+    
+<p><b>Fix:</b>  <p> (patch) create a commitThread and make the call *asynchorously*
+    <p> (op) finegrained locking, async call
+<p><b>Cat:</b>  06
+</td>
+     <td><p> Sounds interesting and match what we want.
+<p><b>Tax:</b>  Design (biglock, mplock)
+      
+</td>
+    </tr>
+    <tr class=shade>
+     <td><b>01-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4819"><font size=+1><b>mr-4819</b></font>: AM can rerun job after reporting final job status to the client (22)</a></td>
+     <td> If the AM reports final job status to the client but then 
+    crashes before unregistering with the RM then the RM can run 
+    another AM attempt. Currently AM re-attempts assume that the 
+    previous attempts did not reach a final job state, and that causes 
+    the job to rerun (from scratch, if the output format doesn't support 
+    recovery).<br><br>Re-running the job when we've already told the 
+    client the final status of the job is bad for a number of reasons. 
+    If the job failed, it's confusing at best since the client was 
+    already told the job failed but the subsequent attempt could 
+    succeed. If the job succeeded there could be data loss, as a 
+    subsequent job launched by the client tries to consume the job's 
+    output as input just as the re-attempt starts removing output files 
+    in preparation for the output commit.
+    
+<p><b>Students:</b> <p> Scenario:<br>
+    1. AM reports final job status to client<br>
+    2. AM crash, before it has unregistered the job to RM<br>
+    3. RM wait too long, reattempts to another AM<br>
+    >> potential staleness and data loss, if the next AM who re-work on
+    the job produce different result for the client
+    
+<p> Vinod (dev): "This has become quite messy, we didn't foresee some 
+    of this during design, sigh."
+    
+<p> (jf) super interesting bug! The problems are: <br>
+    1. a completed job could not commited twice to the client<br>
+    2. no matter how many time we execute a job, the result should NOT be
+    unchanged.
+    
+<p> Solution: Coupling job commit to job completion. We have to be 
+    careful about what processing happens after a job is committed and 
+    verify that it can be redone without any problem. The things that 
+    happen here are:<br>
+    1.moving the job history over to where the history
+    server can pick it up, <br>
+    2.job end notification, <br>
+    3.unregistering from the RM, <br> 
+    4.cleaning up the staging directory.
+    
+<p> Code: AM-1C-0R
+    
+<p> Ver: 2.0.3-alpha, 0.23.6
+    
+</td>
+     <td><p><b>Types:</b> d, fault-crash, order-local, wait-fail, st, algorithm<p><b>Comp:</b>  AM
+    
+<p><b>Fault:</b>  message reorder
+    
+<p><b>Fix:</b>  Patch
+    
+<p><b>Cat:</b>  02
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>01-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4832"><font size=+1><b>mr-4832</b></font>: MR AM can get in a split brain situation (23)</a></td>
+     <td> It is possible for a networking issue to happen 
+    where the RM thinks an AM has gone down and launches 
+    a replacement, but the previous AM is still up and running.
+    This could result in data corruption when both AMs are
+    trying to commit.
+    
+<p><b>Students:</b> <p> Code: AM-1C-0R
+    
+<p> (mz) This will not form a limplock but this situation is 
+    likely to happen when AM is having a network limpware.
+<p> (td) look likes a correctness issue. Not about performance. This
+    issue is about how to handle split brain AMs (due to network
+    partition, for limpware, etc).
+</td>
+     <td><p><b>Types:</b> d, net, order-message, st, algorithm<p><b>Comp:</b>  AM.
+    
+<p><b>Impact:</b>  data corruption, if two AMs try to commit job/tasks.
+<p><b>Cat:</b>  01
+</td>
+     <td><p> Looks like an MC bug, split-brain stuffs.  Must have network failures (hard).
+</td>
+    </tr>
+    <tr class=shade>
+     <td><b>01-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4833"><font size=+1><b>mr-4833</b></font>: Task can get stuck in FAIL_CONTAINER_CLEANUP (24)</a></td>
+     <td> Task can get stuck when a NM goes down.
+    
+<p><b>Students:</b> <p> Scenario:<br>
+    1. NM goes down<br>
+    2. AM still tries to launch a container on it the
+    ContainerLauncherImpl can get stuck in an RPC timeout<br>
+    3. RM may notice that the NM has gone away and inform the AM of
+    this, this triggers a TA_FAILMSG<br>
+    4. TA_FAILMSG arrives at the TaskAttemptImpl before the
+    TA_CONTAINER_LAUNCH_FAILED message, then the task attempt will try
+    to kill the container<br>
+    5. the ContainerLauncherImpl will not send back a
+    TA_CONTAINER_CLEANED event causing the attempt to be stuck.<br>
+    
+<p> Sequence of events:
+    
+<p> Initial workload: any workload
+    
+<p> 1. AM tries to launch a container on one NM by ContainerLauncherImpl<br>
+    2. the NM goes down.<br>
+    3. thus launch container request is never fullfiled and ContainerLauncherImpl
+    is waiting for RPC timeout. The timeout event is called TA_CONTAINER_LAUNCH_FAILED.<br>
+    4. RM notices that the NM is down and tells AM that container(s) on the NM
+    are down. The msg sent from RM to AM is called TA_FAILMSG.<br>
+    5. Before RPC timeout (thus task attempt thinks the container request is successful), 
+    TA_FAILMSG arrives, then task attempt tries to kill the container. The reply for KILL
+    should be TA_CONTAINER_CLEANED.<br>
+    6. Since ContainerLauncherImpl doesn't get the container, it will ignore the KILL from
+    task attempt so the task attempt will hang.
+    
+<p> Termination point: Task get stuck.
+    
+<p> Code: AM-1C-0R
+    
+<p> Ver: 2.0.3-alpha, 0.23.6 
+    
+</td>
+     <td><p><b>Types:</b> d, ig, wait-fail, fault-crash, cond<p><b>Comp:</b>  AM, NM, RM
+    
+<p><b>Fault:</b>  msg reorder
+    
+<p><b>Spec:</b>  ContainerLauncherImpl should reply TA_CONTAINER_CLEANED in all cases.
+    
+<p><b>Fix:</b>  patch
+    
+<p><b>Cat:</b>  06
+</td>
+     <td><p> This looks a great bug. No timeout.
+</td>
+    </tr>
+    <tr class=noshade>
+     <td><b>01-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-5000"><font size=+1><b>mr-5000</b></font>: TaskImpl.getCounters() can return the counters for the wrong task attempt when task is speculating (25)</a></td>
+     <td> When a task is speculating and one attempt completes 
+    then sometimes the counters for the wrong attempt are aggregated
+    into the total counters for the job.
+    
+<p><b>Students:</b> <p> Scenario:<br>
+    1. Two task attempts are racing, _0 and _1<br>
+    2. _1 finishes first, causing the task to issue a TA_KILL to attempt _0<br>
+    3. _0 receives TA_KILL, sets progress to 1.0f and waits for container cleanup<br>
+    4. if TaskImpl.getCounters() is called now, TaskImpl.selectBestAttempt() can return _0 
+    since it is not quite yet in the KILLED state yet progress is maxed out and no other attempt has more progress.
+    
+<p> Sequence of events:
+    
+<p> Initial workload: any workload allowing speculative execution<br>
+    1. for one task, original attempt and speculative attempt are running<br>
+    2. speculative attempt finishes<br>
+    3. the original attempt receives TA_KILL, it sets its progress score to 100%. However it is not in KILLED state
+    since container cleanup is not done.<br>
+    4. TaskImpl.selectBestAttempt() is called, it scans all attempts and finds out that original attempt is the first
+    to have the highest score, thus selectBestAttempt() returns original attempt, though it is being killed.
+    
+<p> Termination point: When selectBestAttempt() returns incorrect value.
+    
+<p> Code: AM-1C-0R
+    
+<p> Ver: 0.23.7, 2.1.0-beta 
+    
+</td>
+     <td><p><b>Types:</b> d, atom-wr, cond<p><b>Comp:</b>  SpecX, AM
+    
+<p><b>Fault:</b>  event reorder
+    
+<p><b>Spec:</b>  selectBestAttempt() use the successful attempt, if available
+    
+<p><b>Cat:</b>  01
+</td>
+     <td><p> Lots of races in speculative execution. But this one is benign.
+<p> Similar to mr-4748.
+</td>
+    </tr>
+    <tr class=noshade>
+     <td><b>01-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-5009"><font size=+1><b>mr-5009</b></font>: Killing the Task Attempt slated for commit does not clear the value from the Task commitAttempt member (26)</a></td>
+     <td> A reduce task attempt was killed by the RM(pre-emptively),
+    but had already been assigned to the commitAttempt member. 
+    This causes all subsequent attempts to be killed by the AM.
+    
+<p><b>Students:</b> <p> Sequence of event:
+    
+<p> Initial workload: any workload<br>
+    1. reduce task is commiting (such as sending local file to HDFS), and AM
+    knows it is commiting. AM stores this face in the attribute 'commitAttempt'<br>
+    2. reduce task is killed by RM<br>
+    3. so the reduce task is restarted again<br>
+    4. when this reduce task is trying to commit, AM rejects the commit and kills
+    the reduce task since 'commitAttempt' is not null.
+    
+<p> Termination point: AM keeps killing reduce tasks
+    
+<p> Code: AM-0C-0R
+    
+<p> Ver:  3.0.0, 0.23.7, 2.1.0-beta
+    
+</td>
+     <td><p><b>Types:</b> d, atom-ww, sync-sem, cond<p><b>Comp:</b>  AM, RM
+    
+<p><b>Fault:</b>  event reorder
+    
+<p><b>Spec:</b>  AM should allow new commit to override previous one
+    
+<p><b>Cat:</b>  07
+</td>
+     <td><p> Looks simple enough, but not sure what this is about.
+</td>
+    </tr>
+    <tr class=noshade>
+     <td><b>01-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-5198"><font size=+1><b>mr-5198</b></font>: Race condition in cleanup during task tracker renint with LinuxTaskController (27)</a></td>
+     <td> Race could happen when job tracker would be restarted while
+    jobs were running.
+    
+<p><b>Students:</b> <p> Scenario:<br>
+    1. Jobtracker dies.<br>
+    2. Tasktrackers start to cleanup TIP(task in progress)<br>
+    3. jobtracker restarts and reinitialize the tasks<br>
+    4. Tasktrackers now are in race while trying to cleanup and reinit
+    at the same time
+    
+<p> Sequence of events:
+    
+<p> Initial workload: any workload.
+    
+<p> 1. JT starts a job and TTs are running tasks.<br>
+    2. JT dies. For tasks, complete task can be stored but running tasks(the TIP) need 
+    to be stopped and cleanup.<br>
+    3. TTs notice that JT is down and starts to cleanup running tasks.<br>
+    4. JT restarts.<br>
+    5. JT asks the TTs to reinitialize the running tasks, while TTs are still
+    cleaning them. These two operations will conflict and TTs will crash.
+    
+<p> Termination point: TT crashes
+    
+<p> <p> Code: TT-1C-1R
+    
+<p> Ver: 1.2.0
+    
+</td>
+     <td><p><b>Types:</b> d, atom-wr, fault-reboot, cond<p><b>Comp:</b>  TT, JT
+    
+<p><b>Fault:</b>  operation reorder
+    
+<p><b>Spec:</b>  TT should not get TIP to cleanup when it's re-init'ing
+    
+<p><b>Fix:</b>  patch
+    
+<p><b>Cat:</b>  01
+</td>
+     <td><p> Mention of "good catch", simple and it's about crash and
+      reboots.  What is "TIP"?  Not much declaration.
+</td>
+    </tr>
+    <tr class=shade>
+     <td><b>01-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-5476"><font size=+1><b>mr-5476</b></font>: Job can fail when RM restarts after staging dir is cleaned but before MR successfully unregister with RM (28)</a></td>
+     <td><p><b>Students:</b> <p> Sequence of events:
+    
+<p> Initial workload: any workload<br>
+    1. AM finishes the job and cleans the stage dir.<br>
+    2. The AM's job is not successfully unregistered yet<br>
+    3. RM restarts, since job is not unregistered, RM checks job's state
+    and asks AM to commit the stage dir again<br>
+    4. since stage dir is already deleted, AM reports error and job fail
+    
+<p> Termination point: AM reports error about stage dir and Job fails
+    
+<p> Code: RM-1C-1R
+    
+<p> Ver: 2.1.1-beta
+    
+</td>
+     <td><p><b>Types:</b> d, fault-reboot, ig, unex-dang, algorithm<p><b>Comp:</b>  AM, RM
+    
+<p><b>Fault:</b>  msg reorder 
+    
+<p><b>Spec:</b>  Move the removal of the staging directory to after unregistering from the RM
+    
+<p><b>Fix:</b>  Patch. 
+    
+<p><b>Cat:</b>  04
+</td>
+     <td><p> Quite simple. Fix is simple.
+</td>
+    </tr>
+    <tr class=shade>
+     <td><b>01-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-5489"><font size=+1><b>mr-5489</b></font>: MR jobs hangs as it does not use the node-blacklisting feature in RM requests (29)</a></td>
+     <td> When RM restarted, if during restart one NM went bad (bad
+    disk), NM got blacklisted by AM and RM keeps giving the containers
+    on the same node even though AM doesn't want it there.
+<p><b>Students:</b> <p> Scenario:<br>
+    1. RM crashes<br>
+    2. Before RM gets back online, one NM goes bad<br>
+    3. AM blacklist the NM but RM knows nothing<br>
+    4. RM reboots (back online)<br>
+    5. AM asks for container, and get one from blacklisted NM<br>
+    6. AM keeps rejecting and getting the same container
+    
+<p> Code: RM-2C-1R
+    
+<p> Ver: 2.2.0
+    
+<p> (mz) multiple failures. RM reboots and NM crashes.
+</td>
+     <td><p><b>Types:</b> d, fault-reboot, disk, sync-dif, algorithm<p><b>Comp:</b>  RM
+    
+<p><b>Fault:</b>  Event reorder
+    
+<p><b>Spec:</b>  blacklist on AM and RM should be consistant
+    
+<p><b>Fix:</b>  patch
+    
+<p><b>Cat:</b>  03
+</td>
+     <td><p> Great. 2C, 2 Crashes!!! And 1 reboot. With bad disk, hard. 
+</td>
+    </tr>
+    <tr class=shade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="check.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-2409"><font size=+1><b>mr-2409</b></font>: Distributed Cache does not differentiate between file /archive for files with the same path (30)</a></td>
+     <td> If a 'global' file is specified as a 'file' by one job - 
+    subsequent jobs cannot override this source file to be an 'archive' 
+    (until the TT cleans up it's cache or a TT restart).
+    The other way around as well -> 'archive' to 'file'.<br><br>
+    In case of an accidental submission using the wrong type - some of 
+    the tasks for the second job will end up seeing the source file as 
+    an archive, others as a file.
+<p><b>Students:</b> <p> Ver: 0.20.204.0, 0.23.0
+    
+<p> (td) not qos
+</td>
+     <td><p><b>Types:</b> d, order-message, st<p><b>Comp:</b>  TT, JT
+    
+<p><b>Fault:</b>  message reorder
+    
+<p><b>Spec:</b>  cache entries differentiate archive/file
+    
+<p><b>Fix:</b>  patch
+    
+<p><b>Cat:</b>  02
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="check.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3531"><font size=+1><b>mr-3531</b></font>: Sometimes java.lang.IllegalArgumentException: Invalid key to HMAC computation in NODE_UPDATE also causing RM to stop scheduling  (31)</a></td>
+     <td> Started 350 cluster and submmited large sleep job.
+    Found that job was not running as RM has not allocated resouces to it.
+    
+<p><b>Students:</b> <p> Ver: 0.23.1
+    
+</td>
+     <td><p><b>Types:</b> d, unex-uninit<p><b>Comp:</b>  RM, NM
+    
+<p><b>Fault:</b>  job has been delegated, but the container has not yet been
+    initiated.
+    
+<p><b>Spec:</b>  simple patch Just changed HashMap to ConcurrentHashMa
+    
+<p><b>Fix:</b>  Patch
+    
+<p><b>Cat:</b>  04
+</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="check.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3824"><font size=+1><b>mr-3824</b></font>: Distributed caches are not removed properly (32)</a></td>
+     <td> Distributed caches are not being properly removed by the 
+    TaskTracker when they are expected to be expired.<br>
+    This appears to be related to two problems:<br>
+    1.race conditions around refcount<br>
+    2.private caches are never updated to reflect their true size
+    
+<p><b>Students:</b> <p> Issues:<br>
+    1.Even though the DU size update is being done on a separate thread 
+    it is being done with the cachedArchives lock held. The amount of 
+    time it takes to do a DU could be significant.<br>
+    2.We are updating the size too late.
+    
+<p> Effect:<br>
+    1.Hadoop doesn't have a size limit check on caches as part of the 
+    job submission process<br>
+    2.the setup and cleanup tasks also trigger cache downloads.<br>
+    3.TTs appear to be frozen for all tasks during cache downloads, 
+    with the task stuck in the extremely unhelpful "unassigned" state.<br>
+    4.The methodology of updating the private cache as a different step 
+    seems unnecessary given the permissions at the file system level.
+    
+<p> (jf) Two issues here, semantics unsynchronized variables of cache 
+    between distributed and local cache AND a long process of 
+    distributed caches update that could end into a expired old data and 
+    the update process could not be intervene. But I'm commenting on the
+    first issue.
+    
+<p> Ver: 1.0.2
+</td>
+     <td><p><b>Types:</b> d, wait-cg, sync-dif<p><b>Comp:</b>  TT, cache
+    
+<p><b>Cat:</b>  03
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-2364"><font size=+1><b>mr-2364</b></font>: Shouldn't hold lock on rjob while localizing resources. (33)</a></td>
+     <td> We encounter the same problem, when TaskTracker download &
+    unJar a very big job.jar in localizeJob(), it stops sending
+    heartbeat and web service hangs too.  The issue is that there is a
+    big lock that is used to send heartbeat as well as
+<p><b>Students:</b> <p> (td) localizing: job downloading side files and store them in
+    distributed cache.
+<p> (rs) model as mr-2209 as both lock the TaskTracker and preventing 
+    heartbeating.
+    
+<p> Model: mr-2209
+</td>
+     <td><p><b>Types:</b> d, wait-cg, algorithm<p><b>Comp:</b>  Lock, heartbeat, dist cache.
+<p><b>Impact:</b>  deadnode, tasks reexecuted, prolonged job exec time.
+<p><b>Test:</b>  slowdown the node storing side files.
+<p><b>Fault:</b>  slow I/O
+<p><b>Spec:</b>  # DeadNode > 0
+<p><b>Fix:</b>  <p> (patch) introduce a new lock
+    <p> (op) fine-grained lock
+    
+<p><b>Cat:</b>  06
+</td>
+     <td><p> (hg) The lesson is slowdown can happen during code transfer
+      between NFS to hadoop server. Another lesson is during hold of
+      biglock, make sure there is no i/o in between. this is similar
+      to hang analysis. another l lesson is that don't use coarse
+      grained lock. anything within the lock should be finished in
+      constant time. Is this also a multi-purpose lock?
+<p><b>Tax:</b>  Design (biglock, mplock)
+</td>
+    </tr>
+    <tr class=shade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-2450"><font size=+1><b>mr-2450</b></font>: Calls from running tasks to TaskTracker methods sometimes fail and incur a 60s timeout (34)</a></td>
+     <td> I'm seeing some map tasks in my jobs take 1 minute to commit 
+    after they finish the map computation.
+<p><b>Students:</b> <p> Scenario:<br>
+    1. Task.TaskReporter thread sends STATUS_UPDATE/PING periodically 
+    to TaskTracker. Default "PROGRESS_INTERVAL" is set to 3000 ms.<br>
+    2. When the map phase is over, it calls 
+    TaskReporter.stopCommunicationThread() which interrupts this thread.<br>
+    3. If the system was trying to communicate(write/read) with the server at the 
+    time of interrupts, it breaks the connection to the server. Since 
+    the interrupt was issued, the stream throws 
+    ClosedByInterruptException and doesn't send any information.<br>
+    4. However Client keeps waiting for the response. After the 
+    "ipc.ping.interval", it basically timesout and rethrows this exception.<br>
+    5. Since the default "ipc.ping.value" is set to 60000ms, it waits 
+    for 1 minute before throwing this exception. This causes heavy 
+    variations in runtimes of small jobs which get executed in couple 
+    of minutes.
+<p> Ver: 0.23.1
+    
+</td>
+     <td><p><b>Types:</b> d, atom-wr, algorithm<p><b>Comp:</b>  TaskReporter, TaskTracker
+    
+<p><b>Fault:</b>  event reorder
+    
+<p><b>Spec:</b>  lock stopCommunicationThread() from contacting server
+    
+<p><b>Fix:</b>  Patch
+<p><b>Cat:</b>  01
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-2470"><font size=+1><b>mr-2470</b></font>: Receiving NPE occasionally on RunningJob.getCounters() call (35)</a></td>
+     <td> This is running in a Java daemon that is used as an interface 
+    (Thrift) to get information and data from MR Jobs. 
+    Using JobClient.getJob(JobID) I successfully get a RunningJob 
+    object (I'm checking for NULL), and then rarely I get an NPE when 
+    I do RunningJob.getCounters(). This seems to occur after the 
+    daemon has been up and running for a while, and in the event of an 
+    Exception, I close the JobClient, set it to NULL, and a new one 
+    should then be created on the next request for data. Yet, I still 
+    seem to be unable to fetch the Counters.
+    
+<p><b>Students:</b> <p> Scenario:<br>
+    1. If a MR Job has been retired for around 
+    mapreduce.jobtracker.persist.jobstatus.hours hours 
+    (default 1 hour), then it is removed by the JobTracker from 
+    mapreduce.jobtracker.persist.jobstatus.dir 
+    (default /jobtracker/jobsInfo on HDFS). <br>
+    2. Once it's removed, the Counters are no longer available when 
+    fetching information about the Job. <br>
+    3. The JobTracker caches the last 1000 
+    (default) MR Job info's in memory, so it's still 
+    available in the cache and can be viewed through the Web UI. <br>
+    4. When you try and fetch the Counters programmatically but has 
+    been removed from HDFS by the JT, then you still get NULL 
+    returned from the JT, instead of an empty set of Counters.
+    
+<p> Ver: 0.23.0
+</td>
+     <td><p><b>Types:</b> d, unex-dang, cond<p><b>Comp:</b>  JT, client
+    
+<p><b>Fault:</b>  checking for counter availability doesn't exist
+    
+<p><b>Spec:</b>  return null when counter is not available anymore
+    
+<p><b>Cat:</b>  04
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-2749"><font size=+1><b>mr-2749</b></font>: [MR-279] NM registers with RM even before it starts various servers (36)</a></td>
+     <td> In case NM eventually fails to start the ContainerManager 
+    server because of say a port clash, RM will have to wait for expiry 
+    to detect the NM crash. It is desirable to make NM register with 
+    RM only after it can start all of its components successfully.
+    
+<p><b>Students:</b> <p> Scenario:<br>
+    1.NM register to RM<br>
+    2.NM fails to start ContainerManagerServer<br>
+    3.RM wait for expiry time to detect NM crash.
+    
+<p> Ver: 0.23.0
+    
+<p> Code: NM-1C-0R
+</td>
+     <td><p><b>Types:</b> d, unex-uninit, wait-fail, fault-crash<p><b>Comp:</b>  NM, RM
+    
+<p><b>Fault:</b>  event reorder
+    
+<p><b>Spec:</b>  NM register to RM only after it can start all of its 
+    components successfully
+    
+<p><b>Fix:</b>  Patch
+    
+<p><b>Cat:</b>  04
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-2783"><font size=+1><b>mr-2783</b></font>: mr279 job history handling after killing application (37)</a></td>
+     <td> The job history/application tracking url handling during kill 
+    is not consistent. Currently if you kill a job that was running the 
+    tracking url points to job history, but job history server doesn't 
+    have the job.
+    
+<p><b>Students:</b> <p> Scenario:<br>
+    1. AM assign a job to a NM<br>
+    2. AM crash<br>
+    3. NM's app manager fail the job (delete the failed job)<br>
+    4. AM should be the one who unregister failed job to RM, but AM is dead.
+    >> when tracking url try to access the failed job, the job is already gone.
+    
+<p> Code: AM-1C-0R
+    
+<p> Ver: 0.23.0
+    
+</td>
+     <td><p><b>Types:</b> d, fault-crash, unex-dang, init<p><b>Comp:</b>  AM, NM, RM
+    
+<p><b>Fault:</b>  event reorder
+    
+<p><b>Spec:</b>  if tracking url in RM fail to access a job, it should return 
+    null.
+    
+<p><b>Fix:</b>  Patch
+    
+<p><b>Cat:</b>  04
+</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-2917"><font size=+1><b>mr-2917</b></font>: Corner case in container reservations (38)</a></td>
+     <td> A corner case in container reservations where the 
+    node on which the AM is running was reserved, and hence 
+    never fulfilled leaving the application hanging.
+    
+<p><b>Students:</b> <p> Scenario:<br>
+    1. One AM reserve a container.<br>
+    2. Before the reservation is fulfilled, another AM gets the container.<br>
+    3. The reservation is never fulfilled and the application hangs
+    
+<p> Code: AM-0C-0R
+    
+<p> Ver: 0.23.0 
+    
+<p> (mz) Don't know how to reproduce this.
+<p> (td) deadlock
+</td>
+     <td><p><b>Types:</b> d, atom-ww, algorithm<p><b>Fault:</b>  event reorder
+    
+<p><b>Spec:</b>  Should allow apps to make extra reservations slowly, over time.
+    
+<p><b>Fix:</b>  Patch
+    
+<p><b>Cat:</b>  01
+    
+</td>
+     <td><p> Looks good, but a bit simple.
+</td>
+    </tr>
+    <tr class=noshade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-2925"><font size=+1><b>mr-2925</b></font>: job -status <JOB_ID> is giving continuously info message for completed jobs on the console (39)</a></td>
+     <td> The client can't deal with absence of job-history server - we 
+    should quit after a while.
+<p><b>Students:</b> <p> Scenario:<br>
+    1. RM doesn't give application report to AM, so request of AM for 
+    job state is redirected to History Server.<br>
+    2. When History Server is down or somehow doesn't have the job state
+    application, AM will do an infinite loop and receive infinite 
+    messages.
+    
+<p> Code: HS-1C-0R
+    
+<p> Ver: 0.23.0, 0.24.0
+    
+</td>
+     <td><p><b>Types:</b> d, fault-crash, unex-uninit, algorithm<p><b>Comp:</b>  RM, AM, HS
+    
+<p><b>Fault:</b>  event reorder, error-handling
+    
+<p><b>Spec:</b>  Client should check the HS state before trying to contact it
+    
+<p><b>Fix:</b>  Patch
+    
+<p><b>Cat:</b>  04
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-2995"><font size=+1><b>mr-2995</b></font>: MR AM crashes when a container-launch hangs on a faulty NM (40)</a></td>
+     <td> AM tries to launch containers on a 
+    faulty node which blocks several/all of the
+    StartContainer requests. Eventually, RM expires
+    the container-allocations, informs the AM about
+    container-expiry. But AM crashes with an 
+    INTERNAL_ERROR as the event is unexpected.
+    
+<p><b>Students:</b> <p> (td) deadlock, more related to Korn's project
+    
+</td>
+     <td><p><b>Types:</b> d, order-local, st, cond<p><b>Comp:</b>  AM
+    
+<p><b>Cat:</b>  02
+</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3186"><font size=+1><b>mr-3186</b></font>: User jobs are getting hanged if the Resource manager process goes down and comes up while job is getting executed. (41)</a></td>
+     <td> If the resource manager is restarted while the job execution
+    is in progress, the job is getting hanged, MRAppMaster and Runjar
+    processes are not getting killed.  Fix is done by generating a
+    JobEvent(jobId, JobEventType.INTERNAL_ERROR) from the
+    RMCommunicator and it's subclasses to make the job goes into an
+    error state and generate kills for individual tasks, before
+    sending out a JobFinishEvent.
+    
+<p><b>Students:</b> <p> Scenario:<br>
+    1. RM give a job to AM<br>
+    2. AM process the job<br>
+    3. While AM is still processing the job, RM restart (forget the job
+    that it has assigned to AM).<br>
+    4. AM is still working (unkilled) on unremembered job, and hang
+    when it try to send the unremembered finished job to RM.
+    
+<p> Code: RM-1C-1R
+    
+<p> Ver: 0.23.0
+    
+<p> (td) incorrect behaviors. AM should get kill on RM restart. The
+    bug in protocol level. not super interesting though.
+</td>
+     <td><p><b>Types:</b> d, fault-reboot, unex-dang, algorithm<p><b>Comp:</b>  RM, AM
+    
+<p><b>Fault:</b>  event reorder, fault-tolerance
+    
+<p><b>Spec:</b>  AM job should killed if RM restarted (do heartbeat to check RM
+    existance)
+    
+<p><b>Fix:</b>  Patch
+    
+<p><b>Cat:</b>  04
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3345"><font size=+1><b>mr-3345</b></font>: Race condition in ResourceManager causing TestContainerManagerSecurity to fail sometimes (42)</a></td>
+     <td> a container being allocated for the AM in 
+    RMAppAttemptImpl#ScheduleTransition itself ( when transitioning 
+    from SUBMITTED -> SCHEDULED ) which results in no allocated 
+    containers in the response when allocate is called subsequently in 
+    AMContainerAllocatedTransition.
+    
+<p><b>Students:</b> <p> Scenario:<br>
+    1. RM allocate a container to AM (task status change into SCHEDULED)<br>
+    2. When AM try to access the container, sometimes AM could not 
+    access the container
+    
+<p> Ver: 0.23.1
+    
+</td>
+     <td><p><b>Types:</b> d, unex-uninit, algorithm<p><b>Comp:</b>  RM, AM
+    
+<p><b>Fault:</b>  asynchronous process in the FifoScheduler
+    
+<p><b>Spec:</b>  change the container allocation process to a synchronous 
+    process
+    
+<p><b>Fix:</b>  Patch
+    
+<p><b>Cat:</b>  04
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3460"><font size=+1><b>mr-3460</b></font>: MR AM can hang if containers are allocated on a node blacklisted by the AM (43)</a></td>
+     <td> When an AM is assigned a FAILED_MAP (priority = 5) container
+    on a nodemanager which it has blacklisted - it tries to find a
+    corresponding container request.  This uses the hostname to find
+    the matching container request - and can end up returning any of
+    the ContainerRequests which may have requested a container on this
+    node. This container request is cleaned to remove the bad node -
+    and then added back to the RM 'ask' list.  The AM cleans the 'ask'
+    list after each heartbeat - The RM Allocator is still aware of the
+    priority=5 container (in 'remoteRequestsTable') - but this never
+    gets added back to the 'ask' set - which is what is sent to the
+    RM.
+<p><b>Students:</b> <p> Looks like something wrong in FifoScheduler where it use the
+    entire nodeAddress (host+port) for allocating containers. The
+    request shouldn't care about the port for data locality. 
+    Separate JIRA for addressing this bug (MAPREDUCE-3501)
+<p> (td) bad bookeeping logic at AM make it hang.
+    
+</td>
+     <td><p><b>Types:</b> d, sync-dif, cond<p><b>Comp:</b>  applicationmaster, mrv2
+<p><b>Cat:</b>  03
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3713"><font size=+1><b>mr-3713</b></font>: Incorrect headroom reported to jobs (44)</a></td>
+     <td> With multiple jobs submitted per user, and multiple users 
+    submitting jobs - the headroom reported to the AppMasters is 
+    incorrect (very high).
+    Leads to a deadlock - reduces started, map tasks not complete... 
+    and reduces are not preempted by the AM due to the incorrect 
+    headroom.
+    
+<p><b>Students:</b> <p> Ver: 0.23.1
+    
+</td>
+     <td><p><b>Types:</b> d, atom-ww, algorithm<p><b>Comp:</b>  AM, RM
+    
+<p><b>Fault:</b>  event reorder
+    
+<p><b>Spec:</b>  synchronized the map and reduce tasks work in local node,
+    RM counting revision
+    
+<p><b>Cat:</b>  01
+</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3721"><font size=+1><b>mr-3721</b></font>: Race in shuffle can cause it to hang (45)</a></td>
+     <td> If all current Fetchers complete while an 
+    in-memory merge is in progress - shuffle could hang. 
+<p><b>Students:</b> <p> Scenario:<br>
+    1. all current Fetchers complete<br>
+    2. the memory freed by an in-memory merge does not bring 
+    MergeManager.usedMemory below MergeManager.memoryLimitin-memory,
+    another in-memory merge will not be triggered
+    
+<p> Code: Merge-0C-0R
+    
+<p> Ver: 0.23.1
+    
+</td>
+     <td><p><b>Types:</b> d, over, ig, sync-sem, cond<p><b>Fault:</b>  event reorder
+    
+<p><b>Fix:</b>  Patch
+    
+<p><b>Cat:</b>  08
+</td>
+     <td><p> Okay. Not sure if easy to reproduce, due to livelock problem
+      (memory overfull), must know dead transition.
+</td>
+    </tr>
+    <tr class=shade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3780"><font size=+1><b>mr-3780</b></font>: RM assigns containers to killed applications (46)</a></td>
+     <td> RM attempts to assign containers to killed applications. 
+    The applications were killed when they were inactive and waiting
+    for AM allocation.
+<p><b>Students:</b> <p> (td) eh: event reorder
+<p> Scenario:<br>
+    1. an application is commited<br>
+    2. before AM is allocated for application, the application is killed
+    
+<p> Code: APP-1C-0R
+    
+<p> Ver: 0.23.1 
+    
+</td>
+     <td><p><b>Types:</b> d, wait-fail, unex-dang, fault-crash, cond<p><b>Comp:</b>  RM
+<p><b>Fault:</b>  event reorder
+    
+<p><b>Fix:</b>  Patch
+    
+<p><b>Cat:</b>  04
+</td>
+     <td><p> Too simple, but has one crash. 
+</td>
+    </tr>
+    <tr class=shade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3896"><font size=+1><b>mr-3896</b></font>: pig job through oozie hangs (47)</a></td>
+     <td> Oozie launches a job which runs a mapper to launch a pig 
+    action. In certain cases, it can be seen that the AM (pig launcher) 
+    that started the mapper task is stuck waiting on getCounters(). 
+    The pig action itself had completed successfully. The mapper task 
+    that was stuck seemed to be talking to the JHS to get counters. 
+    JHS itself was throwing an AccessControlException.
+    It seems that if the mapper task calls getCounter before the pig 
+    action AM dies, this oozie job succeeds, otherwise fails.
+    
+<p><b>Students:</b> <p> Scenario:<br>
+    1. RM assign a job to AM<br>
+    2. AM start doing the job before JHS finish its getCounter() where
+    the result will be used by AM to finish the job. AM wait forever.
+    
+<p> Ver: 0.23.2
+    
+</td>
+     <td><p><b>Types:</b> d, atom-wr, algorithm<p><b>Comp:</b>  AM, JHS
+    
+<p><b>Fault:</b>  event reorder
+    
+<p><b>Fix:</b>  Patch
+    
+<p><b>Cat:</b>  01
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3931"><font size=+1><b>mr-3931</b></font>: MR tasks failing due to changing timestamps on Resources to download (48)</a></td>
+     <td> Assigning to a long in Java may not be atomic.
+    There's multiple parallel startContainer calls - which access the 
+    same LocalReosurce object in the AM - which is where the value can 
+    get corrupt.
+    
+<p><b>Students:</b> <p> Ver: 0.23.2
+    
+</td>
+     <td><p><b>Types:</b> d, atom-ww, algorithm<p><b>Comp:</b>  AM
+    
+<p><b>Fix:</b>  Patch
+<p><b>Cat:</b>  01
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4062"><font size=+1><b>mr-4062</b></font>: AM Launcher thread can hang forever (49)</a></td>
+     <td> if AM launcher thread hangs, no AM/job will be launched
+    and the cluster will be underutilized. There is only one AM
+    launcher thread - single point of failure.<br><br>
+    (dev) Using both an RPC-level timeout (in this case the ping timeout) and 
+    the timer task can cause the AM to lose track of a container and 
+    hang the job.<br><br>
+    Looks like the socket timeout and the timer task timeout occurred 
+    almost simultaneously. The socket exception was caught first, 
+    and during the catch clause we fielded the interrupted exception. 
+    That broke us out of the handling of the socket exception and we 
+    never marked the container status properly before leaving.
+    
+<p><b>Students:</b> <p> Code: AM-1C-0R
+<p> (mz)This happens "because something weird/bad happened to the NM node",
+    what is "something weird/bad"?
+<p> (td) look interesting, root cause = no timeout on critical service.
+</td>
+     <td><p><b>Types:</b> d, fault-crash, wait-algo, algorithm<p><b>Comp:</b>  RM
+    
+<p><b>Impact:</b>  RM unable to lauch AMs (i.e, new jobs).
+    
+<p><b>Cat:</b>  06
+</td>
+     <td><p> AM single point of performance failure.
+       Discuss: Is it RM / NM issue?
+<p> (hg) discuss: look good, they have fix, 100% agree?
+</td>
+    </tr>
+    <tr class=noshade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4144"><font size=+1><b>mr-4144</b></font>: ResourceManager NPE while handling NODE_UPDATE (50)</a></td>
+     <td> Scenario:<br>
+    1. Application has some requests that are NODE_LOCAL 
+    and some others that are ANY.<br>
+    2. Node A heartbeats in and RM try to schedule the NODE_LOCAL 
+    request on it, but there are no available containers and instead RM make a reservation.<br>
+    3. Node B heartbeats in and it's on the same rack as Node A,
+    so RM fulfill the corresponding RACK_LOCAL request that went
+    with Node A's NODE_LOCAL request.<br>
+    4. Node A heartbeats in with some spare containers, 
+    and RM skip the MAPREDUCE-3005 fix in canAssign() because
+    there is a reserved container on this node. Since the RACK_LOCAL
+    request was removed when RM assigned it to Node B, RM crash 
+    because RM assume all NODE_LOCAL requests will have a corresponding RACK_LOCAL request.
+    
+<p><b>Students:</b> <p> (td) eh: event reorder
+<p> Code: RM-0C-0R
+    
+<p> Ver: 0.23.3, 2.0.2-alpha 
+    
+<p> (jf) my understanding:<br>
+    1. RM assign app1 to node A<br>
+    2. But node A resource is currently full, then RM only reserve some memory space<br>
+    3. Node B come up, RM assign the app1 to node B, so the memory has already assign there<br>
+    4. Node A come back with some space, without questioning the valid memory reservation,
+    then it has gone, used by node B<br>
+    5. RM crashed because it can't show the reserved memory for node A
+</td>
+     <td><p><b>Types:</b> d, wait, unex-dang, cond<p><b>Fault:</b>  event reorder
+    
+<p><b>Fix:</b>  patch
+    
+<p><b>Cat:</b>  04
+    
+</td>
+     <td><p> Looks deep, but unsure.
+</td>
+    </tr>
+    <tr class=noshade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4164"><font size=+1><b>mr-4164</b></font>: Hadoop 22 Exception thrown after task completion causes its reexecution (51)</a></td>
+     <td><p><b>Students:</b> <p> (td) eh: missing error handling code -> hang
+<p> (al)desc:<br>
+    1. TaskReporter thread sends status updates/pings periodically to TaskTracker. If it needs to send the task progress, it sends STATUS_UPDATE message
+    to TaskTracker. Otherwise, it sends a PING signal to check if the TaskTracker is alive.<br>
+    2. When the map/reduce phase is over, it calls stopCommunicationThread() which interrupts ping/statusupdate thread.<br>
+    3. If the system was trying to communicate with the server at the time of interrupts, it breaks the connection to the
+    server.Since the interrupt was issued, the stream throws ClosedByInterruptException.<br>
+    5. However in Client.java, Client keeps waiting for the response and it basically times out and re-throws this exception.
+    
+<p> Ver: 0.22.1
+</td>
+     <td><p><b>Types:</b> d, net, wait-fail, algorithm<p><b>Comp:</b>  TT, TR
+    
+<p><b>Fault:</b>  failure tolerance
+    
+<p><b>Cat:</b>  06
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4205"><font size=+1><b>mr-4205</b></font>: retrofit all JVM shutdown hooks to use ShutdownHookManager (52)</a></td>
+     <td> to avoid JVM shutdownhook race conditions, all shutdown hooks
+    should be retrofitted to use ShutdownHookManager.
+    
+<p><b>Students:</b> <p> (jf) This update try to manage nodes shutdown and prevent other 
+    intervention event while a node is going to shutdown.
+    
+<p> Ver: 0.23.3, 2.0.2-alpha
+    
+</td>
+     <td><p><b>Types:</b> d, atom-ww, algorithm<p><b>Cat:</b>  01
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4278"><font size=+1><b>mr-4278</b></font>: cannot run two local jobs in parallel from the same gateway. (53)</a></td>
+     <td> I cannot run two local mode jobs from Pig in parallel from 
+    the same gateway, this is a typical use case. If I re-run the tests 
+    sequentially, then the test pass.<br><br>
+    (dev) This occurs because the jobs are trying to use the same file 
+    to locally store their map outputs. They're both using the same 
+    directory taskTracker/user/jobcache/job_local_0001/attempt_local_0001_m_000000_0/output. 
+    This could be avoided by adding a timestamp component to local job 
+    ids? So the jobid would be something like job_local_123456789_0001 
+    instead of job_local_0001.
+    
+<p><b>Students:</b> <p> (jf) 2 jobs are written to the same file (similar file name) eventhough
+    they are not the same file.
+    
+</td>
+     <td><p><b>Types:</b> d, atom-ww, algorithm<p><b>Cat:</b>  01
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4607"><font size=+1><b>mr-4607</b></font>: Race condition in ReduceTask completion can result in Task being incorrectly failed (54)</a></td>
+     <td> Similar with MAPREDUCE-4252. Task being incorrectly failed
+    when speculative task launched for reduce task and other attempt
+    got failed (not killed).  
+    
+<p><b>Students:</b> <p> Scenario:<br>
+    1. A reduce task attempt is started.<br>
+    2. A speculative task attempt for the same task is started.<br>
+    3. The first task attempt completes and causes the task to
+    transition to SUCCEEDED.<br>
+    4. Then speculative task attempt failed (not killed) before killed
+    
+<p> Sequence of events: Same as MAPREDUCE-4252. (Just change 'map tasks' to 'reduce tasks')
+    
+<p> Code: SpecX-2C-0R
+    
+<p> Ver: 2.0.3-alpha
+    
+</td>
+     <td><p><b>Types:</b> d, order-message, st, cond<p><b>Comp:</b>  SpecX
+<p><b>Fault:</b>  event reorder
+    
+<p><b>Spec:</b>  Same as MAPREDUCE-4252
+    
+<p><b>Fix:</b>  Patch
+    
+<p><b>Cat:</b>  02
+    
+</td>
+     <td><p> Mention of "good catch". This problem can be simulated in the
+      most recent version!
+<p> Similar to mr-4748.
+</td>
+    </tr>
+    <tr class=noshade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4748"><font size=+1><b>mr-4748</b></font>: Invalid event: T_ATTEMPT_SUCCEEDED at SUCCEEDED (55)</a></td>
+     <td> State machine receive T_ATTEMPT_SUCCEEDED while at SUCCEEDED state
+    and throws an exception.
+    
+<p><b>Students:</b> <p> Scenario:<br>
+    1. Speculation is enabled<br>
+    2. A task runs with multiple attempts<br>
+    3. one of the attempt succeeds and KILL command will be sent to other attempts<br>
+    4. before KILL arrives, other attempts also succeed and send T_ATTEMPT_SUCCEEDED<br>
+    5. since tasks is already at SUCCEEDED state, T_ATTEMPT_SUCCEEDED is treated as 
+    Invalid event and exception happens.
+    
+<p> Sequence of events:
+    
+<p> Initial workload: any workload that allows speculative execution
+    
+<p> 1. for any task, original attempt starts<br>
+    2. speculative attempt(s) start<br>
+    3. one of the attempt, either original or speculative, succeeds<br>
+    4. since one attempt succeeds, Task sends KILL to other attempts<br>
+    5. other attempts also succeeds before gets KILLED<br>
+    6. since another successful attempt is not expected, an exception happens.
+    
+<p> Termination point: When invalid SUCCEEDED event and exception happens
+    
+<p> Code: SpecX-1C-0R
+    
+<p> Ver: 2.0.3-alpha, 0.23.5 
+    
+</td>
+     <td><p><b>Types:</b> d, order-message, st, cond<p><b>Comp:</b>  SpecX
+    
+<p><b>Spec:</b>  attempt SUCCEEDED event should be ignored when task is already SUCCEEDED
+    
+<p><b>Fix:</b>  Patch
+    
+<p><b>Cat:</b>  02
+</td>
+     <td><p> Also nice poster bug. Race during success.
+<p> The conclusion is mapreduce specx is very simple. The specx
+      is quite synchronized. Only the reporting is reordered.
+      In this example only the last part of the reordering really matters.
+</td>
+    </tr>
+    <tr class=noshade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4890"><font size=+1><b>mr-4890</b></font>: Invalid TaskImpl state transitions when task fails while speculating (56)</a></td>
+     <td> There are a couple of issues when a task fails while speculating (i.e.: multiple attempts are active).<br>
+    Scenario:<br>
+    1. The other active attempts are not killed.<br>
+    2. TaskImpl's FAILED state does not handle the T_ATTEMPT_* set of events
+    which can be sent from the other active attempts. 
+    
+<p><b>Students:</b> <p> (td) eh: unexpected, event reorder
+<p> Code: AM-2C-0R
+    
+<p> Ver: 2.0.3-alpha, 0.23.6 
+    
+</td>
+     <td><p><b>Types:</b> d, order-message, st, cond<p><b>Comp:</b>  Task, AM
+    
+<p><b>Fault:</b>  event reorder
+    
+<p><b>Spec:</b>  Events all need to be handled since they can be sent asynchronously from the other active task attempts.
+    
+<p><b>Cat:</b>  02
+</td>
+     <td><p> Looks like race, but not sure what happens.
+<p> Similar to mc-4748.
+      
+</td>
+    </tr>
+    <tr class=noshade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-5001"><font size=+1><b>mr-5001</b></font>: LocalJobRunner has race condition resulting in job failures  (57)</a></td>
+     <td> The JobClient uses the Cluster class to obtain Job objects. 
+    The Cluster class uses the job.xml file to populate the JobConf object.
+    However, this file is deleted by the LocalJobRunner at the end of it's job.
+    
+<p><b>Students:</b> <p> Ver: 0.23.10, 2.1.1-beta
+    
+</td>
+     <td><p><b>Types:</b> d, atom-wr, cond<p><b>Fault:</b>  event reorder
+    
+<p><b>Fix:</b>  Patch
+    
+<p><b>Cat:</b>  01
+</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-5358"><font size=+1><b>mr-5358</b></font>: MRAppMaster throws invalid transitions for JobImpl (58)</a></td>
+     <td> Similar as MAPREDUCE-5409. The root cause for this issue is
+    message reorder. (There is a similar bug MAPREDUCE-5422.)
+    
+<p><b>Students:</b> <p> Code: AM-1C-0R
+    
+<p> Ver: 3.0.0, 2.1.1-beta 
+    
+</td>
+     <td><p><b>Types:</b> d, order-message, st, cond<p><b>Comp:</b>  AM
+    
+<p><b>Fault:</b>  msg reorder  
+    
+<p><b>Fix:</b>  patch
+    
+<p><b>Cat:</b>  02
+</td>
+     <td><p> This one has a patch but little description.
+<p> Similar to mr-4748.
+</td>
+    </tr>
+    <tr class=shade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-5405"><font size=+1><b>mr-5405</b></font>: Job recovery can fail if task log directory symlink from prior run still exists (59)</a></td>
+     <td> During recovery, the task attempt log dir symlink from the 
+    prior run might still exist. If it does, then the recovered attempt 
+    will fail while trying to create a symlink at that path.
+    
+<p><b>Students:</b> <p> Scenario:<br>
+    1. Job starts to recover.<br>
+    2. However the cleanup for previous attempt is not finished<br>
+    3. symlink path collides 
+    
+<p> Code: JT-1C-1R
+<p> Ver: 1-win, 1.3.0 
+    
+</td>
+     <td><p><b>Types:</b> d, atom-ww, cond<p><b>Comp:</b>  JT
+    
+<p><b>Fault:</b>  operation reorder
+    
+<p><b>Spec:</b>  If the symlink exists before creating it, try to delete it.
+    
+<p><b>Fix:</b>  Patch
+<p><b>Cat:</b>  01
+</td>
+     <td><p> Looks simple enough. Controlling cleanup requires interposing
+      the disk.
+</td>
+    </tr>
+    <tr class=shade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-5409"><font size=+1><b>mr-5409</b></font>: MRAppMaster throws InvalidStateTransitonException: Invalid event: TA_TOO_MANY_FETCH_FAILURE at KILLED for TaskAttemptImpl (60)</a></td>
+     <td> Invalid event: TA_TOO_MANY_FETCH_FAILURE at KILLED for TaskAttemptImpl<br>
+    Scenario: <br>
+    1. Task is running.<br>
+    2. For some reason, fetch failures happen.<br>
+    3. Before fetch failure events arrive, the task gets killed and enter KILLED state.<br>
+    4. Events arrive and an invalid state transiton happens.
+    
+<p><b>Students:</b> <p> (td) eh unexpected failure mode (the logic is not there to handle)
+<p> Code: Task-2C-0R
+    
+<p> Ver: 3.0.0, 2.3.0
+    
+</td>
+     <td><p><b>Types:</b> d, order-local, st, cond<p><b>Comp:</b>  Task
+    
+<p><b>Fault:</b>  msg reorder
+    
+<p><b>Spec:</b>  another transiton should be added for KILLED state
+    
+<p><b>Fix:</b>  patch
+    
+<p><b>Cat:</b>  02
+</td>
+     <td><p> Too many fetch failure (hard to emulate).
+<p> Similar to mr-4748.
+</td>
+    </tr>
+    <tr class=noshade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-5441"><font size=+1><b>mr-5441</b></font>: JobClient exit whenever RM issue Reboot command to 1st attempt App Master. (61)</a></td>
+     <td> When RM issue Reboot command to app master, app master 
+    shutdown gracefully. All the history event are written to hdfs 
+    with job status set as ERROR. Jobclient get job state as ERROR and 
+    exit. But RM launches 2nd attempt app master where no client are 
+    there to get job status.In RM UI, job status is displayed as 
+    SUCCESS but for client Job is Failed.
+    
+<p><b>Students:</b> <p> Code: AM-1C-1R
+    
+<p> Ver: 2.1.1-beta
+</td>
+     <td><p><b>Types:</b> d, fault-reboot, sync-dif, cond<p><b>Comp:</b>  AM
+    
+<p><b>Cat:</b>  03
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-5465"><font size=+1><b>mr-5465</b></font>: Container killed before hprof dumps profile.out (62)</a></td>
+     <td> If there is profiling enabled for mapper or reducer then hprof 
+    dumps profile.out at process exit. It is dumped after task signaled 
+    to AM that work is finished.
+    AM kills container with finished work without waiting for hprof to 
+    finish dumps. If hprof is dumping larger outputs (such as with 
+    depth=4 while depth=3 works) , it could not finish dump in time 
+    before being killed making entire dump unusable because cpu and 
+    heap stats are missing.
+    
+<p><b>Students:</b> <p> (jf) not sure whether this is a local or distributed concurrency.
+    
+</td>
+     <td><p><b>Types:</b> d, atom-ww, algorithm<p><b>Cat:</b>  01
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-5466"><font size=+1><b>mr-5466</b></font>: Historyserver does not refresh the result of restarted jobs after RM restart (63)</a></td>
+     <td> Restart RM when sort job is running and verify that the job 
+    passes successfully after RM restarts.
+    Once the job finishes successfully, run job status command for sort 
+    job. It shows "Job state =FAILED". Job history server does not 
+    update the result for the job which restarted after RM restart.<br><br>
+    (dev)The problem is that before AM actually exists, it sends a 
+    JobUnsuccessfulCompletionEvent which gets processed by 
+    jobHistoryEventHandler which closes the EventWriter and copy the 
+    jobhistoryfile inside staging directory to done_intermediate dir. 
+    Therefore, when job History Sever is queried, it gives back the old AM's info.
+    
+<p><b>Students:</b> <p> Code: RM-1C-1R
+    
+<p> Ver: 2.1.1-beta
+    
+</td>
+     <td><p><b>Types:</b> d, fault-reboot, sync-dif, cond<p><b>Comp:</b>  RM, HistoryServer
+    
+<p><b>Cat:</b>  03
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-5512"><font size=+1><b>mr-5512</b></font>: TaskTracker hung after failed reconnect to the JobTracker (64)</a></td>
+     <td> TaskTracker hung after failed reconnect to the JobTracker.
+    In case RPC.waitForProxy() throws, TrackerDistributedCacheManager 
+    cleanup thread will never be stopped, and given that it is a non 
+    daemon thread it will keep TT up forever.
+    
+<p><b>Students:</b> <p> <p> Scenario:<br>
+    1. start JT<br>
+    2. stop JT<br>
+    3. start JT again which would tell TT to reinit<br>
+    4. then stop JT, but last JT stop must have the right timing and 
+    run before TT#initialize() executes
+    
+<p> Code: JT-2C-2R
+    
+</td>
+     <td><p><b>Types:</b> d, fault-reboot, net, wait-fail, algorithm<p><b>Comp:</b>  JT, TT
+    
+<p><b>Fault:</b>  event reorder, fault tolerance
+    
+<p><b>Cat:</b>  06
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>50-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-5544"><font size=+1><b>mr-5544</b></font>: JobClient#getJob loads job conf twice (65)</a></td>
+     <td> Calling JobClient#getJob causes the job conf file to be 
+    loaded twice, once in the constructor of JobClient.NetworkedJob and 
+    once in Cluster#getJob. We should remove the former.
+    MAPREDUCE-5001 was meant to fix a race that was causing problems in 
+    Hive tests, but the problem persists because it only fixed one of 
+    the places where the job conf file is loaded.
+    
+</td>
+     <td><p><b>Types:</b> d, atom-wr, cond<p><b>Cat:</b>  01
+</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-2258"><font size=+1><b>mr-2258</b></font>: IFile reader closes stream and compressor in wrong order (66)</a></td>
+     <td> In IFile.Reader.close(), we return the decompressor to the 
+    pool and then call close() on the input stream. This is backwards 
+    and causes a rare race in the case of LzopCodec, since 
+    LzopInputStream makes a few calls on the decompressor object inside 
+    close(). If another thread pulls the decompressor out of the pool 
+    and starts to use it in the meantime, the first thread's close() 
+    will cause the second thread to potentially miss pieces of data.
+    
+<p><b>Students:</b> <p> Scenario: <br>
+    1. return decompressor to the pool<br>
+    2. call close() on input stream (call decompressor object)<br>
+    3. if another thread call decompressor object from the pool (1) 
+    while close() is in process, this thread could miss some data.
+</td>
+     <td><p><b>Types:</b> l<p><b>Comp:</b>  IFileStream
+<p><b>Fault:</b>  event reorder
+    
+<p><b>Spec:</b>  close() stream should be executed before returning 
+    decompressor object
+    
+<p><b>Fix:</b>  Patch
+</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-2341"><font size=+1><b>mr-2341</b></font>: Map and Reduce task JVMs are hanging infinitely  (67)</a></td>
+     <td> When launching Mapreduce application, the property 
+    mapred.job.reuse.jvm.num.tasks has been set to 0, as a result
+    the task JVM(MAP or Reduce JVM) is hanging indefinitely and
+    finally being killed by Tasktracker.
+    
+<p><b>Students:</b> <p> (mz) Due to configuration, advice low priority.
+<p> (td) agree with mz.
+    
+</td>
+     <td><p><b>Types:</b> non<p><b>Comp:</b>  tasktracker
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-2504"><font size=+1><b>mr-2504</b></font>: MR 279: race in JobHistoryEventHandler stop  (68)</a></td>
+     <td> The condition to stop the eventHandling thread currently
+    requires it to be 'stopped' AND interrupted. <br>
+    1. If an interrupt arrives after a take, but before handleEvent is 
+    called - the interrupt status ends up being handled by
+    hadoop.util.Shell.runCommand() - which ignores it (and in the
+    process resets the flag). <br>
+    2. The eventHandling thread subsequently hangs on eventQueue.take()
+    
+<p><b>Students:</b> <p> Ver: 0.23.0
+<p> (td) race, deadlock.
+</td>
+     <td><p><b>Types:</b> l<p><b>Comp:</b>  MRv2
+    
+<p><b>Fault:</b>  event reorder
+    
+<p><b>Spec:</b>  Unsets the interrupted status if it is set before 
+    calling handleEvent
+    
+<p><b>Fix:</b>  Patch
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-2541"><font size=+1><b>mr-2541</b></font>: Race Condition in IndexCache(readIndexFileToCache,removeMap) causes value of totalMemoryUsed corrupt, which may cause TaskTracker continue throw Exception (69)</a></td>
+     <td> The race condition goes like this:<br>
+    Thread1: readIndexFileToCache() totalMemoryUsed.addAndGet(newInd.getSize())<br>
+    Thread2: removeMap() totalMemoryUsed.addAndGet(-info.getSize());<br>
+    1. SpillRecord is being read from fileSystem <br>
+    2. Client kills the job, <br>
+    3. info.getSize() equals 0, <br>
+    4. so in fact totalMemoryUsed is not reduced, <br>
+    5. but after thread1 finished reading SpillRecord, it adds the real 
+    index size to totalMemoryUsed, which makes the value of 
+    totalMemoryUsed wrong(larger).<br>
+    6. When this value(totalMemoryUsed) exceeds totalMemoryAllowed 
+    (this usually happens when a vary large job with vary large reduce 
+    number is killed by the user, probably because the user sets a 
+    wrong reduce number by mistake), and actually indexCache has not 
+    cache anything, freeIndexInformation() will throw exception 
+    constantly.
+</td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-2566"><font size=+1><b>mr-2566</b></font>: MR 279: YarnConfiguration should reloadConfiguration if instantiated with a non YarnConfiguration object (70)</a></td>
+     <td> YarnConfiguration(conf) uses the ctor Configuration(conf) 
+    which is effectively a clone. If the configuration object is 
+    created before YarnConfiguration has been loaded - yarn-site.xml 
+    will not be available to the configuration.
+</td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-2631"><font size=+1><b>mr-2631</b></font>: Potential resource leaks in BinaryProtocol$TeeOutputStream.java and TaskLogServlet.java (71)</a></td>
+     <td></td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-2651"><font size=+1><b>mr-2651</b></font>: Race condition in Linux Task Controller for job log directory creation (72)</a></td>
+     <td> There is a rare race condition in linux task controller when 
+    concurrent task processes tries to create job log directory at the 
+    same time.
+</td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-2705"><font size=+1><b>mr-2705</b></font>: tasks localized and launched serially by TaskLauncher - causing other tasks to be delayed (73)</a></td>
+     <td> The current TaskLauncher serially launches new tasks one at
+    a time.  During the launch it does the localization and then
+    starts the map/reduce task.  This can cause any other tasks to be
+    blocked waiting for the current task to be localized and started.
+    In some instances we have seen a task that has a large file to
+    localize (1.2GB) block another task for about 40 minutes.  This
+    particular task being blocked was a cleanup task which caused the
+    job to be delayed finishing for the 40 minutes.
+    
+<p><b>Students:</b> <p> Model: mr-2705
+<p> (jf) this case is a multi-thread case, isn't it?
+    
+</td>
+     <td><p><b>Types:</b> l<p><b>Comp:</b>  tasktracker
+<p><b>Impact:</b>  backlog, prolonged job exec.
+    
+</td>
+     <td><p> Looks great. New component: job localization, task tracker. 
+<p> Discuss: the solution is unclear though?
+</td>
+    </tr>
+    <tr class=noshade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-2813"><font size=+1><b>mr-2813</b></font>: Tasks freeze with "No live nodes contain current block", job takes long time to recover (74)</a></td>
+     <td> I think the root cause of this was me using values that were too 
+    small for dfs.namenode.handler.count, dfs.datanode.max.xcievers 
+    and ipc.client.connection.maxidletime.
+    
+<p><b>Students:</b> <p> dev: I did talk to Owen about already, but thought it might be 
+    useful to at least get the JIRA filed to put more eyes on it since 
+    race conditions are usually pretty awful to track down.
+</td>
+     <td><p><b>Types:</b> non</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-2846"><font size=+1><b>mr-2846</b></font>: a small % of all tasks fail with DefaultTaskController (75)</a></td>
+     <td> After upgrading our test 0.20.203 grid to 0.20.204-rc2, we 
+    ran terasort to verify operation. While the job completed 
+    successfully, approx 10% of the tasks failed with task runner 
+    execution errors and the inability to create symlinks for attempt logs.
+    
+<p><b>Students:</b> <p> dev: there is a missing synchronization in writeToIndexFile.
+    
+<p> (jf) not clear with the case here.
+</td>
+     <td><p><b>Types:</b> non</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-2862"><font size=+1><b>mr-2862</b></font>: Infinite loop in CombineFileInputFormat#getMoreSplits(), with missing blocks (76)</a></td>
+     <td> At first, we lost some blocks by mis-operation. Then, one 
+    job tried to use these missing blocks. At that time getMoreSplits() 
+    goes into the infinite loop.
+    
+</td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-2881"><font size=+1><b>mr-2881</b></font>: mapreduce ant compilation fails "java.lang.IllegalStateException: impossible to get artifacts" (77)</a></td>
+     <td> impossible to get artifacts when data has not been loaded.
+</td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-2954"><font size=+1><b>mr-2954</b></font>: Deadlock in NM with threads racing for ApplicationAttemptId (78)</a></td>
+     <td> Because of the root bug, the (only) MR AM had one of its map 
+    stuck in SUCCESS_CONTAINER_CLEANUP state. On the NM, the stopContainer() 
+    request from this AM was stuck on ApplicationAttemptId too.
+    So because of this, the map got stuck, all the reducers were 
+    spinning for TaskCompletionEvents and the world came to a halt.
+    
+</td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-2997"><font size=+1><b>mr-2997</b></font>: MR task fails before launch itself with an NPE in ContainerLauncher (79)</a></td>
+     <td> This is because of a thread-race in ContainerLauncher. Add sync to
+    solve it.
+</td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3058"><font size=+1><b>mr-3058</b></font>: Sometimes task keeps on running while its Syslog says that it is shutdown (80)</a></td>
+     <td> The task code duly failed because of a datanode issues, but 
+    one of the threads in the GridMix's job - LoadJob.StatusReporter - 
+    is hanging.
+</td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3084"><font size=+1><b>mr-3084</b></font>: race when KILL_CONTAINER is received for a LOCALIZED container (81)</a></td>
+     <td> Depending on when ContainersLaunch starts a container, 
+    KILL_CONTAINER when container state is LOCALIZED 
+    (LAUNCH_CONTAINER event already sent) can end up generating 
+    a CONTAINER_LAUNCHED event - which isn't handled by 
+    ContainerState: KILLING. Also, the launched container won't be killed 
+    since CLEANUP_CONTAINER would have already been processed.
+    
+<p><b>Students:</b> <p> ContainerLaunch does a bunch of setup steps needed for the
+    container and if a kill arrives during any of it, the container
+    will never be killed. We do cancel the Future, but that is without
+    any interrupts. Also we try to kill the process, but the PID may
+    not be available at that point of time. This part of the code
+    needs a minor redesign.(regarding from vinod comment)
+<p> Code: NM-0C-0R
+    
+<p> Ver: 0.23.0
+    
+<p> (mz) Not sure about the order of events here.
+    
+</td>
+     <td><p><b>Types:</b> l<p><b>Comp:</b>  NM
+<p><b>Fault:</b>  event reorder
+    
+<p><b>Fix:</b>  Patch
+    
+</td>
+     <td><p> "good catch", it's about container cleaning up. Looks simple
+      enough, but not a poster bug.
+</td>
+    </tr>
+    <tr class=shade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3159"><font size=+1><b>mr-3159</b></font>: DefaultContainerExecutor removes appcache dir on every localization (82)</a></td>
+     <td> The DefaultContainerExecutor currently has code that removes 
+    the application dir from appcache/ in the local directories on 
+    every task localization. This causes any concurrent executing tasks 
+    from the same job to fail.
+</td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3226"><font size=+1><b>mr-3226</b></font>: Few reduce tasks hanging in a gridmix-run (83)</a></td>
+     <td> In a gridmix run with ~1000 jobs, one job is getting stuck 
+    because of 2-3 hanging reducers. All of the them are stuck after 
+    downloading all map outputs and have the following thread dump.
+</td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3306"><font size=+1><b>mr-3306</b></font>: Cannot run apps after MAPREDUCE-2989 (84)</a></td>
+     <td> will happen if INIT_APPLICATION + APPLICATION_INITED processed 
+    before any INIT_CONTAINER.
+</td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3355"><font size=+1><b>mr-3355</b></font>: AM scheduling hangs frequently with sort job on 350 nodes (85)</a></td>
+     <td> Sort job hangs not so rarely on a 350 node cluster.<br><br>
+    Canceling the timer doesn't affect the timer task if it's already 
+    started. An interrupt could come in anytime after the cancel - 
+    which could interrupt the TA_CONTAINER_CLEANED event or the 
+    ContainerLaunchedEvent. This would be a combination of 
+    startContainer finishing around when the timer expires + some very 
+    specific thread scheduling. Also if the start/stopContainer were to 
+    complete around the same time as when the timer kicks in.<br>
+    Possible fix would be to synchronize in the main task on the 
+    CommandTimer when we don't care about interrupts, and always 
+    synchronize the CommandTimer on itself.
+    
+<p><b>Students:</b> <p> (jf) I don't really understand this case.
+</td>
+     <td><p><b>Types:</b> l<p><b>Comp:</b>  AM
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3519"><font size=+1><b>mr-3519</b></font>: Deadlock in LocalDirsHandlerService and ShuffleHandler (86)</a></td>
+     <td> MAPREDUCE-3121 cloned Configuration object in 
+    LocalDirsHandlerService.init() to avoid others to access that 
+    configuration object. But since it is used in local FileSystem 
+    object creation in LocalDirAllocator.AllocatorPerContext and the 
+    same FileSystem object is used in 
+    ShuffleHandler.Shuffle.localDirAllocator, this is causing a 
+    deadlock when accessing this configuration object from 
+    LocalDirsHandlerService and ShuffleHandler along with 
+    AllocatorPerContext object.
+    
+<p><b>Students:</b> <p> </td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3537"><font size=+1><b>mr-3537</b></font>: DefaultContainerExecutor has a race condn. with multiple concurrent containers (87)</a></td>
+     <td> DCE relies cwd before calling ContainerLocalizer.runLocalization. 
+    However, with multiple containers setting cwd on same localFS reference leads to race.
+</td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3562"><font size=+1><b>mr-3562</b></font>: Concurrency issues in MultipleOutputs,JobControl,Counters (88)</a></td>
+     <td> try to prevent local concurrency
+</td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3586"><font size=+1><b>mr-3586</b></font>: Lots of AMs hanging around in PIG testing (89)</a></td>
+     <td> Modified CompositeService to avoid duplicate stop operations 
+    thereby solving race conditions in MR AM shutdown.<br><br>
+    There is a stop-gap solution: Making the stop() of CompositeService 
+    reentrant so that components are only stopped once. Once we do that, 
+    we can prevent this issue of two threads waiting to join on each 
+    other completely.
+</td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3621"><font size=+1><b>mr-3621</b></font>: TestDBJob and TestDataDrivenDBInputFormat ant tests fail (90)</a></td>
+     <td> There is still a DB connection thread around and it gets into 
+    a deadlock between the connection thread and the server shutdown in 
+    the main thread. The Server shutdown in the main thread gets a lock 
+    and waits (presumable for the connections to go away), the 
+    connection itself is trying to obtain that same lock to do a print. 
+    The connection never goes away so the server shutdown times out.
+    
+<p><b>Students:</b> <p> </td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3714"><font size=+1><b>mr-3714</b></font>: Reduce hangs in a corner case (91)</a></td>
+     <td> Fixed EventFetcher and Fetcher threads to shut-down properly 
+    so that reducers don't hang in corner cases.
+</td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3738"><font size=+1><b>mr-3738</b></font>: NM can hang during shutdown if AppLogAggregatorImpl thread dies unexpectedly (92)</a></td>
+     <td> If an AppLogAggregator thread dies unexpectedly (e.g.: 
+    uncaught exception like OutOfMemoryError in the case I saw) then 
+    this will lead to a hang during nodemanager shutdown. The NM calls 
+    AppLogAggregatorImpl.join() during shutdown to make sure log 
+    aggregation has completed, and that method internally waits for an 
+    atomic boolean to be set by the log aggregation thread to indicate 
+    it has finished. Since the thread was killed off earlier due to an 
+    uncaught exception, the boolean will never be set and the NM hangs 
+    during shutdown 
+    
+</td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3749"><font size=+1><b>mr-3749</b></font>: ConcurrentModificationException in counter groups (93)</a></td>
+     <td> Iterating over a counter's groups while adding more groups 
+    will cause a ConcurrentModificationException.
+</td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3822"><font size=+1><b>mr-3822</b></font>: TestJobCounters is failing intermittently on trunk and 0.23. (94)</a></td>
+     <td> This looks like more of a FileSystem Statistics issue.<br>
+    Scenario:<br> 
+    1.Creating FileSystems like FilterFileSystem/RawLocalFileSystem, 
+    LocalFileSystem which all use the same uri (file://). 
+    2.On a getAllStatistics() it will return all the stats for all 3 
+    file systems, but only one of them is the true filesystem whose 
+    stats are being updated. 
+    3.When we update our counters in Task.java (updateCounters), we 
+    just use the scheme and set the counter values. So there is a 
+    race condition on which order you get the FileSystem Stats in 
+    which might lead to a value of 0 for FS counters.<br>
+    Solution: We could fix this in Common or just do a hack on 
+    checking non zero counters which we consider as the right counters.
+</td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3846"><font size=+1><b>mr-3846</b></font>: Restarted+Recovered AM hangs in some corner cases (95)</a></td>
+     <td> After the first generation AM crashes (manually killed by kill -9),
+    the second generation AM starts, but hangs after a while.
+    
+<p><b>Students:</b> <p> Issues happend whenever I kill AM after all maps are finshed and
+    only reduces are running.
+    
+<p> Scenario:
+    1. all maps are finshed and only reduces are running 
+    2. AM crashes
+    3. second AM starts and hangs
+    
+<p> Sequence of events:
+    
+<p> Initial workload: any workload
+    1. Tasks start
+    2. There are tasks that have multiple attempts
+    3. One of attempts fails before launch itself and doesn't get logged to JobHistory
+    (let's say for one task there are 4 attempts, 0, 1, 2 and 3, and 2 fails)
+    4. AM restarts
+    5. During job recovery, AM sees that one task has 3 attempts(0, 1 and 3, 2 is not recorded),
+    so it replays attmpet 0, 1 and 2, but 2 is not recorded so AM gets a NPE and hangs.
+    
+<p> Termination point: AM hangs after restarting
+    
+<p> Code: AM-1C-1R
+    
+<p> Ver: 0.23.1
+</td>
+     <td><p><b>Types:</b> l<p><b>Comp:</b>  AM
+    
+<p><b>Fault:</b>  event reorder
+    
+<p><b>Spec:</b>  task attempts should be logged even before launched
+    
+<p><b>Fix:</b>  Patch
+    
+</td>
+     <td><p> Good. Specific scenario: Issues happend whenever I kill AM after
+      all maps are finshed and only reduces are running. Critical.
+</td>
+    </tr>
+    <tr class=shade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3872"><font size=+1><b>mr-3872</b></font>: event handling races in ContainerLauncherImpl and TestContainerLauncher (96)</a></td>
+     <td> TestContainerLauncher is failing intermittently for me.
+    
+</td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3988"><font size=+1><b>mr-3988</b></font>: mapreduce.job.local.dir doesn't point to a single directory on a node. (97)</a></td>
+     <td> There are a couple of race conditions with this implementation 
+    because of the fact that each YarnChild task attempt is running in 
+    its own JVM. This patch addresses one of the race conditions.
+    The race addressed by this patch is when 2 or more tasks at the same 
+    time detect there is no mapreduce.job.local.dir and try to create 
+    it in the same directory at the same time. Whichever one loses the 
+    race will get a FileAlreadyExistsException, which is ignored.
+    There is still a race condition wherein 2 tasks running on the 
+    same node could both see that there is no mapreduce.job.local.dir 
+    and then try to create it in 2 different directories; for eg, one 
+    in /grid/0 and one in /grid/1.
+    
+</td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4088"><font size=+1><b>mr-4088</b></font>: Task stuck in JobLocalizer prevented other tasks on the same node from committing (98)</a></td>
+     <td> A stuck task should never prevent other tasks from different
+    jobs on the same node from committing.  Queue full of tasks need
+    to clean up. And there is a single thread that pick a task to
+    clean up.  The problem is that this thread can hang waiting a task
+    to clean up, hence blocking others.  Fix is to timeout the clean
+    up and put it back into the queue. Update: not sure how to relate
+    "localizing" and "committing". These seems like two separate
+    issues.  One possiblity: localizing some how blocks heartbeat,
+    hence making "commiting" jobs fail and wait forever.
+<p><b>Students:</b> <p> <p> (td) clean up = remove temp output directory, so it involves i/os.
+    This process happen when a task completes, either failed, or being
+    killed.
+<p> (td) commit = writing temp output directory to final
+    location. This process needs to wait for approval from JT to avoid
+    > 1 attempts of same task write to same output dir. This commit
+    phase is applicable for reducer only (or map which writes its
+    output to hdfs)
+<p> (td) localizing = downloading side-files, jar at setup phase.
+<p> Model: mr-4088
+</td>
+     <td><p><b>Types:</b> l<p><b>Comp:</b>  Clean up; work flow, queue, multiple jobs, localizing
+    
+<p><b>Impact:</b>  TT fills up with tasks waiting for cleanup and the node is
+    rendered useless. (td) <i> Tasks wait for cleanup, so still
+    considered running. <s>That is my guess but haven't looked into the
+    code to verify. </s> Verified.</i>
+    
+<p><b>Test:</b>  TBD
+<p><b>Fault:</b>  Slow I/O
+<p><b>Spec:</b>  TBD
+<p><b>Fix:</b>  <p> (patch) wait 5 seconds on job localization. If the job
+    still localizing, put back the cleanup task in the queue and hope
+    that next time it will succeeds.
+    <p> (op) TBD
+</td>
+     <td><p> (hg) there are serialization of operations, and deep
+      dependency. e.g. a cleanup thread depends on a task that is
+      trying to clean up.  inside that task clean up, there might be
+      some i/os that are slow (qqq:true??).  now, there are other new
+      tasks that depends on the cleanup thread to finish.  this new
+      tasks cannot run.  so we need the ability to find deep
+      dependency. qqq: why a task cleanup can be slow? does this
+      per-task cleanup involve an I/O. if so great.
+<p> (hg) Good for future Riza's limplock static analysis.
+<p><b>Tax:</b>  Design (serial)
+</td>
+    </tr>
+    <tr class=noshade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4139"><font size=+1><b>mr-4139</b></font>: Potential ResourceManager deadlock when SchedulerEventDispatcher is stopped (99)</a></td>
+     <td> When the main thread calls 
+    ResourceManager$SchedulerEventDispatcher.stop() it grabs a lock on 
+    the object, kicks the event processor thread, and then waits for 
+    the thread to exit. However the interrupted event processor thread 
+    can end up trying to call the synchronized getConfig() method which 
+    results in deadlock.
+    
+</td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4152"><font size=+1><b>mr-4152</b></font>: map task left hanging after AM dies trying to connect to RM (100)</a></td>
+     <td> We had an instance where the RM 
+    went down for more then an hour. The 
+    application master exited with "Could 
+    not contact RM after 360000 milliseconds".
+    The Job did not kill off the map task that 
+    it had running before exiting.
+    
+<p><b>Students:</b> <p> (td) this is more like FATE-DESTINI issue. No limplock. The
+    problem here is that when RM goes down and cannot restart, AM
+    times out connection and shutdown it self, but does not kill all
+    it tasks.
+    
+<p> Code: RM-1C-0R
+</td>
+     <td><p><b>Types:</b> d, fault-crash, wait-fail, algorithm<p><b>Comp:</b>  AM
+    
+<p><b>Test:</b>  RM down when AM is running
+    
+<p><b>Fault:</b>  crash
+<p><b>Cat:</b>  06
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4194"><font size=+1><b>mr-4194</b></font>: ConcurrentModificationError in DirectoryCollection (101)</a></td>
+     <td> As found as part of work on MAPREDUCE-4169, it is possible 
+    for a ConcurrentModificationException to be thrown upon disk 
+    failure. DirectoryCollection hands out its internal list structure 
+    that is accessed across multiple threads. Upon disk failure its 
+    list is modified, invalidating all current iterators to that 
+    structure.
+</td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4359"><font size=+1><b>mr-4359</b></font>: Potential deadlock in Counters (102)</a></td>
+     <td> JCarder identified this deadlock in branch-1 (though it may 
+    also be present in trunk):<br>
+    1.Counters.size() is synchronized and locks Counters before Group<br>
+    2.Counters.Group.getCounterForName() is synchronized and calls through to Counters.size()<br>
+    This creates a potential cycle which could cause a deadlock (though probably quite rare in practice)
+    
+</td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4372"><font size=+1><b>mr-4372</b></font>: Deadlock in Resource Manager between SchedulerEventDispatcher.EventProcessor and Shutdown hook manager (103)</a></td>
+     <td> Deadlocks in RM.
+    
+<p><b>Students:</b> <p> (mz) I think we have seen issues where RM hang/down
+    can cause AMs to hang.
+<p> (td) deadlock, not interesting
+</td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4384"><font size=+1><b>mr-4384</b></font>: Race conditions in IndexCache (104)</a></td>
+     <td> The cache entry was freed by a removeMap() call, but the 
+    corresponding entry was not found in the queue. This can happen if 
+    removeMap() is called while the cache entry is being loaded. If a 
+    new incomplete entry is added to the cache between cache.get(mapId) 
+    and {[cache.remove{{mapId}} in removeMap(), the new entry will be 
+    removed from the cache. Further, if totalMemoryUsed is updated 
+    before the entry is fully loaded, it will end up subtracting zero 
+    from the usage. When the loading is complete in 
+    readIndexFileToCache(), totalMemoryUsed will be incremented, but 
+    since it was already removed from the cache, there is no way it 
+    can be decremented. Hence the discrepancy in memory usage tracking.
+</td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4400"><font size=+1><b>mr-4400</b></font>: Fix performance regression for small jobs/workflows (105)</a></td>
+     <td> The communication race condition that can cause occasional 
+    1 minute timeout but make the PROGRESS_INTERVAL sleep pretty much 
+    mandatory. Any tasks including setup and cleanup tasks would need 
+    to sleep at least 3 seconds to finish.
+    
+</td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4691"><font size=+1><b>mr-4691</b></font>: Historyserver can report "Unknown job" after RM says job has completed (106)</a></td>
+     <td> There is a race condition in the historyserver where two 
+    threads can be trying to scan the same user's done intermediate 
+    directory for two separate jobs. One thread will win the race and 
+    update the user timestamp in HistoryFileManager.scanIntermediateDirectory 
+    before it has actually completed the scan. The second thread will 
+    then see the timestamp has been updated, think there's no point in 
+    doing a scan, and return with no job found.
+</td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4730"><font size=+1><b>mr-4730</b></font>: AM crashes due to OOM while serving up map task completion events (107)</a></td>
+     <td> IPC layer has only single reponsder thread. If response size
+    is large and we have many client could OOM
+<p><b>Students:</b> <p> <p> (td) Marked it 10 because load related.
+<p> (td) Say we have 10 clients, all asking for big answer. A slow
+    client can make the responder slow.
+</td>
+     <td><p><b>Types:</b> non<p><b>Fault:</b>  load
+</td>
+     <td><p> Lots of loads to the input, and limpware at the output of
+      response thread, then lots of data will make make responder
+      thread OOM.
+<p> (td) agree, single responder thread can be in limplock.
+</td>
+    </tr>
+    <tr class=shade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4797"><font size=+1><b>mr-4797</b></font>: LocalContainerAllocator can loop forever trying to contact the RM (108)</a></td>
+     <td> If LocalContainerAllocator has trouble communicating with
+    the RM it can end up retrying forever if the nature of the error
+    is not a YarnException. In this scenario, the looping AM continues
+    to pelt the RM with connection requests every second using a stale
+    token, and the RM logs the SASL exceptions over and over.
+    
+<p><b>Students:</b> <p> bad handling, caused connection went down because the cluster was reset such that the RM and NM have lost track of the process and therefore nothing else will eventually kill the process
+<p> (mz) "the looping AM continues to pelt the RM" makes me think
+    that the AM just hang, thus forming a limplock.
+    
+<p> (td) eh: Bad error handling, can lead to forever loop. Not necessary a
+    limplock.
+</td>
+     <td><p><b>Types:</b> non<p><b>Comp:</b>  AM
+    
+</td>
+     <td></td>
+    </tr>
+    <tr class=noshade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-4992"><font size=+1><b>mr-4992</b></font>: AM hangs in RecoveryService when recovering tasks with speculative attempts (109)</a></td>
+     <td> A job hung in the Recovery Service on an AM restart. 
+    There were four map tasks events that were not processed 
+    and that prevented the complete task count from reaching 
+    zero which exits the recovery service. All four tasks were speculative.
+    
+<p><b>Students:</b> <p> Code: AM-?C-0R
+    
+<p> Ver: 0.23.7, 2.1.0-beta 
+<p> (td) Why AM cannot recover spec. tasks? Does the recovery process
+    involve any I/O, if so then a limpware can make this recovery
+    process slow, too.
+<p> (td) this in my todo list, after reading AM code, will have better
+    answer. But my guess for now is there is a bug in the parser when
+    reading history files that doesn't take into account the
+    scenarios. <b> Update: </b> Mingzhe description is confusing. The
+    impact is AM hung when restart, not tasks hang. So the problem is,
+    when AM restarts, it needs to read history file and decide which
+    tasks are completed, which tasks has to restart and so on. But the
+    code does not take into account the fact that their may be
+    multiple attempts of the same tasks, hence, the condition that
+    breaks recovery service never met. Hence AM stucks in recovery
+    service forever. For me, this bug is not interesting.
+    
+<p> (jf) this is not a distributed concurrency case. This case shows a
+    design flaw, so that every completed speculative attempt won't be 
+    executed in a recovery process.
+</td>
+     <td><p><b>Types:</b> non<p><b>Comp:</b>  Application manager
+    
+<p><b>Fault:</b>  Implementation error
+    
+<p><b>Spec:</b>  Should make sure that backup tasks are also re-executed
+    
+<p><b>Fix:</b>  Patch.
+</td>
+     <td><p> Not sure what happens.
+<p> Not really a limplock bug. But this can be caught by model checking.
+      e.g. the model checker make sure tasks are re-executed in backup task.
+      so the model checker must inject delay, but also then a crash!!
+      So this could be interesting for SAMC!
+</td>
+    </tr>
+    <tr class=noshade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-5124"><font size=+1><b>mr-5124</b></font>: AM lacks flow control for task events (110)</a></td>
+     <td> AM does not limit the incoming rate of events(what kinds of
+    events? When/How are they generated? Will limpware trigger these
+    events?) and can exhaust heap and crash.
+    
+<p><b>Students:</b> <p> (td) no admission control, but if a limpware can cause similar
+    effects, then this will be interesting. Mingzhe, I told you to dig
+    deep on this, right?
+<p> (td) I need to look into the code myself, but yes, I guess if the
+    *output* side is slow then this is interesting. From YARN design
+    document, it is possible to recover from an AM crashes. So
+    definitily AM must perform some kind of logging to perform
+    recovery, as describe <a
+    href="https://issues.apache.org/jira/browse/MAPREDUCE-2708">here</a>
+    
+<p> (mz) by looking at the code, I find that AM needs to deal with 
+    following events:
+    from tasks: T_ATTEMPT_LAUNCHED, T_ATTEMPT_FAILED, T_ATTEMPT_SUCCEEDED, T_ATTEMPT_KILLED
+    JOB_TASK_COMPLETED, JOB_MAP_TASK_RESCHEDULED, JOB_TASK_ATTEMPT_COMPLETED,
+    JOB_TASK_ATTEMPT_FETCH_FAILURE, 
+    from resource containers: TA_ASSIGNED, TA_CONTAINER_COMPLETED, 
+    TA_CONTAINER_LAUNCHED, TA_CONTAINER_LAUNCH_FAILED
+    from speculator: ATTEMPT_STATUS_UPDATE, ATTEMPT_START, TASK_CONTAINER_NEED_UPDATE,
+    JOB_CREATE;
+    When limping happens, for large job that needs a lot of speculative tasks, there
+    can be a burst of events(T_ATTEMPT_LAUNCHED, T_ATTEMPT_FAILED, T_ATTEMPT_KILLED....) 
+    and cost AM's resource.
+</td>
+     <td><p><b>Types:</b> l<p><b>Comp:</b>  Application master
+</td>
+     <td><p> (hg) see my notes in mr-3228 why this is a high priority.
+<p> AM needs to deal with tail-tolerance.  Before we have only one
+      job tracker that must up all the time.  Now with AMs, we have
+      all of AMs, and the failure model changes that AMs can fail!!
+      and can slow!! so tail-tolerance must deal with many other
+      components.
+      
+<p> This is input and output problem.  input lots of load and output
+      is slow, then limplock.
+<p> limpware can only escale the problem if when those signals come,
+      the AM cannot consume/forward those signals as fast as the
+      incoming rate.  so limpware on the *output* line will make queue
+      grow. 
+      thus, if AM is the final destination then there is no output line.
+      thus a load of incoming requests to AM will just make AM collapse, and 
+      this is an admission control issue.
+      so, is there such an output line?
+      
+<p> (td) AM must write events to job history for recovery in case of
+      AM crashes. Job history should be in a shared file system, so
+      that subsequent will be able to perform recovery. Now the
+      question is how AM performs these writes. (detailed in
+      JobHistoryEventHandler.java)
+<p> <bf>Tax:</bf> Absent recovery
+</td>
+    </tr>
+    <tr class=noshade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-5154"><font size=+1><b>mr-5154</b></font>: staging directory deletion fails because delegation tokens have been cancelled (111)</a></td>
+     <td> In a secure setup, the jobtracker needs the job's delegation 
+    tokens to delete the staging directory. MAPREDUCE-4850 made it so 
+    that job cleanup staging directory deletion occurs asynchronously, 
+    so that it could order it with system directory deletion. 
+    This introduced the issue that a job's delegation tokens could be 
+    cancelled before the cleanup thread got around to deleting it, 
+    causing the deletion to fail.
+</td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+    <tr class=shade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-5169"><font size=+1><b>mr-5169</b></font>: Job recovery fails if job tracker is restarted after the job is submitted but before its initialized (112)</a></td>
+     <td> This was noticed when within 5 seconds of submitting 
+    a word count job, the job tracker was restarted. Upon restart
+    the job failed to recover.
+    
+<p><b>Students:</b> <p> Scenario:
+    1. Job is submitted
+    2. Before job is initialized, JT is restarted
+    3. Since the job's state has not been stored yet, those jobs will
+    not be recovered
+    
+<p> Sequence of events:
+    
+<p> Initial workload: word count
+    
+<p> 1. Wordcount job is submitted, and the jobToken is not stored yet.
+    2. Before job is initialized and jobToken gets stored, JT crashes and restarts
+    3. Since JT doesn't store the jobToken, recovery fails.
+    
+<p> Termination point: JT restarts and original job is not recovered.
+    
+<p> Code: JT-1C-1R
+    
+<p> Ver: 1.2.0 
+    
+</td>
+     <td><p><b>Types:</b> l<p><b>Comp:</b>  JT
+<p><b>Fault:</b>  event reorder
+    
+<p><b>Spec:</b>  jobToken should be stored at job-submit along-with job-info file
+<p><b>Fix:</b>  Patch
+    
+</td>
+     <td><p> Looks like a simple locking bug. Old version.
+       
+</td>
+    </tr>
+    <tr class=shade>
+     <td><b>99-2jf-mr</b><br><br>M:<img width=15 height=15 src="cross.gif"><br>S:<img width=15 height=15 src="cross.gif"></td>
+     <td><a href="https://issues.apache.org/jira/browse/MAPREDUCE-5384"><font size=+1><b>mr-5384</b></font>: Races in DelegationTokenRenewal (113)</a></td>
+     <td> Races to fix:<br>
+    1.TimerTask#cancel() disallows future invocations of run(), but 
+    doesn't abort an already scheduled/started run().<br>
+    2.In the context of DelegationTokenRenewal, RenewalTimerTask#cancel() 
+    only cancels that TimerTask instance. However, it has no effect on 
+    any other TimerTasks created for that token.
+</td>
+     <td><p><b>Types:</b> l</td>
+     <td></td>
+    </tr>
+   </tbody>
+  </table>
+ </body>
+</html>

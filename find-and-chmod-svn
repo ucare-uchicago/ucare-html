@@ -1,0 +1,19 @@
+#!/bin/bash
+
+
+if [ $# != 1 ]; then
+    echo ""
+    echo "  find-and-remove-svn [test/do]"
+    echo ""
+    exit
+fi
+
+if [ "$1" == "test" ]; then
+    find . -name .svn 
+    exit
+fi
+
+if [ "$1" == "do" ]; then
+    find . -name .svn -exec chmod -R -v 770  '{}' \;
+fi
+

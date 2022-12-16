@@ -1,0 +1,25 @@
+
+University of Chicago
+Department of Computer Science
+Postdoctoral Scholar in Operating Systems / Cloud Computing
+
+We are recruiting a postdoctoral scholar to design faster and more reliable
+OS-level File Systems in the context of Cloud Computing.  This research will
+involve inter-disciplinary areas such as file/storage systems, operating
+systems, distributed systems, databases, and software engineering.  This
+position provides the opportunity to work with researchers in the UCARE group
+(UChicago systems research on Availability Reliability and Elasticity) and also
+the larger systems group in our department. The appointment is for two years.
+
+For more information on UCARE and the systems group, please visit:
+http://people.cs.uchicago.edu/~haryadi/ucare and
+http://systems.cs.uchicago.edu
+
+A recent PhD in Computer Science is required.  This position will be open
+until filled.
+
+Instruction:
+
+Please send your CV (include references) and research statement to Professor
+Haryadi Gunawi ([first-name]@cs.uchicago.edu)
+

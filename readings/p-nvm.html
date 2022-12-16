@@ -1,0 +1,117 @@
+
+
+<!--
+
+    pg: tag
+-->
+
+<head>
+<title>p-nvm</title>
+<style type="text/css">
+<!--
+  BODY   {font-size: 90%; font-family: arial; background:black; color:white}
+    h2   {color:#8FBC8F;}
+    h3   {color:#D98719}
+    h3   {color:#00cccc}
+    h6   {color:#444444; text-decoration:underline; font-weight:bold}
+
+    pc   {color:#CC0000;}
+
+
+
+    pf   {font-size:80%}
+    pa   {color:#AAAAAA; font-style:italic; font-size:90%}
+    pg   {color:orange; font-style:italic; font-size:90%}
+    ps   {color:#666666; font-size:75%; margin-left:40pt; font-style:italic;}
+
+    tr.a {background-color:#e9e9e9}
+
+
+    a {text-decoration:underline}
+
+    pt   {color:#EEBB55; }
+    a:link { color:#EEBB55; }
+    a:visited { color:#CC6699; }
+    a:hover { !important; color=#00cc00; background:#333333; }
+    a:active { color:#eebb55;}
+
+-->
+</style>
+</head>
+
+<body>
+<nobr>
+
+<ol>
+<h1>p-nvm</h1>
+
+
+
+
+
+<br><br><h2> NAND </h2>
+<li><pc>[ICS '11]</pc> <pt>Performance Impact and Interplay of SSD Parallelism through Advanced Commands, Allocation Strategy and Data Granularity.</pt> <pa>Yang Hu, Hong Jiang, Dan Feng, Lei Tian, Hao Luo, Shuping Zhang</pa> <pg></pg>
+
+<li><pc>[HotStorage '13]</pc> <a href="sum/hotstorage/13-nandFlash.txt"> What Systems Researchers Need to Know about NAND Flash.</a> <pa>Peter Desnoyers</pa> <pg></pg> 
+
+<li><pc>[MICRO '09]</pc> <a href="sum/micro/09-flashAnomalies.txt"> Characterizing Flash Memory: Anomalies, Observations, and Applications.</a> <pa>Laura M. Grupp, Adrian M. Caulfield, Joel Coburn, Steven Swanson, Eitan Yaakobi, Paul H. Siegel, Jack K. Wolf</pa> <pg></pg> 
+
+<li><pc>[Article '11]</pc> <pt>NAND Flash Media Management Through RAIN.</pt> <pa>Scott Shadley</pa> <pg></pg>
+
+<li><pc>[Web '12]</pc> <pt>Critical Role of Firmware and Flash Translation Layers in Solid State Drive Design.</pt> <pa>Robert Sykes</pa> <pg>(http://www.flashmemorysummit.com/English/Collaterals/Proceedings/2012/20120821_TB11_Sykes.pdf )</pg>
+
+
+
+<br><br><h2> RAID </h2>
+<li><pc>[ASPLOS '04]</pc> <pt>Deconstructing Storage Arrays.</pt> <pa>Timothy E. Denehy, John Bent, Florentina I. Popovici, Andrea C. Arpaci-Dusseau, Remzi H. Arpaci-Dusseau</pa> <pg></pg>
+
+
+
+<br><br><h2> Virtualization </h2>
+<li><pc>[SOSP '13]</pc> <a href="sum/sosp/13-virtuOSkernel.txt"> VirtuOS: An Operating System with Kernel Virtualization.</a> <pa>Ruslan Nikolaev, Godmar Back</pa> <pg></pg> 
+
+
+
+<br><br><h2> Multi-Tenancy Per Server </h2>
+<li><pc>[EuroSys '13]</pc> <a href="sum/eurosys/13-hClock.txt"> hClock: Hierarchical QoS for Packet Scheduling in a Hypervisor.</a> <pa>Jean-Pascal Billaud, Ajay Gulati</pa> <pg></pg> 
+
+
+
+<br><br><h2> Access Contention </h2>
+<li><pc>[ASPLOS '13]</pc> <a href="sum/asplos/13-randomMemAccess.txt"> Regularities Considered Harmful: Forcing Randomness to Memory Accesses to Reduce Row Buffer Conflicts for Multi-Core Multi-Bank Systems.</a> <pa>Heekwon Park, Seungjae Baek, Jongmoo Choi, Donghee Lee, Sam H. Noh</pa> <pg></pg> 
+
+<li><pc>[ASPLOS '13]</pc> <a href="sum/asplos/13-reqos.txt"> ReQoS: Reactive Static/Dynamic Compilation for QoS in Warehouse Scale Computers.</a> <pa>Lingjia Tang, Jason Mars, Wei Wang, Tanima Dey, Mary Lou Soffa</pa> <pg></pg> 
+
+
+
+<br><br><h2> Platforms </h2>
+<li><pc>[Web '55]</pc> <pt>BEEcube.</pt> <pa>http://beecube.com/products/</pa> <pg></pg>
+
+<li><pc>[Web '55]</pc> <pt>Facebook Flashcache.</pt> <pa>https://github.com/facebook/flashcache/</pa> <pg></pg>
+
+<li><pc>[Web '55]</pc> <pt>Persistent Memory File System.</pt> <pa>https://github.com/linux-pmfs/pmfs</pa> <pg></pg>
+
+<li><pc>[Web '55]</pc> <pt>LightNVM.</pt> <pa>https://github.com/MatiasBjorling/LightNVM</pa> <pg></pg>
+
+
+
+<br><br><h2> SSD Simulator </h2>
+<li><pc>[Web '55]</pc> <pt>SSDSim.</pt> <pa>http://storage.hust.edu.cn/SSDsim/</pa> <pg></pg>
+
+<li><pc>[Web '55]</pc> <pt>VSSIM: Virtual Machine based SSD SIMulator.</pt> <pa>http://esos.hanyang.ac.kr/vssim/</pa> <pg></pg>
+
+<li><pc>[Web '55]</pc> <pt>FlashSim: Objected-Oriented Flash based SSD simulator.</pt> <pa>http://csl.cse.psu.edu/?q=node/321</pa> <pg></pg>
+
+<li><pc>[Web '55]</pc> <pt>MSR SSD Extension to DiskSim.</pt> <pa>http://research.microsoft.com/en-us/downloads/b41019e2-1d2b-44d8-b512-ba35ab814cd4/</pa> <pg></pg>
+
+
+
+<br><br><h2> Limping DRAM </h2>
+<li><pc>[IEEE '13]</pc> <a href="sum/ieee/13-ThermalModeling.txt"> Thermal Modeling and Management of DRAM Systems.</a> <pa>Jiang Lin, Zhichun Zhu</pa> <pg></pg> 
+
+<li><pc>[MICRO '07]</pc> <a href="sum/micro/07-ProcessVariation.txt"> Process Variation Tolerant 3T1D-Based Cache Architectures.</a> <pa>Xiaoyu Liang, Ramon Canal, Gu-Yeon Wei and David Brooks</pa> <pg></pg> 
+
+
+<br><br><h2> NVDIMM </h2>
+<li><pc>[Web '14]</pc> <pt>SMART Technical Brief: NVDIMM.</pt> <pa>http://www.smartm.com/files/salesLiterature/dram/NVDIMM_technical_brief.pdf</pa> <pg></pg>
+

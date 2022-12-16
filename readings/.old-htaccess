@@ -1,0 +1,14 @@
+
+order deny,allow
+deny from all
+allow from .uchicago.edu
+allow from .il.comcast.net
+allow from .id
+allow from wisc.edu
+allow from .or.id
+allow from .ac.id
+allow from .co.id
+allow from .net.id
+allow from 202.137.*.*
+allow from 180.214.*.*
+

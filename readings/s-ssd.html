@@ -1,0 +1,444 @@
+
+
+<!--
+
+    pg: tag
+-->
+
+<head>
+<title>s-ssd</title>
+<style type="text/css">
+<!--
+  BODY   {font-size: 90%; font-family: arial; background:black; color:white}
+    h2   {color:#8FBC8F;}
+    h3   {color:#D98719}
+    h3   {color:#00cccc}
+    h6   {color:#444444; text-decoration:underline; font-weight:bold}
+
+    pc   {color:#CC0000;}
+
+
+
+    pf   {font-size:80%}
+    pa   {color:#AAAAAA; font-style:italic; font-size:90%}
+    pg   {color:orange; font-style:italic; font-size:90%}
+    ps   {color:#666666; font-size:75%; margin-left:40pt; font-style:italic;}
+
+    tr.a {background-color:#e9e9e9}
+
+
+    a {text-decoration:underline}
+
+    pt   {color:#EEBB55; }
+    a:link { color:#EEBB55; }
+    a:visited { color:#CC6699; }
+    a:hover { !important; color=#00cc00; background:#333333; }
+    a:active { color:#eebb55;}
+
+-->
+</style>
+</head>
+
+<body>
+<nobr>
+
+<ol>
+<h1>s-ssd</h1>
+
+
+
+
+<br><br><h2> ?? in progress </h2>
+
+
+<br><br><h2> File System 101 </h2>
+
+<li> See s-cloduos.html 
+
+<br><br><h2> SSD 101 </h2>
+
+<li><pc>[KCC '11]</pc> <pt>Understanding SSDs with the OpenSSD Platform.</pt> <pa>Sang-Won Lee, Jin-Soo Kim</pa> <pg></pg>
+
+<li><pc>[ATC '08]</pc> <a href="sum/atc/08-designTradeoffsSSD.txt"> Design Tradeoffs for SSD Performance.</a> <pa>Nitin Agrawal, Vijayan Prabhakaran, Ted Wobber, John D. Davis, Mark S. Manasse, Rina Panigrahy</pa> <pg></pg> 
+
+<li><pc>[Web '55]</pc> <pt>Wikipedia: Write Amplification.</pt> <pa>http://en.wikipedia.org/wiki/Write_amplification</pa> <pg></pg>
+
+<li><pc>[ICS '11]</pc> <a href="sum/ics/11-ssdsim.txt"> Performance Impact and Interplay of SSD Parallelism through Advanced Commands, Allocation Strategy and Data Granularity.</a> <pa>Yang Hu, Hong Jiang, Dan Feng, Lei Tian, Hao Luo, Shuping Zhang</pa> <pg></pg> 
+
+<li><pc>[TECS '07]</pc> <a href="sum/tecs/07-fast.txt"> A Log Buffer-Based Flash Translation Layer Using Fully-Associative Sector Translation.</a> <pa>Sang-Won Lee, Dong-Joo Park, Tae-Sun Chung, Sangwon Park, Ha-Joo Song</pa> <pg></pg> 
+
+<li><pc>[FAST '08]</pc> <a href="sum/fast/08-bplru.txt"> BPLRU: A Buffer Management Scheme for Improving Random Writes in Flash Storage.</a> <pa>Hyojun Kim, Seongjun Ahn</pa> <pg></pg> 
+
+<li><pc>[Web '55]</pc> <pt>NAND Video.</pt> <pa>http://www.youtube.com/watch?v=LlX69Mpmqko</pa> <pg></pg>
+
+<li><pc>[Web '55]</pc> <pt>SSD Trim Command.</pt> <pa>http://en.wikipedia.org/wiki/TRIM</pa> <pg></pg>
+
+<li><pc>[EuroSys '12]</pc> <a href="sum/eurosys/12-flashtier.txt"> FlashTier: a lightweight, consistent and durable storage cache.</a> <pa>Mohit Saxena, Michael M. Swift, Yiying Zhang</pa> <pg></pg> 
+
+<li><pc>[OSDI '08]</pc> <a href="sum/osdi/08-txFlash.txt"> Transactional Flash.</a> <pa>Vijayan Prabhakaran, Thomas L. Rodeheffer, Lidong Zhou</pa> <pg></pg> 
+
+<li> pdf still not available for the ones below:
+<li><pc>[Springer '13]</pc> <pt>Inside Solid State Drives (SSDs).</pt> <pa>Rino Micheloni, Alessia Marelli, Kam Eshghi</pa> <pg>(http://www.springer.com/materials/book/978-94-007-5145-3)</pg>
+
+<li><pc>[Book '11]</pc> <pt>SSD: Solid State Drives and How they work!.</pt> <pa>Scott Moulton</pa> <pg>(http://www.lulu.com/spotlight/smoulton)</pg>
+
+
+
+<br><br><h2> Non-Volatile Memory (NVM) 101 </h2>
+
+<li><pc>[Web '55]</pc> <pt>Phase Change Memory (PCM).</pt> <pa>http://www.economist.com/node/21560981</pa> <pg></pg>
+
+<li><pc>[HotOS '11]</pc> <a href="sum/hotos/11-osImplications.txt"> Operating System Implications of Fast, Cheap, Non-Volatile Memory.</a> <pa>Katelin Bailey, Luis Ceze, Steven D. Gribble, Henry M. Levy</pa> <pg></pg> 
+
+<li> DRAMSim2, 
+
+
+<br><br><h2> NAND Performance Anomalies </h2>
+
+<li> Shiqin, list all papers that describe NAND performance anomalies
+
+
+
+<br><br><h2> Tools </h2>
+
+<li><pc>[Web '55]</pc> <pt>DRAMSim2.</pt> <pa>http://www.ece.umd.edu/dramsim</pa> <pg></pg>
+
+<li><pc>[ITJ '13]</pc> <pt>An Integrated Simulation Infrastructure for the Entire Memory Hierarchy- Cache, DRAM, Nonvolatile Memory, and Disk.</pt> <pa>Jim Stevens, Paul Tschirhart, Mu-Tien Chang, Ishwar Bhati, Peter Enns, James Greensky, Zeshan Chisti, Shih-Lien Lu, Bruce Jacob</pa> <pg>(DRAMSim2, MARSSx86, Maryland, Intel)</pg>
+
+<li><pc>[Web '55]</pc> <pt>MARSSx86 - Micro-ARchitectural and System Simulator for x86-based Systems.</pt> <pa>http://marss86.org</pa> <pg></pg>
+
+
+
+
+
+
+<br><br><h2> Transparent New Features Inside SSD </h2>
+
+<li> scheduling, ecc, page-mapping, hot data identification, garbage collection, new organization
+<li> dedup, sram management, 
+<li><pc>[MSST '10]</pc> <a href="sum/msst/10-hideTranslate.txt"> Achieving page-mapping FTL performance at block-mapping FTL cost by hiding address translation.</a> <pa>Yang Hu, Hong Jiang, Dan Feng, Lei Tian, Shu Ping Zhang, Jingning Liu, Wei Tong, Yi Qin, Liuzheng Wang</pa> <pg></pg> 
+
+<li><pc>[MSST '10]</pc> <a href="sum/msst/10-adaptPartition.txt"> An adaptive partitioning scheme for DRAM-based cache in Solid State Drives.</a> <pa>Hyotaek Shim, Bon-Keun Seo, Jin-Soo Kim, Seungryoul Maeng</pa> <pg></pg> 
+
+<li><pc>[MSST '10]</pc> <a href="sum/msst/10-deferredUpdates.txt"> Deferred updates for flash-based storage.</a> <pa>Biplob K. Debnath, Mohamed F. Mokbel, David J. Lilja, David H. C. Du</pa> <pg></pg> 
+
+<li><pc>[MSST '11]</pc> <a href="sum/msst/11-forestBloom.txt"> A Forest-structured Bloom Filter with flash memory.</a> <pa>Guanlin Lu, Biplob K. Debnath, David H. C. Du</pa> <pg></pg> 
+
+<li><pc>[MSST '11]</pc> <a href="sum/msst/11-boostRandomWrite.txt"> Boosting random write performance for enterprise flash storage systems.</a> <pa>Tao Xie, Janak Koshia</pa> <pg></pg> 
+
+<li><pc>[MSST '11]</pc> <a href="sum/msst/11-hotDataBloom.txt"> Hot data identification for flash-based storage systems using multiple bloom filters.</a> <pa>Dongchul Park, David H. C. Du</pa> <pg></pg> 
+
+<li><pc>[MSST '11]</pc> <a href="sum/msst/11-rejuvenator.txt"> Rejuvenator: A static wear leveling algorithm for NAND flash memory with minimized overhead.</a> <pa>Muthukumar Murugan, David Hung-Chang Du</pa> <pg></pg> 
+
+<li><pc>[MSST '11]</pc> <a href="sum/msst/11-sftl.txt"> S-FTL: An efficient address translation for flash memory by exploiting spatial locality.</a> <pa>Song Jiang, Lei Zhang, XinHao Yuan, Hao Hu, Yu Chen</pa> <pg></pg> 
+
+<li><pc>[MSST '11]</pc> <a href="sum/msst/11-sampleGC.txt"> Sampling-based garbage collection metadata management scheme for flash-based storage.</a> <pa>Biplob K. Debnath, Krishnan Srinivasan, Weijun Xiao, David J. Lilja, David H. C. Du</pa> <pg></pg> 
+
+<li><pc>[MSST '11]</pc> <a href="sum/msst/11-waftl.txt"> WAFTL: A workload adaptive flash translation layer with data partition.</a> <pa>Qingsong Wei, Bozhao Gong, Suraj Pathak, Bharadwaj Veeravalli, Lingfang Zeng, Kanzo Okada</pa> <pg></pg> 
+
+<li><pc>[MSST '12]</pc> <a href="sum/msst/12-adaptWork.txt"> ADAPT: Efficient workload-sensitive flash management based on adaptation, prediction and aggregation.</a> <pa>Chundong Wang, Weng-Fai Wong</pa> <pg></pg> 
+
+<li><pc>[MSST '12]</pc> <a href="sum/msst/12-waECC.txt"> Write amplification due to ECC on flash memory or leave those bit errors alone.</a> <pa>Sangwhan Moon, A. L. Narasimha Reddy</pa> <pg></pg> 
+
+<li><pc>[MSST '13]</pc> <a href="sum/msst/13-sos.txt"> SOS: Software-based out-of-order scheduling for high-performance NAND flash-based SSDs.</a> <pa>Sangwook Shane Hahn, Sungjin Lee, Jihong Kim</pa> <pg></pg> 
+
+<li><pc>[TOS '05]</pc> <a href="sum/tos/05-effResource.txt"> Efficient management for large-scale flash-memory storage systems with resource conservation.</a> <pa>Li-Pin Chang, Tei-Wei Kuo</pa> <pg></pg> 
+
+<li><pc>[TOS '06]</pc> <a href="sum/tos/06-hotData.txt"> Efficient identification of hot data for flash memory storage systems.</a> <pa>Jen-Wei Hsieh, Tei-Wei Kuo, Li-Pin Chang</pa> <pg></pg> 
+
+<li><pc>[TOS '09]</pc> <a href="sum/tos/09-jftl.txt"> JFTL: A flash translation layer based on a journal remapping for flash memory..</a> <pa>Hyun-Jin Choi, Seung-Ho Lim, Kyu Ho Park</pa> <pg></pg> 
+
+<li><pc>[TOS '11]</pc> <a href="sum/tos/11-adapMergeFTL.txt"> A hybrid flash translation layer with adaptive merge for SSDs.</a> <pa>Gyudong Shim, Youngwoo Park, Kyu Ho Park</pa> <pg></pg> 
+
+<li><pc>[TOS '12]</pc> <a href="sum/tos/12-mftl.txt"> MFTL: A Design and Implementation for MLC Flash Memory Storage Systems.</a> <pa>Jen-Wei Hsieh, Chung-Hsien Wu, Ge-Ming Chiu</pa> <pg></pg> 
+
+<li><pc>[TOS '12]</pc> <a href="sum/tos/12-adapBufFlash.txt"> An adaptive write buffer management scheme for flash-based SSDs.</a> <pa>Guanying Wu, Xubin He, Benjamin Eckart</pa> <pg>(BPAC)</pg> 
+
+<li><pc>[MSST '10]</pc> <a href="sum/msst/10-bpac.txt"> BPAC: An adaptive write buffer management scheme for flash-based Solid State Drives.</a> <pa>Guanying Wu, Benjamin Eckart, Xubin He</pa> <pg></pg> 
+
+<li><pc>[TOS '13]</pc> <a href="sum/tos/13-assocFTL.txt"> Hybrid Associative Flash Translation Layer for the Performance Optimization of Chip-Level Parallel Flash Memory.</a> <pa>Se Jin Kwon, Hyung-Ju Cho, Tae-Sun Chung</pa> <pg></pg> 
+
+<li><pc>[APSys '12]</pc> <a href="sum/apsys/12-ssdRAID.txt"> Enhancing SSD reliability through efficient RAID support.</a> <pa>Jaeho Kim, Jongmin Lee, Jongmoo Choi, Donghee Lee, Sam H. Noh</pa> <pg>(DVS-RAID)</pg> 
+
+<li><pc>[APSys '13]</pc> <a href="sum/apsys/13-readDisturb.txt"> A read-disturb management technique for high-density NAND flash memory.</a> <pa>Keonsoo Ha, Jaeyong Jeong, Jihong Kim</pa> <pg></pg> 
+
+<li><pc>[APSys '13]</pc> <a href="sum/apsys/13-tinyFTL.txt"> TinyFTL: an FTL architecture for flash memory cards with scarce resources.</a> <pa>Jongmin Lee, Yongseok Oh, Hunki Kwon, Jongmoo Choi, Donghee Lee, Sam H. Noh</pa> <pg></pg> 
+
+<li><pc>[VLDB '13]</pc> <a href="sum/vldb/13-updateFreq.txt"> Improving Flash Write Performance Using Update Frequency.</a> <pa>Radu Stoica, Anastasia Ailamaki</pa> <pg></pg> 
+
+<li><pc>[SIGMOD '11]</pc> <a href="sum/sigmod/11-lazyFTL.txt"> LazyFTL: A Page-level Flash Translation Layer Optimized for NAND Flash Memory.</a> <pa>Dongzhe Ma, Jianhua Feng, Guoliang Li</pa> <pg></pg> 
+
+<li><pc>[ISCA '12]</pc> <a href="sum/isca/12-paqSSD.txt"> Physically Addressed Queueing: Improving parallelism in Solid State Disks.</a> <pa>Myoungsoo Jung, Ellis Herbert Wilson, Mahmut T. Kandemir</pa> <pg></pg> 
+
+<li><pc>[ISCA '12]</pc> <a href="sum/isca/12-preSet.txt"> PreSET: Improving performance of phase change memories by exploiting asymmetry in write times.</a> <pa>Moinuddin K. Qureshi, Michele Franceschini, Ashish Jagmohan, Luis Lastras</pa> <pg></pg> 
+
+<li><pc>[ATC '08]</pc> <a href="sum/atc/08-designTradeoffsSSD.txt"> Design Tradeoffs for SSD Performance.</a> <pa>Nitin Agrawal, Vijayan Prabhakaran, Ted Wobber, John D. Davis, Mark S. Manasse, Rina Panigrahy</pa> <pg></pg> 
+
+<li><pc>[ASPLOS '09]</pc> <a href="sum/asplos/09-dftl.txt"> DFTL: a flash translation layer employing demand-based selective caching of page-level address mappings.</a> <pa>Aayush Gupta, Youngjae Kim, Bhuvan Urgaonkar</pa> <pg></pg> 
+
+<li><pc>[FAST '08]</pc> <a href="sum/fast/08-bplru.txt"> BPLRU: A Buffer Management Scheme for Improving Random Writes in Flash Storage.</a> <pa>Hyojun Kim, Seongjun Ahn</pa> <pg></pg> 
+
+<li><pc>[FAST '11]</pc> <a href="sum/fast/11-caFTL.txt"> CAFTL: A Content-Aware Flash Translation Layer Enhancing the Lifespan of Flash Memory based Solid State Drives.</a> <pa>Feng Chen, Tian Luo, Xiaodong Zhang</pa> <pg></pg> 
+
+<li><pc>[FAST '11]</pc> <a href="sum/fast/11-wearOutDynamics.txt"> Exploiting Memory Device Wear-Out Dynamics to Improve NAND Flash Memory System Performance.</a> <pa>Yangyang Pan, Guiqiang Dong, Tong Zhang, Rensselaer Polytechnic Institute, USA</pa> <pg></pg> 
+
+<li><pc>[FAST '11]</pc> <a href="sum/fast/11-valueLocality.txt"> Leveraging Value Locality in Optimizing NAND Flash-based SSDs.</a> <pa>Aayush Gupta, Raghav Pisolkar, Bhuvan Urgaonkar, Anand Sivasubramaniam</pa> <pg></pg> 
+
+<li><pc>[FAST '11]</pc> <a href="sum/fast/11-reliableEraseSSD.txt"> Reliably Erasing Data from Flash-Based Solid State Drives.</a> <pa>Michael Wei, Laura Grupp, Frederick E. Spada, Steven Swanson</pa> <pg></pg> 
+
+<li><pc>[FAST '12]</pc> <a href="sum/fast/12-recoveryThrottling.txt"> Lifetime Management of Flash-Based SSDs Using Recovery-Aware Dynamic Throttling.</a> <pa>Sungjin Lee, Taejin Kim, Kyungho Kim, Samsung Electronics, Korea, Jihong Kim</pa> <pg></pg> 
+
+<li><pc>[FAST '12]</pc> <a href="sum/fast/12-retentionRelaxation.txt"> Optimizing NAND Flash-Based SSDs via Retention Relaxation.</a> <pa>Ren-Shuo Liu, Chia-Lin Yang, Wei Wu</pa> <pg></pg> 
+
+<li><pc>[FAST '12]</pc> <a href="sum/fast/12-cachingLess.txt"> Caching Less for Better Performance: Balancing Cache Size and Update Cost of Flash Memory Cache in Hybrid Storage Systems.</a> <pa>Yongseok Oh, Jongmoo Choi, Donghee Lee, Sam H. Noh</pa> <pg></pg> 
+
+<li><pc>[FAST '13]</pc> <a href="sum/fast/13-ldpcECC.txt"> LDPC-in-SSD: Making Advanced Error Correction Codes Work Effectively in Solid State Drives.</a> <pa>Kai Zhao, Wenzhe Zhao, Hongbin Sun, Tong Zhang, Xiaodong Zhang, Nanning Zheng</pa> <pg></pg> 
+
+
+
+<li> trim command 
+<br><br><h2> Interface Changes New Features </h2>
+
+<li><pc>[MSST '11]</pc> <a href="sum/msst/11-objectSCM.txt"> Object-based SCM: An efficient interface for Storage Class Memories.</a> <pa>Yangwook Kang, Jingpei Yang, Ethan L. Miller</pa> <pg></pg> 
+
+<li><pc>[MSST '13]</pc> <a href="sum/msst/13-smartSSD.txt"> Enabling cost-effective data processing with smart SSD.</a> <pa>Yangwook Kang, Yang-Suk Kee, Ethan L. Miller, Chanik Park</pa> <pg></pg> 
+
+<li><pc>[MSST '13]</pc> <a href="sum/msst/13-ossd.txt"> OSSD: A case for object-based solid state drives.</a> <pa>Young-Sik Lee, Sang-Hoon Kim, Jin-Soo Kim, Jaesoo Lee, Chanik Park, Seungryoul Maeng</pa> <pg></pg> 
+
+<li><pc>[TOS '06]</pc> <a href="sum/tos/06-initRecovFlash.txt"> The Design of efficient initialization and crash recovery for log-based file systems over flash memory.</a> <pa>Chin-Hsien Wu, Tei-Wei Kuo, Li-Pin Chang</pa> <pg></pg> 
+
+<li><pc>[SIGMOD '13]</pc> <a href="sum/sigmod/13-xftl.txt"> X-FTL: Transactional FTL for SQLite Databases.</a> <pa>Woon-Hak Kang, Sang-Won Lee, Bongki Moon, Gi-Hwan Oh, Changwoo Min</pa> <pg></pg> 
+
+<li><pc>[OSDI '08]</pc> <a href="sum/osdi/08-txFlash.txt"> Transactional Flash.</a> <pa>Vijayan Prabhakaran, Thomas L. Rodeheffer, Lidong Zhou</pa> <pg></pg> 
+
+<li><pc>[ATC '05]</pc> <a href="sum/atc/05-txFlashControllers.txt"> A Transactional Flash File System for Microcontrollers.</a> <pa>Eran Gal, Sivan Toledo</pa> <pg>(TFFS)</pg> 
+
+<li><pc>[ASPLOS '12]</pc> <a href="sum/asplos/12-monetaDirect.txt"> Providing Safe, User Space Access to Fast, Solid State Disks.</a> <pa>Adrian Caulfield, Todor Mollov, Louis Eisner, Arup De, Joel Coburn, Steven Swanson</pa> <pg>(Moneta Direct)</pg> 
+
+<li><pc>[FAST '12]</pc> <a href="sum/fast/12-nameless.txt"> De-indirection for Flash-based SSDs with Nameless Writes.</a> <pa>Yiying Zhang, Leo Prasath Arulraj, Andrea C. Arpaci-Dusseau, Remzi H. Arpaci-Dusseau</pa> <pg></pg> 
+
+<li><pc>[FAST '12]</pc> <a href="sum/fast/12-peSuspension.txt"> Reducing SSD Read Latency via NAND Flash Program and Erase Suspension.</a> <pa>Guanying Wu, Xubin He</pa> <pg></pg> 
+
+<li><pc>[FAST '13]</pc> <a href="sum/fast/13-activeFlash.txt"> Active Flash: Towards Energy-Efficient, In-Situ Data Analytics on Extreme-Scale Machines.</a> <pa>Devesh Tiwari, Simona Boboila, Sudharshan Vazhkudai, Youngjae Kim, Xiaosong Ma, Peter Desnoyers, Yan Solihin</pa> <pg></pg> 
+
+<li><pc>[Computer '13]</pc> <a href="sum/computer/13-refactorReduceRecycle.txt"> Refactor, Reduce, Recycle: Restructuring the I/O Stack for the Future of Storage.</a> <pa>Steven Swanson, Adrian M. Caulfield</pa> <pg></pg> 
+
+<li><pc>[SOSP '13]</pc> <a href="sum/sosp/13-ariesMarsSSD.txt"> From ARIES to MARS: Transaction Support for Next-Generation, Solid-State Drives.</a> <pa>Joel Coburn, Trevor Bunker, Meir Schwarz, Rajesh K. Gupta, Steven Swanson</pa> <pg></pg> 
+
+
+
+<br><br><h2> Path/Motivation to SDSS / OpenSSD </h2>
+
+<li> SDSS motivation
+<li><pc>[MSST '12]</pc> <a href="sum/msst/12-adaptWork.txt"> ADAPT: Efficient workload-sensitive flash management based on adaptation, prediction and aggregation.</a> <pa>Chundong Wang, Weng-Fai Wong</pa> <pg></pg> 
+
+<li><pc>[ISCA '08]</pc> <a href="sum/isca/08-improveNandFlash.txt"> Improving NAND Flash Based Disk Caches.</a> <pa>Taeho Kgil, David Roberts, Trevor N. Mudge</pa> <pg></pg> 
+
+<li><pc>[FAST '13]</pc> <a href="sum/fast/13-activeFlash.txt"> Active Flash: Towards Energy-Efficient, In-Situ Data Analytics on Extreme-Scale Machines.</a> <pa>Devesh Tiwari, Simona Boboila, Sudharshan Vazhkudai, Youngjae Kim, Xiaosong Ma, Peter Desnoyers, Yan Solihin</pa> <pg></pg> 
+
+
+<li> OpenSSD work
+<li><pc>[EuroSys '12]</pc> <a href="sum/eurosys/12-flashtier.txt"> FlashTier: a lightweight, consistent and durable storage cache.</a> <pa>Mohit Saxena, Michael M. Swift, Yiying Zhang</pa> <pg></pg> 
+
+<li><pc>[FAST '12]</pc> <a href="sum/fast/12-nameless.txt"> De-indirection for Flash-based SSDs with Nameless Writes.</a> <pa>Yiying Zhang, Leo Prasath Arulraj, Andrea C. Arpaci-Dusseau, Remzi H. Arpaci-Dusseau</pa> <pg></pg> 
+
+<li><pc>[FAST '13]</pc> <a href="sum/fast/13-simHardware.txt"> Getting Real: Lessons in Transitioning Research Simulations into Hardware Systems.</a> <pa>Mohit Saxena, Yiying Zhang, Michael M. Swift, Andrea C. Arpaci Dusseau, Remzi H. Arpaci Dusseau</pa> <pg></pg> 
+
+<li><pc>[FAST '13]</pc> <a href="sum/fast/13-activeFlash.txt"> Active Flash: Towards Energy-Efficient, In-Situ Data Analytics on Extreme-Scale Machines.</a> <pa>Devesh Tiwari, Simona Boboila, Sudharshan Vazhkudai, Youngjae Kim, Xiaosong Ma, Peter Desnoyers, Yan Solihin</pa> <pg></pg> 
+
+
+<br><br><h2> NVRAM/SSD/Flash Systems/FS/Storage/Systems/OS </h2>
+<li> hybrid, cache/prefetch, pcm-based, dedup
+<li><pc>[MSST '10]</pc> <a href="sum/msst/10-autoLookAhead.txt"> Automated lookahead data migration in SSD-enabled multi-tiered storage systems.</a> <pa>Gong Zhang, Lawrence Chiu, Clem Dickey, Ling Liu, Paul Muench, Sangeetha Seshadri</pa> <pg></pg> 
+
+<li><pc>[MSST '10]</pc> <a href="sum/msst/10-delayedParity.txt"> Delayed partial parity scheme for reliable and high-performance flash memory SSD.</a> <pa>Soojun Im, Dongkun Shin</pa> <pg></pg> 
+
+<li><pc>[MSST '10]</pc> <a href="sum/msst/10-hpLinux.txt"> High performance solid state storage under Linux.</a> <pa>Eric Seppanen, Matthew T. O'Keefe, David J. Lilja</pa> <pg></pg> 
+
+<li><pc>[MSST '10]</pc> <a href="sum/msst/10-dedupv1.txt"> dedupv1: Improving deduplication throughput using solid state drives.</a> <pa>Dirk Meister, Andre Brinkmann</pa> <pg></pg> 
+
+<li><pc>[MSST '12]</pc> <a href="sum/msst/12-bloomStore.txt"> BloomStore: Bloom-Filter based memory-efficient key-value store for indexing of data deduplication on flash.</a> <pa>Guanlin Lu, Youngjin Nam, David H. C. Du</pa> <pg></pg> 
+
+<li><pc>[MSST '12]</pc> <a href="sum/msst/12-flashyPrefetch.txt"> Flashy prefetching for high-performance flash drives.</a> <pa>Ahsen J. Uppal, Ron Chi-Lung Chiang, H. Howie Huang</pa> <pg></pg> 
+
+<li><pc>[MSST '12]</pc> <a href="sum/msst/12-shortcutJFS.txt"> Shortcut-JFS: A write efficient journaling file system for phase change memory.</a> <pa>Eunji Lee, Seunghoon Yoo, Jee-Eun Jang, Hyokyung Bahn</pa> <pg></pg> 
+
+<li><pc>[MSST '12]</pc> <a href="sum/msst/12-mercuryFlashCache.txt"> Mercury: Host-side Flash Caching for the Data Center.</a> <pa>Steve Byan, James Lentini, Anshul Madan, Luis Pabon, Michael Condict, Jeff Kimmel, Steve Kleiman, Christopher Small, Mark Storer</pa> <pg></pg> 
+
+<li><pc>[MSST '13]</pc> <a href="sum/msst/13-schedLife.txt"> A novel I/O scheduler for SSD with improved performance and lifetime.</a> <pa>Hua Wang, Ping Huang, Shuang He, Ke Zhou, Chun-hua Li, Xubin He</pa> <pg>(ParDispatcher)</pg> 
+
+<li><pc>[MSST '13]</pc> <a href="sum/msst/13-fsmac.txt"> FSMAC: A file system metadata accelerator with non-volatile memory.</a> <pa>Jianxi Chen, Qingsong Wei, Cheng Chen, Lingkun Wu</pa> <pg></pg> 
+
+<li><pc>[FAST '10]</pc> <a href="sum/fast/10-extSSDLifeDisk.txt"> Extending SSD Lifetimes with Disk-Based Write Caches.</a> <pa>Gokul Soundararajan, Vijayan Prabhakaran, Mahesh Balakrishnan, Ted Wobber</pa> <pg></pg> 
+
+<li><pc>[MSST '13]</pc> <a href="sum/msst/13-nvmfs.txt"> NVMFS: A hybrid file system for improving random write in nand-flash SSD.</a> <pa>Sheng Qiu, A. L. Narasimha Reddy</pa> <pg></pg> 
+
+<li><pc>[MSST '13]</pc> <a href="sum/msst/13-warpedMirrors.txt"> Warped Mirrors for flash.</a> <pa>Yiying Zhang, Andrea C. Arpaci-Dusseau, Remzi H. Arpaci-Dusseau</pa> <pg></pg> 
+
+<li><pc>[TOS '10]</pc> <a href="sum/tos/10-diffRAID.txt"> Differential RAID: Rethinking RAID for SSD reliability..</a> <pa>Mahesh Balakrishnan, Asim Kadav, Vijayan Prabhakaran, Dahlia Malkhi</pa> <pg></pg> 
+
+<li><pc>[EuroSys '10]</pc> <a href="sum/eurosys/10-diffRAID.txt"> Differential RAID: rethinking RAID for SSD reliability.</a> <pa>Mahesh Balakrishnan, Asim Kadav, Vijayan Prabhakaran, Dahlia Malkhi</pa> <pg></pg> 
+
+<li><pc>[TOS '10]</pc> <a href="sum/tos/10-frash.txt"> FRASH: Exploiting storage class memory in hybrid file system for hierarchical storage..</a> <pa>Jaemin Jung, Youjip Won, Eun-ki Kim, Hyungjong Shin, Byeonggil Jeon</pa> <pg></pg> 
+
+<li><pc>[SC '11]</pc> <a href="sum/sc/11-scmfs.txt"> SCMFS: A File System for Storage Class Memory.</a> <pa>XiaoJian Wu, Sheng Qiu, A. L. Narasimha Reddy</pa> <pg></pg> 
+
+<li><pc>[TOS '13]</pc> <a href="sum/tos/13-scmfs.txt"> SCMFS: A File System for Storage Class Memory and its Extensions.</a> <pa>XiaoJian Wu, Sheng Qiu, A. L. Narasimha Reddy</pa> <pg></pg> 
+
+<li><pc>[NSDI '11]</pc> <a href="sum/nsdi/11-ssdalloc.txt"> SSDAlloc: Hybrid SSD/RAM Memory Management Made Easy.</a> <pa>Anirudh Badam, Vivek S. Pai</pa> <pg></pg> 
+
+
+<li><pc>[VLDB '12]</pc> <a href="sum/vldb/12-bTreeIndexFlash.txt"> B+-tree Index Optimization by Exploiting Internal Parallelism of Flash-based Solid State Drives.</a> <pa>Hongchan Roh, Sanghyun Park, Sungho Kim, Mincheol Shin, Sang-Won Lee.</pa> <pg></pg> 
+
+<li><pc>[VLDB '10]</pc> <a href="sum/vldb/10-treeIndexSSD.txt"> Tree Indexing on Solid State Drives.</a> <pa>Yinan Li, Bingsheng He, Jun Yang, Qiong Luo, Ke Yi</pa> <pg></pg> 
+
+<li><pc>[VLDB '09]</pc> <a href="sum/vldb/09-lazyAdapTree.txt"> Lazy-Adaptive Tree: An Optimized Index Structure for Flash Devices.</a> <pa>Devesh Agrawal, Deepak Ganesan, Ramesh K. Sitaraman, Yanlei Diao, Shashi Singh</pa> <pg></pg> 
+
+<li><pc>[VLDB '09]</pc> <a href="sum/vldb/09-objPlaceAdv.txt"> An Object Placement Advisor for DB2 Using Solid State Storage.</a> <pa>Mustafa Canim, Bishwaranjan Bhattacharjee, George Mihaila, Christian Lang, Ken Ross</pa> <pg></pg> 
+
+<li><pc>[VLDB '08]</pc> <a href="sum/vldb/08-maintRandomSamples.txt"> Online maintenance of very large random samples on flash storage.</a> <pa>Suman Nath, Phillip B. Gibbons</pa> <pg></pg> 
+
+
+<li><pc>[SIGMOD '07]</pc> <a href="sum/sigmod/07-flashDBMS.txt"> Design of flash-based DBMS: an in-page logging approach.</a> <pa>Sang-Won Lee, Bongki Moon</pa> <pg></pg> 
+
+<li><pc>[SIGMOD '09]</pc> <a href="sum/sigmod/09-querySSD.txt"> Query processing techniques for solid state drives.</a> <pa>Dimitris Tsirogiannis, Stavros Harizopoulos, Mehul A. Shah, Janet L. Wiener, Goetz Graefe</pa> <pg></pg> 
+
+<li><pc>[SIGMOD '09]</pc> <a href="sum/sigmod/09-flashLogging.txt"> FlashLogging: Exploiting Flash Devices for Synchronous Logging Performance.</a> <pa>Shimin Chen</pa> <pg></pg> 
+
+<li><pc>[SIGMOD '10]</pc> <a href="sum/sigmod/10-pageDiffLog.txt"> Page-Differential Logging: An Efficient and DBMS-independent Approach for Storing Data into Flash Memory.</a> <pa>Yi-Reun Kim, Kyu-Young Whang, Il-Yeol Song</pa> <pg></pg> 
+
+<li><pc>[SIGMOD '11]</pc> <a href="sum/sigmod/11-opAwareBuffer.txt"> Operation-Aware Buffer Management in Flash-based Systems.</a> <pa>Yanfei Lv, Bin Cui, Bingsheng He, Xuexuan Chen</pa> <pg></pg> 
+
+<li><pc>[SIGMOD '11]</pc> <a href="sum/sigmod/11-skimpyStash.txt"> SkimpyStash: RAM Space Skimpy Key-Value Store on Flash-based Storage.</a> <pa>Biplob Debnath, Sudipta Sengupta, Jin Li</pa> <pg></pg> 
+
+<li><pc>[ATC '10]</pc> <a href="sum/atc/10-chunkStash.txt"> ChunkStash: Speeding Up Inline Storage Deduplication Using Flash Memory.</a> <pa>Biplob Debnath, University of Minnesota, Twin Cities, Sudipta Sengupta, Jin Li, Redmond</pa> <pg></pg> 
+
+<li><pc>[ISCA '13]</pc> <a href="sum/isca/13-quickSAN.txt"> QuickSAN: a storage area network for fast, distributed, solid state disks.</a> <pa>Adrian M. Caulfield, Steven Swanson</pa> <pg></pg> 
+
+<li><pc>[SOSP '09]</pc> <a href="sum/sosp/09-bpfs.txt"> Better I/O Through Byte-Addressable, Persistent Memory.</a> <pa>Jeremy Condit, Edmund B. Nightingale, Christopher Frost, Engin Ipek, Doug Burger, Benjamin C. Lee, Derrick Coetzee</pa> <pg>(BPFS, PCM)</pg> 
+
+<li><pc>[ATC '09]</pc> <a href="sum/atc/09-flexfs.txt"> FlexFS: A Flexible Flash File System for MLC NAND Flash Memory.</a> <pa>Sungjin Lee, Keonsoo Ha, Kangwon Zhang, Jihong Kim, Junghwan Kim</pa> <pg></pg> 
+
+<li><pc>[ATC '10]</pc> <a href="sum/atc/10-flashvm.txt"> FlashVM: Virtual Memory Management on Flash.</a> <pa>Mohit Saxena, Michael M. Swift</pa> <pg></pg> 
+
+<li><pc>[ATC '12]</pc> <a href="sum/atc/12-spm.txt"> Software Persistent Memory.</a> <pa>Jorge Guerra, Leonardo Mármol, Daniel Campello, Carlos Crespo, Raju Rangaswami, Jinpeng Wei</pa> <pg>(SoftPM)</pg> 
+
+<li><pc>[TOS '10]</pc> <a href="sum/tos/10-dfsVirtFlash.txt"> DFS: A file system for virtualized flash storage..</a> <pa>William K. Josephson, Lars Ailo Bongo, Kai Li, David Flynn</pa> <pg></pg> 
+
+
+<li><pc>[FAST '10]</pc> <a href="sum/fast/10-dfsVirtualFlash.txt"> DFS: A File System for Virtualized Flash Storage.</a> <pa>William K. Josephson, Lars A. Bongo, David Flynn, Fusion-io, Kai Li</pa> <pg></pg> 
+
+<li><pc>[FAST '10]</pc> <a href="sum/fast/10-extSSDLifeDisk.txt"> Extending SSD Lifetimes with Disk-Based Write Caches.</a> <pa>Gokul Soundararajan, Vijayan Prabhakaran, Mahesh Balakrishnan, Ted Wobber</pa> <pg></pg> 
+
+<li><pc>[FAST '11]</pc> <a href="sum/fast/11-cdds.txt"> Consistent and Durable Data Structures for Non-Volatile Byte-Addressable Memory.</a> <pa>Shivaram Venkataraman, Palo Alto, University of Illinois at Urbana-Champaign, Niraj Tolia, Maginatics, Parthasarathy Ranganathan, Palo Alto, Roy H. Campbell-Champaign</pa> <pg></pg> 
+
+<li><pc>[FAST '12]</pc> <a href="sum/fast/12-fios.txt"> FIOS: A Fair, Efficient Flash I/O Scheduler.</a> <pa>Stan Park, Kai Shen</pa> <pg></pg> 
+
+<li><pc>[FAST '12]</pc> <a href="sum/fast/12-sfs.txt"> SFS: Random Write Considered Harmful in Solid State Drives.</a> <pa>Changwoo Min, Kangnyeon Kim, Hyunjin Cho, Sang-Won Lee, Young Ik Eom</pa> <pg></pg> 
+
+<li><pc>[ASPLOS '11]</pc> <a href="sum/asplos/11-nvHeaps.txt"> NV-Heaps: Making Persistent Objects Fast and Safe with Next-Generation, Non-Volatile Memories.</a> <pa>Joel Coburn, Adrian M. Caulfield, Ameen Akel, Laura M. Grupp, Rajesh K. Gupta, Ranjit Jhala, Steven Swanson</pa> <pg></pg> 
+
+<li><pc>[ASPLOS '12]</pc> <a href="sum/asplos/12-wsp.txt"> Whole-system Persistence with Non-volatile Memories.</a> <pa>Dushyanth Narayanan, Orion Hodson</pa> <pg></pg> 
+
+
+<li><pc>[FAST '13]</pc> <a href="sum/fast/13-reduceWriteAmp.txt"> Extending the Lifetime of Flash-based Storage through Reducing Write Amplification from File Systems.</a> <pa>Youyou Lu, Jiwu Shu, Weimin Zheng</pa> <pg></pg> 
+
+
+
+<br><br><h2> NoOS/Direct Storage </h2>
+
+<li><pc>[ASPLOS '12]</pc> <a href="sum/asplos/12-monetaDirect.txt"> Providing Safe, User Space Access to Fast, Solid State Disks.</a> <pa>Adrian Caulfield, Todor Mollov, Louis Eisner, Arup De, Joel Coburn, Steven Swanson</pa> <pg>(Moneta Direct)</pg> 
+
+<li><pc>[ASPLOS '11]</pc> <a href="sum/asplos/11-nvHeaps.txt"> NV-Heaps: Making Persistent Objects Fast and Safe with Next-Generation, Non-Volatile Memories.</a> <pa>Joel Coburn, Adrian M. Caulfield, Ameen Akel, Laura M. Grupp, Rajesh K. Gupta, Ranjit Jhala, Steven Swanson</pa> <pg></pg> 
+
+
+
+
+<br><br><h2> Flash/PCM as Cache </h2>
+
+<li><pc>[MSST '13]</pc> <a href="sum/msst/13-lazyAdaptCache.txt"> Improving flash-based disk cache with Lazy Adaptive Replacement.</a> <pa>Sai Huang, Qingsong Wei, Jianxi Chen, Cheng Chen, Dan Feng</pa> <pg>(LARC)</pg> 
+
+<li><pc>[VLDB '12]</pc> <a href="sum/vldb/12-dontTrash.txt"> Don't Thrash: How to Cache Your Hash on Flash.</a> <pa>Rob Johnson, Michael Bender, Martin Farach-Colton, Russell Kraner, Bradley Kuszmaul, Dzejla Medjedovic, Pablo Montes, Pradeep Shetty, Richard Spillane, Erez Zadok.</pa> <pg></pg> 
+
+<li><pc>[VLDB '12]</pc> <a href="sum/vldb/12-flashExtCache.txt"> Flash-based Extended Cache for Higher Throughput and Faster Recovery.</a> <pa>Woon-Hak Kang, Sang-Won Lee, Bongki Moon.</pa> <pg></pg> 
+
+<li><pc>[ATC '13]</pc> <a href="sum/atc/13-janusFlash.txt"> Janus: Optimal Flash Provisioning for Cloud Storage Workloads.</a> <pa>Christoph Albrecht, Arif Merchant, Murray Stokely, Muhammad Waliji Franc ̧ois Labelle, Nate Coehlo, Xudong Shi, C. Eric Schrock</pa> <pg></pg> 
+
+<li><pc>[ASPLOS '92]</pc> <a href="sum/asplos/92-nvmFS.txt"> Non-Volatile Memory for Fast, Reliable File Systems.</a> <pa>Mary Baker, Satoshi Asami, Etienne Deprit, John K. Ousterhout, Margo I. Seltzer</pa> <pg></pg> 
+
+
+
+<li><pc>[FAST '13]</pc> <a href="sum/fast/13-writeHostFlash.txt"> Write Policies for Host-side Flash Caches.</a> <pa>Ricardo Koller, VMware, Leonardo Marmol, Raju Rangaswami, Swaminathan Sundararaman, Nisha Talagala, FusionIO, Ming Zhao</pa> <pg></pg> 
+
+<li><pc>[EuroSys '12]</pc> <a href="sum/eurosys/12-flashtier.txt"> FlashTier: a lightweight, consistent and durable storage cache.</a> <pa>Mohit Saxena, Michael M. Swift, Yiying Zhang</pa> <pg></pg> 
+
+<li><pc>[NSDI '11]</pc> <a href="sum/nsdi/11-ssdalloc.txt"> SSDAlloc: Hybrid SSD/RAM Memory Management Made Easy.</a> <pa>Anirudh Badam, Vivek S. Pai</pa> <pg></pg> 
+
+<li><pc>[MSST '12]</pc> <a href="sum/msst/12-mercuryFlashCache.txt"> Mercury: Host-side Flash Caching for the Data Center.</a> <pa>Steve Byan, James Lentini, Anshul Madan, Luis Pabon, Michael Condict, Jeff Kimmel, Steve Kleiman, Christopher Small, Mark Storer</pa> <pg></pg> 
+
+<li><pc>[FAST '13]</pc> <a href="sum/fast/13-unionCacheJournalNVM.txt"> Unioning of the Buffer Cache and Journaling Layers with Non-volatile Memory.</a> <pa>Eunji Lee, Hyokyung Bahn, Ewha University, Sam H. Noh, Hongik University</pa> <pg></pg> 
+
+<li> for more: just search this with grep 'cach'
+
+<br><br><h2> Cluster of Flash </h2>
+
+
+<li><pc>[NSDI '12]</pc> <a href="sum/nsdi/12-corfu.txt"> CORFU: A Shared Log Design for Flash Clusters.</a> <pa>Mahesh Balakrishnan, Dahlia Malkhi, Vijayan Prabhakaran, Ted Wobber, Michael Wei, John D. Davis</pa> <pg></pg> 
+
+<li><pc>[SOSP '09]</pc> <a href="sum/sosp/09-fawn.txt"> FAWN: A Fast Array of Wimpy Nodes.</a> <pa>David G. Andersen, Jason Franklin, Michael Kaminsky, Amar Phanishayee, Lawrence Tan, Vijay Vasudevan </pa> <pg></pg> 
+
+<li><pc>[ASPLOS '09]</pc> <a href="sum/asplos/09-gordon.txt"> Gordon: using flash memory to build fast, power-efficient clusters for data-intensive applications.</a> <pa>Adrian M. Caulfield, Laura M. Grupp, Steven Swanson</pa> <pg></pg> 
+
+
+
+<br><br><h2> Study of Prices, Reliability, Trends, Modeling, Etc. </h2>
+
+<li><pc>[MSST '11]</pc> <a href="sum/msst/11-perfModelFlash.txt"> Performance modeling and analysis of flash-based storage devices.</a> <pa>H. Howie Huang, Shan Li, Alexander S. Szalay, Andreas Terzis</pa> <pg></pg> 
+
+<li><pc>[MSST '11]</pc> <a href="sum/msst/11-perfModelRealWork.txt"> Performance models of flash-based solid-state drives for real workloads.</a> <pa>Simona Boboila, Peter Desnoyers</pa> <pg></pg> 
+
+<li><pc>[MSST '13]</pc> <a href="sum/msst/13-hybridHPC.txt"> Optimizing a hybrid SSD/HDD HPC storage system based on file size distributions.</a> <pa>Brent Welch, Geoffrey Noer</pa> <pg></pg> 
+
+<li><pc>[SIGMOD '08]</pc> <a href="sum/sigmod/08-flashEnterprise.txt"> A case for flash memory ssd in enterprise database applications.</a> <pa>Sang-Won Lee, Bongki Moon, Chanik Park, Jae-Myung Kim, Sang-Woo Kim</pa> <pg></pg> 
+
+<li><pc>[SIGMOD '09]</pc> <a href="sum/sigmod/09-advancesInSSD.txt"> Advances in Flash Memory SSD Technology for Enterprise Database Applications.</a> <pa>Sang-Won Lee, Bongki Moon, Chanik Park</pa> <pg></pg> 
+
+<li><pc>[ATC '08]</pc> <a href="sum/atc/08-designTradeoffsSSD.txt"> Design Tradeoffs for SSD Performance.</a> <pa>Nitin Agrawal, Vijayan Prabhakaran, Ted Wobber, John D. Davis, Mark S. Manasse, Rina Panigrahy</pa> <pg></pg> 
+
+<li><pc>[FAST '10]</pc> <a href="sum/fast/10-writeEndurance.txt"> Write Endurance in Flash Drives: Measurements and Analysis.</a> <pa>Simona Boboila, Peter Desnoyers</pa> <pg></pg> 
+
+<li><pc>[FAST '12]</pc> <a href="sum/fast/12-bleakFuture.txt"> The Bleak Future of NAND Flash Memory.</a> <pa>Laura M. Grupp, John D. Davis, Steven Swanson</pa> <pg></pg> 
+
+<li><pc>[FAST '13]</pc> <a href="sum/fast/13-ldpcECC.txt"> LDPC-in-SSD: Making Advanced Error Correction Codes Work Effectively in Solid State Drives.</a> <pa>Kai Zhao, Wenzhe Zhao, Hongbin Sun, Tong Zhang, Xiaodong Zhang, Nanning Zheng</pa> <pg></pg> 
+
+<li><pc>[FAST '13]</pc> <a href="sum/fast/13-ssdPowerFault.txt"> Understanding the Robustness of SSDs under Power Fault.</a> <pa>Mai Zheng, Joseph Tucek, Feng Qin, Mark Lillibridge</pa> <pg></pg> 
+
+<li><pc>[EuroSys '09]</pc> <a href="sum/eurosys/09-migrating.txt"> Migrating Server Storage to SSDs: Analysis of Tradeoffs.</a> <pa>Dushyanth Narayanan, Eno Thereska, Austin Donnelly, Sameh Elnikety, Antony Rowstron</pa> <pg></pg> 
+
+
+
+
+<br><br><h2> Simulators </h2>
+
+<li><pc>[MSST '12]</pc> <a href="sum/msst/12-nandFlashSim.txt"> NANDFlashSim: Intrinsic latency variation aware NAND flash memory system modeling and simulation at microarchitecture level.</a> <pa>Myoungsoo Jung, Ellis Herbert Wilson, David Donofrio, John Shalf, Mahmut T. Kandemir</pa> <pg></pg> 
+
+<li><pc>[MSST '13]</pc> <a href="sum/msst/13-vssim.txt"> VSSIM: Virtual machine based SSD simulator.</a> <pa>Jinsoo Yoo, Youjip Won, Joongwoo Hwang, Sooyong Kang, Jongmoo Choi, Sungroh Yoon, Jaehyuk Cha</pa> <pg></pg> 
+
+
+<br><br><h2> Misc, Unrelated </h2>
+
+<li><pc>[MSST '10]</pc> <a href="sum/msst/10-multiWriteCode.txt"> Write amplification reduction in NAND Flash through multi-write coding.</a> <pa>Ashish Jagmohan, Michele Franceschini, Luis Lastras</pa> <pg></pg> 
+
+<li><pc>[MSST '13]</pc> <a href="sum/msst/13-hybridLife.txt"> Hybrid solid state drives for improved performance and enhanced lifetime.</a> <pa>Yongseok Oh, Eunjae Lee, Jongmoo Choi, Donghee Lee, Sam H. Noh</pa> <pg></pg> 
+
+<li><pc>[Notes '13]</pc> <a href="sum/notes/13-ssdFlash.txt"> SSD and Flash.</a> <pa>Me</pa> <pg></pg> 
+
+<li><pc>[APSys '12]</pc> <a href="sum/apsys/12-nvProcess.txt"> NV-process: a fault-tolerance process model based on non-volatile memory.</a> <pa>Xu Li, Kai Lu, Xiaoping Wang, Xu Zhou</pa> <pg></pg> 
+
+<li><pc>[TOS '10]</pc> <a href="sum/tos/10-emuNOR.txt"> A strategy to emulate NOR flash with NAND flash..</a> <pa>Yuan-Hao Chang, Jian-Hong Lin, Jen-Wei Hsieh, Tei-Wei Kuo</pa> <pg></pg> 
+
+<li><pc>[TOS '06]</pc> <a href="sum/tos/06-indexStruct.txt"> Efficient indexing data structures for flash-based sensor devices.</a> <pa>Song Lin, Demetrios Zeinalipour-Yazti, Vana Kalogeraki, Dimitrios Gunopulos, Walid A. Najjar</pa> <pg></pg> 
+
+
+
+

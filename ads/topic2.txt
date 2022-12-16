@@ -1,0 +1,67 @@
+
+
+
+Systems and ML Research for Dependable Cloud Storage (Multiple Projects/Students) 
+
+
+Cloud-scale storage and distributed systems have become an increasingly important software backbone for many cloud services today.  Their dependability in terms of performance, scalability, availability, and reliability is very crucial.  Nevertheless, storage and distributed systems are complex and hard to get right.  These systems face all sorts of issues [See "Readings" below]. 
+
+In this practicum, students will gain experience on analyzing, modifying and evaluating state-of-the-art cloud-scale distributed systems such as Hadoop, Spark, HBase, or Cassandra, as well as distributed Machine Learning systems.  In solving the problems mentioned above, we will also use some flavor of Machine Learning techniques such as distributed systems.
+
+
+We recruit multiple students.  Each student will be given one of the following umbrella projects below. 
+
+1. Combating performance unpredictability with ML: You will analyze  IO traces collected from real industrial systems, and apply Machine Learning techniques to predict abnormality and make further  enhancements. This part will include (a) Identifying data features  that are crucial for accurate prediction, (b) Optimizing ML/DL models  with various architecture options, (c) Exploring hyper-parameter  spaces, (d) Integrating models with the entire system stack as a  complete solution. 
+
+2. Combating bugs in distributed systems:   You will integrate our testing frameworks to some distributed cloud/ML systems. You will learn complex integration process and advanced testing approaches.  You will analyze scalability/performance/concurrency bugs.
+
+3. Improving management of new storage/memory technologies:  You will analyze the interaction of cloud systems with one of the following subsystem (a) the OS-level file systems and storage layers such as SSDs and new Non-Volatile Memory technologies (e.g., from Samsung and Intel), (b) Java SDK, in particular its garbage collection mechanism, (c) Linux Hypervisor, in particular VM scheduling. 
+
+
+Other notes: 
+
+- These projects projects are long-term projects where students will gain deep systems experience. Thus, MPCS students who intend to join our projects are expected to continue the research throughout their MPCS program (i.e. a one full year research). 
+
+- We recruit multiple students for the projects above. 
+
+- Students who deliver an excellent progress will be co-authors of our publications (as some previous students have successfully done in the past). 
+
+- To ensure smooth progress, master students will be paired with PhD students who are currently working on the projects above. 
+
+- More info about our group can be found here: http://ucare.cs.uchicago.edu.  MPCS alumni who have contributed in our group can be found in the Alumni section of http://ucare.cs.uchicago.edu/people.html
+(search for "MS").
+
+- Summer internship:  If the practicum goes well and the student intends to stay in UChicago for the summer (for those who need longer research experience for preparing their future CVs), our group is open to host such students in the summer and provide a formal researcher title.
+
+
+# Deliverables 
+
+- There are three steps in this research: analyze, build, and evaluate 
+
+- Analyze: Each student will work on a cloud system (e.g., Spark, Hadoop, HDFS, HBase, Cassandra, MongoDB, Riak+LevelDB).  The student will download, install, and run the given system on a cluster of distributed machines.  The student will study the source code and perform some benchmarking. 
+
+- Build: The student will modify/re-architect the given cloud system. (Usually we expect a minimum of 2000 LOC changes, but usually it's more). The modification depends on your result from the "Analyze" phase. 
+
+- Evaluate: You will extend the existing testing suites and show that you have improved the scalability/performance/reliability/availability of your given system. 
+
+
+# Prerequisites  
+
+- Must know Java and Python.
+
+- C/C++ might help.
+
+- Fast to learn new programming languages and big systems. 
+
+
+# Background materials: 
+
+Readings (from http://ucare.cs.uchicago.edu/pubs.html) 
+
+1. Why Does the Cloud Stop Computing? Lessons from Hundreds of Outages 
+
+2. What Bugs Live in the Cloud? A Study of 3000+ Issues in Cloud Systems 
+
+3. The Tail at Store: A Revelation from Millions of Hours of Disk and SSD Deployments 
+
+

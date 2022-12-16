@@ -1,0 +1,275 @@
+
+
+<!--
+
+    pg: tag
+-->
+
+<head>
+<title>s-cloudos</title>
+<style type="text/css">
+<!--
+  BODY   {font-size: 90%; font-family: arial; background:black; color:white}
+    h2   {color:#8FBC8F;}
+    h3   {color:#D98719}
+    h3   {color:#00cccc}
+    h6   {color:#444444; text-decoration:underline; font-weight:bold}
+
+    pc   {color:#CC0000;}
+
+
+
+    pf   {font-size:80%}
+    pa   {color:#AAAAAA; font-style:italic; font-size:90%}
+    pg   {color:orange; font-style:italic; font-size:90%}
+    ps   {color:#666666; font-size:75%; margin-left:40pt; font-style:italic;}
+
+    tr.a {background-color:#e9e9e9}
+
+
+    a {text-decoration:underline}
+
+    pt   {color:#EEBB55; }
+    a:link { color:#EEBB55; }
+    a:visited { color:#CC6699; }
+    a:hover { !important; color=#00cc00; background:#333333; }
+    a:active { color:#eebb55;}
+
+-->
+</style>
+</head>
+
+<body>
+<nobr>
+
+<ol>
+<h1>s-cloudos</h1>
+
+
+
+
+<li> NOTE: Please google the titles online, you should be able to get the pdfs
+<li>   There are lots of readings. For each paper, read the first couple of pages 
+<li>   carefully, then you can skim the rest
+
+
+<br><br><h2> File System 101 </h2>
+
+<li><pc>[Book '13]</pc> <pt>Operating Systems: Three Easy Pieces (All Persistence Chapters).</pt> <pa>Remzi H. Arpaci-Dusseau, Andrea C. Arpaci-Dusseau</pa> <pg>(http://pages.cs.wisc.edu/~remzi/OSTEP)</pg>
+
+
+<li><pc>[CACM '74]</pc> <pt>The UNIX Time-Sharing System.</pt> <pa>Dennis Ritchie, Ken Thompson</pa> <pg></pg>
+
+
+<li><pc>[TOCS '84]</pc> <a href="sum/tocs/84-ffs.txt"> A Fast File System for UNIX.</a> <pa>Marshall K. McKusick, William N. Joy, Samuel J. Leffler, Robert S. Fabry</pa> <pg></pg> 
+
+
+<li><pc>[ATC '05]</pc> <a href="sum/atc/05-sba-journaling.txt"> Analysis and Evolution of Journaling File Systems.</a> <pa>Vijayan Prabhakaran, Andrea C. Arpaci-Dusseau, Remzi H. Arpaci-Dusseau</pa> <pg></pg> 
+
+
+<li><pc>[SOSP '91]</pc> <pt>The Design and Implementation of a Log-Structured File System.</pt> <pa>Mendel Rosenblum, John K. Ousterhout</pa> <pg></pg>
+
+
+<li><pc>[SIGMOD '88]</pc> <pt>A case for redundant arrays of inexpensive disks.</pt> <pa>David A. Patterson, Garth Gibson, Randy H. Katz</pa> <pg></pg>
+
+
+<br><br><h2> File System (Implementation) </h2>
+
+<li><pc>[SIGMOD '88]</pc> <pt>A case for redundant arrays of inexpensive disks.</pt> <pa>David A. Patterson, Garth Gibson, Randy H. Katz</pa> <pg></pg>
+
+
+<li><pc>[Computer '94]</pc> <pt>An introduction to disk drive modeling.</pt> <pa>Chris Ruemmler, John Wilkes</pa> <pg></pg>
+
+
+<li><pc>[Book '05]</pc> <a href="sum/book/05-ulk-understanding-linux-kernel.txt"> Understanding the Linux Kernel, 3rd Edition.</a> <pa>Daniel P. Bovet, Marco Cesati</pa> <pg>(http://it-ebooks.info/book/2196)</pg> 
+
+
+<li><pc>[Book '10]</pc> <pt>Linux Kernel Development, 3rd Edition.</pt> <pa>Robert Love</pa> <pg>(http://it-ebooks.info/book/819)</pg>
+
+
+
+<br><br><h2> Data-Center Stack </h2>
+
+<li><pc>[SOSP '03]</pc> <a href="sum/sosp/03-gfs.txt"> The Google File System.</a> <pa>Sanjay Ghemawat, Howard Gobioff, Shun-Tak Leung </pa> <pg></pg> 
+
+
+<li><pc>[MSST '10]</pc> <a href="sum/msst/10-hdfs.txt"> The Hadoop Distributed File System.</a> <pa>Konstantin Shvachko, Hairong Kuang, Sanjay Radia, Robert Chansler</pa> <pg></pg> 
+
+
+<li><pc>[OSDI '04]</pc> <a href="sum/osdi/04-mapreduce.txt"> MapReduce: Simplified Data Processing on Large Clusters.</a> <pa>Jeffrey Dean, Sanjay Ghemawat</pa> <pg></pg> 
+
+
+<li><pc>[Book '12]</pc> <a href="sum/book/12-hadoopTheDefinitiveGuide.txt"> Hadoop: The Definitive Guide, 3rd Edition.</a> <pa>Tom White</pa> <pg>(http://it-ebooks.info/book/635)</pg> 
+
+
+<li><pc>[Book '13]</pc> <pt>Hadoop Real-World Solutions Cookbook.</pt> <pa>Jonathan R. Owens, Brian Femiano, Jon Lentz</pa> <pg>(http://it-ebooks.info/book/2038)</pg>
+
+
+<li><pc>[OSDI '06]</pc> <a href="sum/osdi/06-bigtable.txt"> Bigtable: A Distributed Storage System for Structured Data.</a> <pa>Fay Chang, Jeffrey Dean, Sanjay Ghemawat, Wilson C. Hsieh, Deborah A. Wallach, Mike Burrows, Tushar Chandra, Andrew Fikes, Robert E. Gruber</pa> <pg></pg> 
+
+
+<li><pc>[Book '11]</pc> <a href="sum/book/11-hbaseDefinitiveGuide.txt"> HBase: The Definitive Guide.</a> <pa>Lars George</pa> <pg>(http://it-ebooks.info/book/432)</pg> 
+
+
+<li><pc>[SOSP '07]</pc> <a href="sum/sosp/07-dynamo.txt"> Dynamo: Amazon's Highly Available Key-Value Store.</a> <pa>Guiseppe DeCandia, Deniz Hastorun, Madan Jampani, Gunavardhan Kakulapati, Avinash Lakshman, Alex Pilchin, Swami Sivasubramanian, Peter Vosshall, Werner Vogels</pa> <pg></pg> 
+
+
+<li><pc>[LADIS '09]</pc> <a href="sum/ladis/09-cassandra.txt"> Cassandra - a decentralized structured storage system.</a> <pa>Avinash Lakshman, Prashant Malik</pa> <pg></pg> 
+
+
+<li><pc>[Book '10]</pc> <pt>Cassandra: The Definitive Guide.</pt> <pa>Eben Hewitt</pa> <pg>(http://it-ebooks.info/book/623)</pg>
+
+
+
+<br><br><h2> Open-Source DC Stack </h2>
+
+<li><pc>[Web '06]</pc> <pt>Hadoop Website.</pt> <pa>http://hadoop.apache.org</pa> <pg></pg>
+
+<li><pc>[Web '08]</pc> <pt>HBase Website.</pt> <pa>http://hbase.apache.org</pa> <pg></pg>
+
+<li><pc>[Web '09]</pc> <pt>Cassandra Website.</pt> <pa>http://cassandra.apache.org</pa> <pg></pg>
+
+
+
+<br><br><h2> Storage I/O Virtualization </h2>
+
+<li><pc>[Book '13]</pc> <pt>Operating Systems: Three Easy Pieces.</pt> <pa>Remzi H. Arpaci-Dusseau, Andrea C. Arpaci-Dusseau</pa> <pg>(http://pages.cs.wisc.edu/~remzi/OSTEP)</pg>
+
+
+
+
+<li><pc>[FAST '12]</pc> <a href="sum/fast/12-nestedFileSystem.txt"> Understanding Performance Implications of Nested File Systems in a Virtualized Environment.</a> <pa>Duy Le, Hai Huang, Haining Wang</pa> <pg></pg> 
+
+
+<li><pc>[WIOV '10]</pc> <a href="sum/wiov/10-ioVirtBottleneck.txt"> I/O Virtualization Bottlenecks in Cloud Computing Today.</a> <pa>Jeffrey Shafer</pa> <pg></pg> 
+
+
+<li><pc>[Book '08]</pc> <pt>Professional Xen Virtualization.</pt> <pa>William von Hagen</pa> <pg>(http://it-ebooks.info/book/2557)</pg>
+
+
+<li><pc>[Book '09]</pc> <pt>The Book of Xen: A Practical Guide for the System Administrator.</pt> <pa>Chris Takemura, Luke S. Crawford</pa> <pg>(http://it-ebooks.info/book/1732)</pg>
+
+
+
+<br><br><h2> I/O Virtualization </h2>
+
+<li><pc>[Misc '12]</pc> <a href="sum/misc/12-blockIOParaVirtualization.txt"> A Performance Evaluation of Block I/O Paravirtualization and Virtual Machine Images.</a> <pa>Django Armstrong, Karim Djemame</pa> <pg></pg> 
+
+
+<li><pc>[OSDI '10]</pc> <a href="sum/osdi/10-mClock.txt"> mClock: Handling Throughput Variability for Hypervisor IO Scheduling.</a> <pa>Ajay Gulati, Arif Merchant, Peter J. Varman</pa> <pg></pg> 
+
+
+<li><pc>[EuroSys '08]</pc> <a href="sum/eurosys/08-parallax.txt"> Parallax: virtual disks for virtual machines.</a> <pa>Dutch T. Meyer, Gitika Aggarwal, Brendan Cully, Geoffrey Lefebvre, Michael J. Feeley, Norman C. Hutchinson, Andrew Warfield</pa> <pg></pg> 
+
+
+
+<li><pc>[OLS '10]</pc> <pt>VirtFS: A virtualization aware File System pass-through.</pt> <pa>Venkateswararao Jujjuri, Eric Van Hensbergen, Anthony Liguori, Badari Pulavarty</pa> <pg></pg>
+
+
+<li><pc>[LinuxCon '11]</pc> <pt>An Updated Overview of the QEMU Storage Stack.</pt> <pa>Stefan Hajnoczi</pa> <pg></pg>
+
+
+<li><pc>[TR '11]</pc> <pt>Kernel-based Virtual Machine Technology.</pt> <pa>Yasunori Goto</pa> <pg></pg>
+
+
+<li><pc>[ATC '01]</pc> <pt>Virtualizing I/O Devices on VMware Workstation's Hosted Virtual Machine Monitor.</pt> <pa>Jeremy Sugerman, Ganesh Venkitachalam, Beng-Hong Lim</pa> <pg></pg>
+
+
+<li><pc>[ATC '08]</pc> <pt>Bridging the Gap between Software and Hardware Techniques for I/O Virtualization.</pt> <pa>Jose Renato Santos, Yoshio Turner, G. John Janakiraman, Ian Pratt</pa> <pg></pg>
+
+
+<li><pc>[ASPLOS '12]</pc> <a href="sum/asplos/12-eli.txt"> ELI: Bare-metal Performance for I/O Virtualization.</a> <pa>Abel Gordon, Nadav Amit, Nadav Har'El, Muli Ben-Yehuda, Alex Landau, Assaf Schuster and Dan Tsafrir</pa> <pg></pg> 
+
+
+
+
+<br><br><h2> Articles </h2>
+
+<li><pc>[Article '08]</pc> <pt>Scaling Hadoop to 4000 nodes at Yahoo!.</pt> <pa>Ajay Anand</pa> <pg></pg>
+
+<li><pc>[Login '11]</pc> <a href="sum/login/11-hadoopScalability.txt"> Apache Hadoop: The Scalability Update.</a> <pa>Konstantin V. Shvachko</pa> <pg></pg> 
+
+<li><pc>[SIGMOD '11]</pc> <a href="sum/sigmod/11-hadoopFacebook.txt"> Apache hadoop goes realtime at Facebook.</a> <pa>Dhruba Borthakur, Jonathan Gray, Joydeep Sen Sarma, Kannan Muthukkaruppan, Nicolas Spiegelberg, Hairong Kuang, Karthik Ranganathan, Dmytro Molkov, Aravind Menon, Samuel Rash, Rodrigo Schmidt, Amitanand S. Aiyer</pa> <pg></pg> 
+
+
+
+<br><br><h2> Data-Center Stack </h2>
+
+<li><pc>[OSDI '06]</pc> <a href="sum/osdi/06-chubby.txt"> The Chubby Lock Service for Loosely-Coupled Distributed Systems.</a> <pa>Michael Burrows</pa> <pg></pg> 
+
+
+<li><pc>[ATC '10]</pc> <a href="sum/atc/10-zookeeper.txt"> ZooKeeper: Wait-free coordination for Internet-scale systems.</a> <pa>Patrick Hunt, Mahadev Konar, Flavio P. Junqueira, Benjamin Reed</pa> <pg></pg> 
+
+
+
+<li><pc>[HotCloud '10]</pc> <pt>Spark: Cluster Computing with Working Sets.</pt> <pa>Matei Zaharia, Mosharaf Chowdhury, Michael J. Franklin, Scott Shenker, Ion Stoica</pa> <pg></pg>
+
+
+<li><pc>[NSDI '12]</pc> <a href="sum/nsdi/12-sparkRdd.txt"> Resilient Distributed Datasets: A Fault-Tolerant Abstraction for In-Memory Cluster Computing.</a> <pa>Matei Zaharia, Mosharaf Chowdhury, Tathagata Das, Ankur Dave, Justin Ma, Murphy McCauley, Michael J. Franklin, Scott Shenker, Ion Stoica</pa> <pg>(Spark)</pg> 
+
+
+<li><pc>[SIGMOD '10]</pc> <a href="sum/sigmod/10-pregelGraph.txt"> Pregel: A System for Large-Scale Graph Processing.</a> <pa>Greg Malewicz, Matthew Austern, Aart Bik, James Dehnert, Ilan Horn, Naty Leiser, Grzegorz Czajkowski</pa> <pg></pg> 
+
+
+<li><pc>[VLDB '13]</pc> <pt>F1: A Distributed SQL Database That Scales.</pt> <pa>Jeff Shute, Radek Vingralek, Bart Samwel, Ben Handy, Chad Whipkey, Eric Rollins, Mircea Oancea, Kyle Littleﬁeld, David Menestrina, Stephan Ellner, John Cieslewicz, Ian Rae, Traian Stancescu, Himani Apte </pa> <pg></pg>
+
+
+<li><pc>[OSDI '10]</pc> <a href="sum/osdi/10-percolatorIncremental.txt"> Large-scale Incremental Processing Using Distributed Transactions and Notifications.</a> <pa>Daniel Peng, Frank Dabek</pa> <pg></pg> 
+
+
+<li><pc>[OSDI '12]</pc> <a href="sum/osdi/12-spanner.txt"> Spanner: Google’s Globally-Distributed Database.</a> <pa>James C. Corbett, Jeffrey Dean, Michael Epstein, Andrew Fikes, Christopher Frost, JJ Furman, Sanjay Ghemawat, Andrey Gubarev, Christopher Heiser, Peter Hochschild, Wilson Hsieh, Sebastian Kanthak, Eugene Kogan, Hongyi Li, Alexander Lloyd, Sergey Melnik, David Mwaura, David Nagle, Sean Quinlan, Rajesh Rao, Lindsay Rolig, Yasushi Saito, Michal Szymaniak, Christopher Taylor, Ruth Wang, Dale Woodford</pa> <pg></pg> 
+
+
+
+
+<li><pc>[VLDB '10]</pc> <a href="sum/vldb/10-dremelInteractive.txt"> Dremel: Interactive Analysis of Web-Scale Datasets.</a> <pa>Sergey Melnik, Andrey Gubarev, Jing Jing Long, Geoffrey Romer, Shiva Shivakumar, Matt Tolton, Theo Vassilakis </pa> <pg></pg> 
+
+
+<li><pc>[ICDE '10]</pc> <a href="sum/icde/10-facebook.txt"> Hive - A Petabyte Scale Data Warehousing Using Hadoop.</a> <pa>Facebook</pa> <pg></pg> 
+
+
+<h3><b> Dataflow/Streaming </b></h3>
+
+<li><pc>[WSPPD '13]</pc> <a href="sum/wsppd/13-surveyStream.txt"> A Survey of the State-of-the-art in Event Processing.</a> <pa>Otávio M. de Carvalho, Eduardo Roloff, Philippe O. A. Navau</pa> <pg></pg> 
+
+
+<li><pc>[ICDMW '10]</pc> <pt>S4: Distributed Stream Computing Platform.</pt> <pa>Leonardo Neumeyer, Bruce Robbins, Anish Nair, Anand Kesari</pa> <pg></pg>
+
+
+<li><pc>[Middleware '12]</pc> <a href="sum/middleware/12-flume.txt"> Faster, Larger, Easier: Reining Real-Time Big Data Processing in Cloud.</a> <pa>Chengwei Wang, Infantdani Abel Rayan, Karsten Schwan</pa> <pg>(Flume)</pg> 
+
+
+<li><pc>[CCA '08]</pc> <a href="sum/cca/08-chukwa.txt"> Chukwa: A large-scale monitoring system.</a> <pa>Jerome Boulon, Andy Konwinski, Runping Qi, Ariel Rabkin, Eric Yang</pa> <pg></pg> 
+
+
+<li><pc>[NetDB '11]</pc> <pt>Kafka: a Distributed Messaging System for Log Processing.</pt> <pa>Jay Kreps, Neha Narkhede, Jun Rao</pa> <pg></pg>
+
+
+
+<li><pc>[SOSP '13]</pc> <a href="sum/sosp/13-naiad.txt"> Naiad: A Timely Dataflow System.</a> <pa>Derek G. Murray, Frank McSherry, Rebecca Isaacs, Michael Isard, Paul Barham, Martin Abadi</pa> <pg>(Best Paper)</pg> 
+
+
+<li><pc>[SOSP '13]</pc> <a href="sum/sosp/13-discretizedStreams.txt"> Discretized Streams: Fault-Tolerant Streaming Computation at Scale.</a> <pa>Matei Zaharia, Tathagata Das, Haoyuan Li, Timothy Hunter, Scott Shenker, Ion Stoica</pa> <pg></pg> 
+
+
+
+
+<br><br><h2> Debugging Hadoop </h2>
+
+<li><pc>[HotCloud '09]</pc> <a href="sum/hotcloud/09-mochi.txt"> Mochi: Visual Log-Analysis Based Tools for Debugging Hadoop.</a> <pa>Jiaqi Tan, Xinghao Pan, Soila Kavulya, Rajeev Gandhi, Priya Narasimhan</pa> <pg></pg> 
+
+<li><pc>[HotMetrics '09]</pc> <a href="sum/hotmetrics/09-ganesha.txt"> Ganesha: Black-box Fault Diagnosis for MapReduce Environments.</a> <pa>Xinghao Pan, Jiaqi Tan, Soila Kavulya, Rajeev Gandhi, Priya Narasimhan</pa> <pg></pg> 
+
+<li><pc>[TR '08]</pc> <a href="sum/tr/08-cmu-asdf.txt"> ASDF: Automated, Online Fingerpointing for Hadoop.</a> <pa>Keith Bare, Michael P. Kasick, Soila Kavulya, Eugene Marinelli, Xinghao Pan, Jiaqi Tan, Rajeev Gandhi, Priya Narasimha</pa> <pg></pg> 
+
+<li><pc>[WASL '08]</pc> <a href="sum/wasl/08-salsa.txt"> SALSA: Analyzing Logs as StAte Machines.</a> <pa>Jiaqi Tan, Xinghao Pan, Soila Kavulya, Rajeev Gandhi, Priya Narasimhan</pa> <pg></pg> 
+
+<li><pc>[SOSP '09]</pc> <a href="sum/sosp/09-consoleLogs.txt"> Detecting Large-Scale System Problem Detection by Mining Console Logs.</a> <pa>Wei Xu, Ling Huang, Armando Fox, David Patterson, Michael Jordan </pa> <pg></pg> 
+
+
+<br><br><h2> Tools </h2>
+
+<li> Http://en.wikipedia.org/wiki/Network_block_device, remote block device
+
+
+<li> more later
