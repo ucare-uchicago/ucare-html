@@ -1,12 +1,12 @@
 #!/bin/bash
 
-chgrp -R ucare .
+# chgrp -R ucare .
 
 find . -type d -not -path '*/\.git/*' -exec chmod -v 775 {} \;
 
 find . -type f -not -path '*/\.git/*' -exec chmod -v 664 {} \;
 
-chgrp -R ucare .
+# chgrp -R ucare .
 
 #chmod -R g+w .
 
