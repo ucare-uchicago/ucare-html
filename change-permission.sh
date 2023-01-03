@@ -4,7 +4,7 @@
 
 find . -type d -not -path '*/\.git/*' -exec chmod -v 775 {} \;
 
-find . -type f -not -path '*/\.git/*' -exec chmod -v 664 {} \;
+find . -type f -not -path '*/\.git/*' -not -path '*.sh' -exec chmod -v 664 {} \;
 
 # chgrp -R ucare .
 
