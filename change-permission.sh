@@ -1,12 +1,10 @@
 #!/bin/bash
 
-svn cleanup
-
 chgrp -R ucare .
 
-find . -type d -exec chmod -v 775 {} \;
+find . -type d -not -path '*/\.git/*' -exec chmod -v 775 {} \;
 
-find . -type f -exec chmod -v 664 {} \;
+find . -type f -not -path '*/\.git/*' -exec chmod -v 664 {} \;
 
 chgrp -R ucare .
 
