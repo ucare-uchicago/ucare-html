@@ -4,7 +4,7 @@ git push
 git status
 
 echo "  Refreshing"
-ssh linux2.cs.uchicago.edu \
+ssh -A linux2.cs.uchicago.edu \
 	'cd /stage/ucare/html ; git pull ; sh change-permission.sh' >/tmp/change-permission.txt
 echo ""
 cat /tmp/change-permission.txt
