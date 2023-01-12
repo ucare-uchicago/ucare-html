@@ -3,13 +3,7 @@ If you don't have `git-lfs` installed, you can install it from [here](https://gi
 
 git clone git@github.com:ucare-uchicago/ucare-html.git ucare-html
 
-test
-test-2
-test-tp
-.
-.
-
-## how to update ucare-html:
+- how to update ucare-html:
 
 1. git clone the ucare-html repo
 2. make modifications
